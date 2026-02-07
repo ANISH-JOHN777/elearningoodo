@@ -75,12 +75,12 @@ export default function ScoringRules() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8">
-        <h1 className="text-3xl font-bold text-cyan-300 mb-2 flex items-center gap-3">
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-blue-200 shadow-lg p-8">
+        <h1 className="text-3xl font-bold text-blue-600 mb-2 flex items-center gap-3">
           <Target className="w-8 h-8" />
           How Points Work
         </h1>
-        <p className="text-slate-400 text-lg">
+        <p className="text-gray-600 text-lg">
           Learn how points are earned and how they contribute to your ranking tier
         </p>
       </div>
@@ -92,7 +92,7 @@ export default function ScoringRules() {
           return (
             <div
               key={rule.type}
-              className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl overflow-hidden hover:border-cyan-500/50 transition"
+              className="bg-white rounded-2xl border border-blue-200 shadow-lg overflow-hidden hover:shadow-xl transition"
             >
               {/* Header */}
               <div className={`bg-gradient-to-r ${rule.color} p-6 text-white`}>
@@ -106,18 +106,18 @@ export default function ScoringRules() {
               <div className="p-6 space-y-4">
                 {rule.rules.map((r, idx) => (
                   <div key={idx} className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-cyan-400 rounded-full mt-2 flex-shrink-0" />
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
                     <div className="flex-1">
-                      <p className="font-semibold text-slate-200">{r.label}</p>
-                      <p className="text-sm text-slate-400 mt-1">{r.value}</p>
+                      <p className="font-semibold text-gray-800">{r.label}</p>
+                      <p className="text-sm text-gray-600 mt-1">{r.value}</p>
                     </div>
                   </div>
                 ))}
 
                 {/* Example */}
-                <div className="mt-6 p-4 bg-slate-700/50 border border-cyan-500/20 rounded-lg">
-                  <p className="text-xs font-semibold text-cyan-300 mb-2">Example:</p>
-                  <p className="text-sm text-slate-300">{rule.example}</p>
+                <div className="mt-6 p-4 bg-gray-100 border border-gray-300 rounded-lg">
+                  <p className="text-xs font-semibold text-blue-600 mb-2">Example:</p>
+                  <p className="text-sm text-gray-700">{rule.example}</p>
                 </div>
               </div>
             </div>
@@ -126,8 +126,8 @@ export default function ScoringRules() {
       </div>
 
       {/* Tier Thresholds */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8">
-        <h2 className="text-2xl font-bold text-cyan-300 mb-6 flex items-center gap-3">
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-blue-200 shadow-lg p-8">
+        <h2 className="text-2xl font-bold text-blue-600 mb-6 flex items-center gap-3">
           <TrendingUp className="w-6 h-6" />
           Points to Tier Progression
         </h2>
@@ -137,20 +137,20 @@ export default function ScoringRules() {
             <div key={tier.tier} className="space-y-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className={`px-3 py-1 rounded-lg font-bold text-sm ${tier.color} bg-slate-700/50 border border-cyan-500/20`}>
+                  <span className={`px-3 py-1 rounded-lg font-bold text-sm ${tier.color} bg-gray-100 border border-gray-300`}>
                     {tier.tier}
                   </span>
-                  <span className="text-slate-400 text-sm">
+                  <span className="text-gray-600 text-sm">
                     {tier.minPoints} - {tier.maxPoints} points
                   </span>
                 </div>
-                <span className="text-cyan-400 font-semibold">
+                <span className="text-blue-600 font-semibold">
                   {Math.round(tier.percentage)}% of max
                 </span>
               </div>
-              <div className="w-full h-2 bg-slate-700/50 rounded-full overflow-hidden border border-cyan-500/20">
+              <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden border border-gray-300">
                 <div
-                  className="h-full bg-gradient-to-r from-cyan-500 to-sky-500"
+                  className="h-full bg-gradient-to-r from-blue-500 to-cyan-500"
                   style={{ width: `${Math.min(tier.percentage, 100)}%` }}
                 />
               </div>
@@ -159,11 +159,11 @@ export default function ScoringRules() {
         </div>
 
         {/* Key Info */}
-        <div className="mt-8 p-4 bg-sky-500/20 border border-sky-500/30 rounded-lg flex gap-3">
-          <AlertCircle className="w-5 h-5 text-sky-400 flex-shrink-0 mt-0.5" />
+        <div className="mt-8 p-4 bg-blue-100 border border-blue-300 rounded-lg flex gap-3">
+          <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-sky-300 mb-1">Points are per-course</p>
-            <p className="text-sm text-sky-200">
+            <p className="font-semibold text-blue-800 mb-1">Points are per-course</p>
+            <p className="text-sm text-blue-700">
               Each course tracks points separately (0-120 per course). Your tier is determined by points within each course, not globally.
             </p>
           </div>
@@ -171,8 +171,8 @@ export default function ScoringRules() {
       </div>
 
       {/* Tips Section */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8">
-        <h2 className="text-2xl font-bold text-cyan-300 mb-6 flex items-center gap-3">
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-blue-200 shadow-lg p-8">
+        <h2 className="text-2xl font-bold text-blue-600 mb-6 flex items-center gap-3">
           <Flame className="w-6 h-6" />
           Tips to Maximize Points
         </h2>
@@ -188,10 +188,10 @@ export default function ScoringRules() {
           ].map((tip, idx) => (
             <div
               key={idx}
-              className="p-4 bg-slate-700/50 border border-cyan-500/20 rounded-lg hover:border-cyan-500/50 transition"
+              className="p-4 bg-gray-100 border border-gray-300 rounded-lg hover:shadow-md transition"
             >
-              <p className="font-semibold text-cyan-300 mb-2">{tip.title}</p>
-              <p className="text-sm text-slate-400">{tip.desc}</p>
+              <p className="font-semibold text-blue-600 mb-2">{tip.title}</p>
+              <p className="text-sm text-gray-700">{tip.desc}</p>
             </div>
           ))}
         </div>

@@ -173,32 +173,32 @@ export default function PointsTimeline() {
   const getActivityColor = (type) => {
     switch (type) {
       case 'quiz':
-        return 'from-sky-500/20 to-sky-600/20 border-sky-500/30';
+        return 'from-sky-500 to-sky-600';
       case 'lab':
-        return 'from-cyan-500/20 to-cyan-600/20 border-cyan-500/30';
+        return 'from-cyan-500 to-cyan-600';
       case 'dialogue':
-        return 'from-yellow-500/20 to-yellow-600/20 border-yellow-500/30';
+        return 'from-yellow-500 to-yellow-600';
       default:
-        return 'from-slate-500/20 to-slate-600/20 border-slate-500/30';
+        return 'from-gray-500 to-gray-600';
     }
   };
 
   const getPointColor = (points) => {
-    if (points >= 100) return 'text-emerald-400';
-    if (points >= 70) return 'text-cyan-400';
-    if (points >= 40) return 'text-yellow-400';
-    return 'text-orange-400';
+    if (points >= 100) return 'text-emerald-600';
+    if (points >= 70) return 'text-cyan-600';
+    if (points >= 40) return 'text-yellow-600';
+    return 'text-orange-600';
   };
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8">
-        <h1 className="text-3xl font-bold text-cyan-300 mb-2 flex items-center gap-3">
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-blue-200 shadow-lg p-8">
+        <h1 className="text-3xl font-bold text-blue-600 mb-2 flex items-center gap-3">
           <TrendingUp className="w-8 h-8" />
           Points Timeline
         </h1>
-        <p className="text-slate-400 text-lg">
+        <p className="text-gray-600 text-lg">
           Track when you earned points and your progress over time
         </p>
       </div>
@@ -237,18 +237,18 @@ export default function PointsTimeline() {
       </div>
 
       {/* Filters */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-6 space-y-4">
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-blue-200 shadow-lg p-6 space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Course Filter */}
           <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2 flex items-center gap-2">
+            <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
               <Filter className="w-4 h-4" />
               Course
             </label>
             <select
               value={selectedCourseId || ''}
               onChange={(e) => setSelectedCourseId(e.target.value ? parseInt(e.target.value) : null)}
-              className="w-full px-4 py-2 bg-slate-700/50 border border-cyan-500/20 text-slate-200 rounded-lg focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-2 bg-gray-100 border border-gray-300 text-gray-800 rounded-lg focus:outline-none focus:border-blue-400"
             >
               <option value="">All Courses</option>
               {courses.map((course) => (
@@ -261,7 +261,7 @@ export default function PointsTimeline() {
 
           {/* Time Range Filter */}
           <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2 flex items-center gap-2">
+            <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
               <Calendar className="w-4 h-4" />
               Time Range
             </label>
@@ -276,8 +276,8 @@ export default function PointsTimeline() {
                   onClick={() => setTimeRange(range.value)}
                   className={`flex-1 px-3 py-2 rounded-lg font-semibold text-sm transition ${
                     timeRange === range.value
-                      ? 'bg-cyan-500 text-white'
-                      : 'bg-slate-700/50 text-slate-300 border border-cyan-500/20 hover:border-cyan-500/50'
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-100 text-gray-700 border border-gray-300 hover:border-blue-300'
                   }`}
                 >
                   {range.label}
@@ -289,32 +289,32 @@ export default function PointsTimeline() {
       </div>
 
       {/* Daily Summary */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8">
-        <h2 className="text-2xl font-bold text-cyan-300 mb-6">Daily Summary</h2>
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-blue-200 shadow-lg p-8">
+        <h2 className="text-2xl font-bold text-blue-600 mb-6">Daily Summary</h2>
 
         {dailySummary.length === 0 ? (
-          <p className="text-slate-500 text-center py-8">No activities in selected period</p>
+          <p className="text-gray-500 text-center py-8">No activities in selected period</p>
         ) : (
           <div className="space-y-3">
             {dailySummary.map((day, idx) => (
               <div
                 key={idx}
-                className="flex items-center justify-between p-4 bg-slate-700/50 border border-cyan-500/20 rounded-lg hover:border-cyan-500/50 transition"
+                className="flex items-center justify-between p-4 bg-gray-100 border border-gray-300 rounded-lg hover:shadow-md transition"
               >
                 <div className="flex items-center gap-4">
-                  <Calendar className="w-5 h-5 text-cyan-400" />
+                  <Calendar className="w-5 h-5 text-blue-600" />
                   <div>
-                    <p className="font-semibold text-slate-200">{new Intl.DateTimeFormat('en-US', {
+                    <p className="font-semibold text-gray-800">{new Intl.DateTimeFormat('en-US', {
                       weekday: 'long',
                       month: 'long',
                       day: 'numeric'
                     }).format(day.date)}</p>
-                    <p className="text-sm text-slate-400">{day.activities} activity/activities</p>
+                    <p className="text-sm text-gray-600">{day.activities} activity/activities</p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-2xl font-bold text-emerald-400">+{day.points}</p>
-                  <p className="text-xs text-slate-400">points</p>
+                  <p className="text-2xl font-bold text-emerald-600">+{day.points}</p>
+                  <p className="text-xs text-gray-600">points</p>
                 </div>
               </div>
             ))}
@@ -323,11 +323,11 @@ export default function PointsTimeline() {
       </div>
 
       {/* Timeline */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8">
-        <h2 className="text-2xl font-bold text-cyan-300 mb-8">Activity Timeline</h2>
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-blue-200 shadow-lg p-8">
+        <h2 className="text-2xl font-bold text-blue-600 mb-8">Activity Timeline</h2>
 
         {cumulativeData.length === 0 ? (
-          <p className="text-slate-500 text-center py-8">No activities in selected period</p>
+          <p className="text-gray-500 text-center py-8">No activities in selected period</p>
         ) : (
           <div className="space-y-6">
             {cumulativeData.map((event, idx) => {
@@ -336,36 +336,36 @@ export default function PointsTimeline() {
                 <div key={event.id} className="flex gap-6">
                   {/* Timeline Line */}
                   <div className="flex flex-col items-center">
-                    <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${getActivityColor(event.type)} border-2 border-cyan-500/50 flex items-center justify-center shadow-lg`}>
-                      <Icon className="w-6 h-6 text-cyan-400" />
+                    <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${getActivityColor(event.type)} border-2 border-blue-500 flex items-center justify-center shadow-lg`}>
+                      <Icon className="w-6 h-6 text-white" />
                     </div>
                     {idx !== cumulativeData.length - 1 && (
-                      <div className="w-1 h-12 bg-gradient-to-b from-cyan-500/50 to-transparent mt-2" />
+                      <div className="w-1 h-12 bg-gradient-to-b from-blue-400 to-transparent mt-2" />
                     )}
                   </div>
 
                   {/* Event Card */}
                   <div className="flex-1 pb-6">
-                    <div className="bg-gradient-to-br from-slate-700/50 to-slate-800/50 border border-cyan-500/20 rounded-xl p-6 hover:border-cyan-500/50 transition">
+                    <div className="bg-white border border-gray-300 rounded-xl p-6 hover:shadow-lg transition">
                       <div className="flex items-start justify-between mb-3">
                         <div>
-                          <h3 className="text-lg font-bold text-cyan-300">
+                          <h3 className="text-lg font-bold text-blue-600">
                             {event.activityName}
                           </h3>
-                          <p className="text-sm text-slate-400 mt-1">{event.course}</p>
+                          <p className="text-sm text-gray-600 mt-1">{event.course}</p>
                         </div>
                         <div className="text-right">
                           <p className={`text-3xl font-bold ${getPointColor(event.points)}`}>
                             +{event.points}
                           </p>
-                          <p className="text-xs text-slate-400 capitalize mt-1">
+                          <p className="text-xs text-gray-600 capitalize mt-1">
                             {event.type}
                           </p>
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between pt-3 border-t border-cyan-500/10">
-                        <p className="text-sm text-slate-400">
+                      <div className="flex items-center justify-between pt-3 border-t border-gray-200">
+                        <p className="text-sm text-gray-600">
                           {event.date.toLocaleDateString('en-US', {
                             weekday: 'long',
                             month: 'short',
@@ -374,7 +374,7 @@ export default function PointsTimeline() {
                             minute: '2-digit',
                           })}
                         </p>
-                        <p className="text-sm font-semibold text-emerald-400">
+                        <p className="text-sm font-semibold text-emerald-600">
                           Cumulative: {event.cumulative} pts
                         </p>
                       </div>

@@ -197,28 +197,28 @@ export default function ActivityHistory() {
   const getTypeColor = (type) => {
     switch (type) {
       case 'quiz':
-        return 'bg-sky-500/20 text-sky-300 border-sky-500/30';
+        return 'bg-sky-100 text-sky-700 border-sky-300';
       case 'lab':
-        return 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30';
+        return 'bg-cyan-100 text-cyan-700 border-cyan-300';
       case 'dialogue':
-        return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
+        return 'bg-yellow-100 text-yellow-700 border-yellow-300';
       default:
-        return 'bg-slate-500/20 text-slate-300 border-slate-500/30';
+        return 'bg-gray-100 text-gray-700 border-gray-300';
     }
   };
 
   const getPerformanceColor = (level) => {
     switch (level) {
       case 'excellent':
-        return 'text-emerald-400';
+        return 'text-emerald-600';
       case 'good':
-        return 'text-cyan-400';
+        return 'text-cyan-600';
       case 'fair':
-        return 'text-yellow-400';
+        return 'text-yellow-600';
       case 'poor':
-        return 'text-red-400';
+        return 'text-red-600';
       default:
-        return 'text-slate-400';
+        return 'text-gray-600';
     }
   };
 
@@ -230,12 +230,12 @@ export default function ActivityHistory() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8">
-        <h1 className="text-3xl font-bold text-cyan-300 mb-2 flex items-center gap-3">
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-blue-200 shadow-lg p-8">
+        <h1 className="text-3xl font-bold text-blue-600 mb-2 flex items-center gap-3">
           <Award className="w-8 h-8" />
           Activity History
         </h1>
-        <p className="text-slate-400 text-lg">
+        <p className="text-gray-600 text-lg">
           View all your completed activities and earned points
         </p>
       </div>
@@ -287,16 +287,16 @@ export default function ActivityHistory() {
       </div>
 
       {/* Filters */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-6 space-y-4">
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-blue-200 shadow-lg p-6 space-y-4">
         {/* Search Bar */}
         <div className="relative">
-          <Search className="absolute left-3 top-3.5 w-5 h-5 text-slate-400" />
+          <Search className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
           <input
             type="text"
             placeholder="Search activities..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-slate-700/50 border border-cyan-500/20 text-slate-200 placeholder-slate-500 rounded-lg focus:outline-none focus:border-cyan-500/50"
+            className="w-full pl-10 pr-4 py-2 bg-gray-100 border border-gray-300 text-gray-800 placeholder-gray-500 rounded-lg focus:outline-none focus:border-blue-400"
           />
         </div>
 
@@ -304,14 +304,14 @@ export default function ActivityHistory() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Course Filter */}
           <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2 flex items-center gap-2">
+            <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
               <Filter className="w-4 h-4" />
               Course
             </label>
             <select
               value={selectedCourseId || ''}
               onChange={(e) => setSelectedCourseId(e.target.value ? parseInt(e.target.value) : null)}
-              className="w-full px-4 py-2 bg-slate-700/50 border border-cyan-500/20 text-slate-200 rounded-lg focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-2 bg-gray-100 border border-gray-300 text-gray-800 rounded-lg focus:outline-none focus:border-blue-400"
             >
               <option value="">All Courses</option>
               {courses.map((course) => (
@@ -324,11 +324,11 @@ export default function ActivityHistory() {
 
           {/* Type Filter */}
           <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2">Activity Type</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Activity Type</label>
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="w-full px-4 py-2 bg-slate-700/50 border border-cyan-500/20 text-slate-200 rounded-lg focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-2 bg-gray-100 border border-gray-300 text-gray-800 rounded-lg focus:outline-none focus:border-blue-400"
             >
               <option value="all">All Types</option>
               <option value="quiz">Quiz</option>
@@ -339,11 +339,11 @@ export default function ActivityHistory() {
 
           {/* Sort */}
           <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2">Sort By</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Sort By</label>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-full px-4 py-2 bg-slate-700/50 border border-cyan-500/20 text-slate-200 rounded-lg focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-2 bg-gray-100 border border-gray-300 text-gray-800 rounded-lg focus:outline-none focus:border-blue-400"
             >
               <option value="date-desc">Newest First</option>
               <option value="date-asc">Oldest First</option>
@@ -358,15 +358,15 @@ export default function ActivityHistory() {
       {/* Activities List */}
       <div className="space-y-4">
         {filteredActivities.length === 0 ? (
-          <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 p-12 text-center">
-            <AlertCircle className="w-12 h-12 text-slate-500 mx-auto mb-4" />
-            <p className="text-slate-400 text-lg">No activities found</p>
+          <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-blue-200 p-12 text-center">
+            <AlertCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-600 text-lg">No activities found</p>
           </div>
         ) : (
           filteredActivities.map((activity) => (
             <div
               key={activity.id}
-              className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 hover:border-cyan-500/50 transition shadow-xl overflow-hidden"
+              className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-blue-200 hover:shadow-lg transition shadow-md overflow-hidden"
             >
               {/* Activity Card */}
               <div className="p-6">
@@ -375,10 +375,10 @@ export default function ActivityHistory() {
                   <div className="flex-1 space-y-2">
                     <div className="flex items-start gap-3">
                       <div className="flex-1">
-                        <h3 className="text-xl font-bold text-cyan-300 mb-1">
+                        <h3 className="text-xl font-bold text-blue-600 mb-1">
                           {activity.activityName}
                         </h3>
-                        <p className="text-sm text-slate-400 mb-3">{activity.courseName}</p>
+                        <p className="text-sm text-gray-600 mb-3">{activity.courseName}</p>
 
                         {/* Activity Type Badge */}
                         <div className="flex items-center flex-wrap gap-2">
@@ -394,7 +394,7 @@ export default function ActivityHistory() {
                     </div>
 
                     {/* Details */}
-                    <div className="flex items-center gap-4 text-sm text-slate-400 pt-2">
+                    <div className="flex items-center gap-4 text-sm text-gray-600 pt-2">
                       <div className="flex items-center gap-1">
                         <Calendar className="w-4 h-4" />
                         {activity.completedAt.toLocaleDateString()}
@@ -420,7 +420,7 @@ export default function ActivityHistory() {
 
                     {/* Score Circle */}
                     <div className="text-center">
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-sky-500 flex items-center justify-center shadow-lg">
+                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg">
                         <div className="text-center">
                           <p className="text-2xl font-bold text-white">
                             {Math.round((activity.score / activity.maxScore) * 100)}
@@ -432,12 +432,12 @@ export default function ActivityHistory() {
 
                     {/* Points */}
                     <div className="text-right">
-                      <p className="text-sm text-slate-400 mb-1">Points Earned</p>
-                      <p className="text-2xl font-bold text-emerald-400">
+                      <p className="text-sm text-gray-600 mb-1">Points Earned</p>
+                      <p className="text-2xl font-bold text-emerald-600">
                         +{activity.earnedPoints}
-                        <span className="text-sm text-slate-400 ml-1">/ {activity.totalPoints}</span>
+                        <span className="text-sm text-gray-600 ml-1">/ {activity.totalPoints}</span>
                       </p>
-                      <p className="text-xs text-slate-500 mt-1">{activity.details}</p>
+                      <p className="text-xs text-gray-500 mt-1">{activity.details}</p>
                     </div>
                   </div>
                 </div>
