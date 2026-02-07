@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { Calendar, Award, Filter, Search, ChevronDown, Clock, CheckCircle, AlertCircle } from 'lucide-react';
+import { Calendar, Award, Filter, Search, ChevronDown, Clock, CheckCircle, AlertCircle, TrendingUp, Flame } from 'lucide-react';
 
 /**
  * ActivityHistory Component
