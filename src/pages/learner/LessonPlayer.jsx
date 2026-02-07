@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
+import { convertToYouTubeEmbed } from '../../utils/youtubeUtils';
 import {
   ArrowLeft,
   ChevronRight,
@@ -148,10 +149,11 @@ const LessonPlayer = () => {
 
   const renderViewer = () => {
     if (currentLesson.type === 'video') {
+      const videoUrl = convertToYouTubeEmbed(currentLesson.url);
       return (
         <div className="aspect-video bg-black rounded-lg overflow-hidden">
           <iframe
-            src={currentLesson.url}
+            src={videoUrl}
             className="w-full h-full"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
