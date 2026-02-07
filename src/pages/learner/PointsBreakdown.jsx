@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { BarChart3, PieChart, TrendingUp, Award, ArrowUpRight } from 'lucide-react';
+import { BarChart3, PieChart, TrendingUp, Award, ArrowUpRight, FileText, Wrench, MessageCircle, ChevronDown } from 'lucide-react';
 
 /**
  * PointsBreakdown Component
@@ -9,6 +9,63 @@ import { BarChart3, PieChart, TrendingUp, Award, ArrowUpRight } from 'lucide-rea
 export default function PointsBreakdown() {
   const { courses } = useApp();
   const [breakdownType, setBreakdownType] = useState('byType'); // byType, byCourse
+  const [expandedHistory, setExpandedHistory] = useState({}); // Track which items show history
+
+  // Map icon names to Lucide components
+  const iconMap = {
+    FileText,
+    Wrench,
+    MessageCircle,
+  };
+
+  const getIcon = (iconName) => {
+    return iconMap[iconName] || Award;
+  };
+
+  const toggleHistory = (label) => {
+    setExpandedHistory(prev => ({
+      ...prev,
+      [label]: !prev[label]
+    }));
+  };
+
+  // Mock activity history (in real app, would come from AppContext)
+  const activityHistory = useMemo(() => {
+    return {
+      'Quiz': [
+        { id: 1, name: 'React Hooks Quiz', points: 98, date: new Date(2024, 0, 15), score: 95 },
+        { id: 2, name: 'JavaScript Basics', points: 92, date: new Date(2024, 0, 13), score: 92 },
+        { id: 3, name: 'CSS Selectors Quiz', points: 100, date: new Date(2024, 0, 10), score: 100 },
+        { id: 4, name: 'HTML Structure', points: 100, date: new Date(2024, 0, 8), score: 100 },
+      ],
+      'Lab': [
+        { id: 1, name: 'Todo App Lab', points: 70, date: new Date(2024, 0, 14), tests: '8/10' },
+        { id: 2, name: 'API Integration', points: 100, date: new Date(2024, 0, 12), tests: '10/10' },
+        { id: 3, name: 'Responsive Design', points: 100, date: new Date(2024, 0, 9), tests: '5/5' },
+      ],
+      'Dialogue': [
+        { id: 1, name: 'State Management Chat', points: 100, date: new Date(2024, 0, 13), objectives: '5/5' },
+        { id: 2, name: 'Component Patterns', points: 80, date: new Date(2024, 0, 11), objectives: '4/5' },
+        { id: 3, name: 'Hooks Introduction', points: 80, date: new Date(2024, 0, 8), objectives: '4/5' },
+      ],
+      'JavaScript Mastery': [
+        { id: 1, name: 'Advanced Closures', points: 95, date: new Date(2024, 0, 15), type: 'quiz' },
+        { id: 2, name: 'Promise Chains', points: 125, date: new Date(2024, 0, 12), type: 'lab' },
+      ],
+      'React Fundamentals': [
+        { id: 1, name: 'Hooks Practice', points: 98, date: new Date(2024, 0, 15), type: 'quiz' },
+        { id: 2, name: 'Todo App', points: 70, date: new Date(2024, 0, 14), type: 'lab' },
+        { id: 3, name: 'State Management', points: 100, date: new Date(2024, 0, 13), type: 'dialogue' },
+      ],
+      'Web Design Essentials': [
+        { id: 1, name: 'Flexbox Layout', points: 88, date: new Date(2024, 0, 12), type: 'quiz' },
+        { id: 2, name: 'Responsive Design', points: 30, date: new Date(2024, 0, 11), type: 'lab' },
+      ],
+      'Web Fundamentals': [
+        { id: 1, name: 'HTML Semantics', points: 80, date: new Date(2024, 0, 10), type: 'dialogue' },
+      ],
+    };
+  }, []);
 
   // Mock points data (in real app, would come from AppContext)
   const pointsData = useMemo(() => {
@@ -20,7 +77,7 @@ export default function PointsBreakdown() {
           maxPoints: 400,
           percentage: 97.5,
           activities: 4,
-          icon: '📝',
+          iconName: 'FileText',
           color: 'from-sky-500 to-sky-600',
           secondaryColor: 'bg-sky-500/20',
           borderColor: 'border-sky-500/30',
@@ -31,7 +88,7 @@ export default function PointsBreakdown() {
           maxPoints: 400,
           percentage: 67.5,
           activities: 4,
-          icon: '⚙️',
+          iconName: 'Wrench',
           color: 'from-cyan-500 to-cyan-600',
           secondaryColor: 'bg-cyan-500/20',
           borderColor: 'border-cyan-500/30',
@@ -42,7 +99,7 @@ export default function PointsBreakdown() {
           maxPoints: 300,
           percentage: 86.7,
           activities: 3,
-          icon: '💬',
+          iconName: 'MessageCircle',
           color: 'from-yellow-500 to-yellow-600',
           secondaryColor: 'bg-yellow-500/20',
           borderColor: 'border-yellow-500/30',
@@ -210,7 +267,9 @@ export default function PointsBreakdown() {
             <div key={item.label}>
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3 flex-1">
-                  {item.icon && <span className="text-2xl">{item.icon}</span>}
+                  {item.iconName && React.createElement(getIcon(item.iconName), {
+                    className: 'w-6 h-6 flex-shrink-0'
+                  })}
                   <div>
                     <p className="font-semibold text-slate-200">{item.label}</p>
                     <p className="text-xs text-slate-500">
@@ -316,6 +375,31 @@ export default function PointsBreakdown() {
                     </div>
                   ))}
                 </div>
+
+                {/* History Toggle Button */}
+                <button
+                  onClick={() => toggleHistory(item.label)}
+                  className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 bg-slate-700/50 hover:bg-slate-700 rounded-lg transition text-slate-300 font-semibold text-sm border border-cyan-500/10 hover:border-cyan-500/30"
+                >
+                  <span>View History</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform ${expandedHistory[item.label] ? 'rotate-180' : ''}`} />
+                </button>
+
+                {/* History Section */}
+                {expandedHistory[item.label] && (
+                  <div className="mt-4 pt-4 border-t border-slate-500/30 space-y-2">
+                    <p className="text-xs font-semibold text-slate-400 uppercase mb-3">Recent Activities</p>
+                    {(activityHistory[item.label] || []).map((activity) => (
+                      <div key={activity.id} className="bg-slate-700/30 rounded-lg p-3 flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-medium text-slate-200">{activity.name}</p>
+                          <p className="text-xs text-slate-500">{activity.date.toLocaleDateString()}</p>
+                        </div>
+                        <p className="font-bold text-emerald-400">+{activity.points}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             );
           })}

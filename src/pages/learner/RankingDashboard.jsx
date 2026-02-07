@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { Award, TrendingUp, Target, Zap, Crown, Medal, Flame, Star, Trophy, ChevronUp } from 'lucide-react';
+import { Award, TrendingUp, Target, Zap, Crown, Medal, Flame, Star, Trophy, ChevronUp, Sparkles } from 'lucide-react';
 
 /**
  * RankingDashboard Component
@@ -220,7 +220,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
                   />
                 </div>
                 <p className="text-xs text-slate-600 mt-3">
-                  🎯 Earn {stats.pointsToNextTier} more points to reach {nextTier.tier}
+                  <Target className="inline w-4 h-4 mr-1" /> Earn {stats.pointsToNextTier} more points to reach {nextTier.tier}
                 </p>
               </div>
             )}
@@ -255,7 +255,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
                           {tier.tier.split(' ')[0]}
                         </span>
                         {isReached && (
-                          <span className="text-lg mt-0.5">✨</span>
+                          <Sparkles className="w-4 h-4 text-yellow-300 mt-0.5" />
                         )}
                       </div>
                       {/* Enhanced Tooltip */}
@@ -452,19 +452,19 @@ export default function RankingDashboard({ userId, courseId = null }) {
                             {idx === 0 && (
                               <div className="relative">
                                 <div className="absolute inset-0 bg-yellow-500/40 rounded-full blur-md"></div>
-                                <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center border-2 border-yellow-300 font-black text-lg text-white">
-                                  👑
+                                <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center border-2 border-yellow-300 text-white">
+                                  <Crown className="w-6 h-6" />
                                 </div>
                               </div>
                             )}
                             {idx === 1 && (
-                              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-slate-400 to-slate-500 flex items-center justify-center border-2 border-slate-300 font-black text-lg text-white">
-                                🥈
+                              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-slate-400 to-slate-500 flex items-center justify-center border-2 border-slate-300 text-white">
+                                <Medal className="w-6 h-6" />
                               </div>
                             )}
                             {idx === 2 && (
-                              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center border-2 border-orange-300 font-black text-lg text-white">
-                                🥉
+                              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center border-2 border-orange-300 text-white">
+                                <Award className="w-6 h-6" />
                               </div>
                             )}
                             {idx > 2 && (

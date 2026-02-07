@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
-import { Award, TrendingUp, Zap, Target, Activity, ChevronRight, Medal, Flame } from 'lucide-react';
+import { Award, TrendingUp, Zap, Target, Activity, ChevronRight, Medal, Flame, Code, FileText, Palette, Globe, MessageCircle, Wrench, Star, CheckCircle } from 'lucide-react';
 import PointsBreakdown from './PointsBreakdown';
 import ActivityHistory from './ActivityHistory';
 import PointsTimeline from './PointsTimeline';
@@ -15,6 +15,24 @@ export default function ScoresOverview() {
   const { courses } = useApp();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview'); // overview, breakdown, history, timeline, rules
+
+  // Map icon names to Lucide components
+  const iconMap = {
+    Code,
+    FileText,
+    Palette,
+    Globe,
+    MessageCircle,
+    Target,
+    Wrench,
+    Flame,
+    Zap,
+    Star,
+  };
+
+  const getIcon = (iconName) => {
+    return iconMap[iconName] || Code;
+  };
 
   // Mock user score data (in real app, would come from AppContext)
   const userScoreData = useMemo(() => {
@@ -34,7 +52,7 @@ export default function ScoresOverview() {
           rank: 'Advanced',
           color: 'from-blue-500 to-blue-600',
           bgColor: 'bg-blue-500/10',
-          icon: '⚛️',
+          iconName: 'Code',
         },
         {
           id: 4,
@@ -46,7 +64,7 @@ export default function ScoresOverview() {
           rank: 'Master',
           color: 'from-emerald-500 to-emerald-600',
           bgColor: 'bg-emerald-500/10',
-          icon: '📝',
+          iconName: 'FileText',
         },
         {
           id: 2,
@@ -58,7 +76,7 @@ export default function ScoresOverview() {
           rank: 'Intermediate',
           color: 'from-pink-500 to-pink-600',
           bgColor: 'bg-pink-500/10',
-          icon: '🎨',
+          iconName: 'Palette',
         },
         {
           id: 3,
@@ -70,7 +88,7 @@ export default function ScoresOverview() {
           rank: 'Advanced',
           color: 'from-purple-500 to-purple-600',
           bgColor: 'bg-purple-500/10',
-          icon: '🌐',
+          iconName: 'Globe',
         },
         {
           id: 5,
@@ -82,16 +100,16 @@ export default function ScoresOverview() {
           rank: 'Beginner',
           color: 'from-yellow-500 to-yellow-600',
           bgColor: 'bg-yellow-500/10',
-          icon: '🐍',
+          iconName: 'Code',
         },
       ],
       achievements: [
-        { id: 1, name: 'Perfect Quiz Master', description: 'Score 100% on any quiz', unlocked: true, icon: '🎯' },
-        { id: 2, name: 'Lab Legend', description: 'Pass all test cases in a lab', unlocked: true, icon: '⚙️' },
-        { id: 3, name: 'Dialogue Expert', description: 'Cover all objectives in a dialogue', unlocked: true, icon: '💬' },
-        { id: 4, name: 'Streak Master', description: 'Complete 10 activities in a row', unlocked: false, icon: '🔥' },
-        { id: 5, name: 'Speed Runner', description: 'Complete activity under 5 min', unlocked: false, icon: '⚡' },
-        { id: 6, name: 'Thousand Points', description: 'Earn 1000 points total', unlocked: false, icon: '💎' },
+        { id: 1, name: 'Perfect Quiz Master', description: 'Score 100% on any quiz', unlocked: true, iconName: 'Target' },
+        { id: 2, name: 'Lab Legend', description: 'Pass all test cases in a lab', unlocked: true, iconName: 'Wrench' },
+        { id: 3, name: 'Dialogue Expert', description: 'Cover all objectives in a dialogue', unlocked: true, iconName: 'MessageCircle' },
+        { id: 4, name: 'Streak Master', description: 'Complete 10 activities in a row', unlocked: false, iconName: 'Flame' },
+        { id: 5, name: 'Speed Runner', description: 'Complete activity under 5 min', unlocked: false, iconName: 'Zap' },
+        { id: 6, name: 'Thousand Points', description: 'Earn 1000 points total', unlocked: false, iconName: 'Star' },
       ],
     };
   }, []);
@@ -196,13 +214,15 @@ export default function ScoresOverview() {
                         : 'bg-slate-200 border-slate-600/30 opacity-60'
                     }`}
                   >
-                    <div className="flex items-start gap-3">
-                      <span className="text-2xl">{achievement.icon}</span>
+                  <div className="flex items-start gap-3">
+                      {React.createElement(getIcon(achievement.iconName), {
+                        className: 'w-6 h-6 flex-shrink-0 mt-1'
+                      })}
                       <div className="flex-1">
                         <p className="font-semibold text-slate-900">{achievement.name}</p>
                         <p className="text-xs text-slate-600 mt-1">{achievement.description}</p>
                         {achievement.unlocked && (
-                          <p className="text-xs text-emerald-400 mt-1 font-semibold">✓ Unlocked</p>
+                          <p className="text-xs text-emerald-400 mt-1 font-semibold flex items-center gap-1"><CheckCircle className="w-3 h-3" /> Unlocked</p>
                         )}
                       </div>
                     </div>
@@ -231,7 +251,9 @@ export default function ScoresOverview() {
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl">{course.icon}</span>
+                    {React.createElement(getIcon(course.iconName), {
+                      className: 'w-8 h-8 flex-shrink-0'
+                    })}
                     <div className="flex-1">
                       <h3 className="text-lg font-bold text-slate-900">{course.name}</h3>
                       <div className="flex items-center gap-2 mt-1">
