@@ -27,7 +27,8 @@ import {
   Github,
   Twitter,
   Linkedin,
-  Mail
+  Mail,
+  MessageCircle
 } from 'lucide-react';
 
 const LearnerLayout = () => {
@@ -155,6 +156,21 @@ const LearnerLayout = () => {
                 <Search className="w-5 h-5" />
               </button>
 
+              {/* Chatbot Button */}
+              {user && (
+                <Link
+                  to="/chatbot"
+                  className={`p-3 rounded-xl transition-all duration-300 ${
+                    location.pathname === '/chatbot'
+                      ? 'text-blue-600 bg-blue-100/50'
+                      : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100/80'
+                  }`}
+                  title="Open Learning Assistant"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                </Link>
+              )}
+
               {user ? (
                 <>
                   {/* Notifications */}
@@ -274,6 +290,17 @@ const LearnerLayout = () => {
                           >
                             <Zap className="w-4 h-4" />
                             <span>Scores & Points</span>
+                          </button>
+                          <button 
+                            onClick={(e) => { 
+                              e.stopPropagation(); 
+                              setShowUserMenu(false); 
+                              navigate('/chatbot'); 
+                            }} 
+                            className="w-full flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50/80 transition-colors text-left"
+                          >
+                            <MessageCircle className="w-4 h-4" />
+                            <span>Learning Assistant</span>
                           </button>
                           <button 
                             onClick={(e) => { 
