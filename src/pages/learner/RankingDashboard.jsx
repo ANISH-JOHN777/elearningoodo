@@ -94,24 +94,24 @@ export default function RankingDashboard({ userId, courseId = null }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 pb-12">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
         {/* Header Section */}
         <div className="relative animate-fade-in-down">
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 rounded-3xl blur-3xl animate-pulse"></div>
-          <div className="relative bg-gradient-to-r from-slate-800/80 to-slate-800/40 rounded-3xl border border-cyan-500/20 backdrop-blur p-8 lg:p-10 hover:border-cyan-500/40 transition-all duration-500">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 to-purple-400/5 rounded-3xl blur-3xl animate-pulse"></div>
+          <div className="relative bg-gradient-to-r from-white/95 to-blue-50/80 rounded-3xl border border-blue-200 backdrop-blur p-8 lg:p-10 shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-500">
             <div className="flex items-center justify-between gap-6">
               <div className="flex-1">
-                <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-sky-400 bg-clip-text text-transparent mb-2 animate-gradient-xy">
+                <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent mb-2 animate-gradient-xy">
                   Rankings & Achievements
                 </h1>
-                <p className="text-slate-400 text-lg">Track your progress and compete across courses</p>
+                <p className="text-slate-600 text-lg">Track your progress and compete across courses</p>
               </div>
-              <div className="hidden lg:flex items-center justify-center w-24 h-24 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 border border-cyan-500/30">
+              <div className="hidden lg:flex items-center justify-center w-24 h-24 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 border border-blue-200">
                 {currentTier ? React.createElement(getTierIcon(currentTier), {
-                  className: 'w-14 h-14 text-cyan-400',
+                  className: 'w-14 h-14 text-blue-600',
                 }) : React.createElement(Medal, {
-                  className: 'w-14 h-14 text-cyan-400',
+                  className: 'w-14 h-14 text-blue-600',
                 })}
               </div>
             </div>
@@ -119,15 +119,15 @@ export default function RankingDashboard({ userId, courseId = null }) {
         </div>
 
         {!user ? (
-          <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8 text-center">
-            <p className="text-slate-300 text-lg mb-4">Please log in to view your rankings</p>
+          <div className="bg-gradient-to-br from-white to-blue-50 rounded-2xl border border-blue-200 shadow-xl p-8 text-center">
+            <p className="text-slate-700 text-lg mb-4">Please log in to view your rankings</p>
           </div>
         ) : (
           <>
       {/* Main Tier Card - Enhanced */}
       <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/20 to-purple-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100 animate-pulse"></div>
-        <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300 hover:shadow-cyan-500/20">
+        <div className="relative bg-gradient-to-br from-white to-blue-50 rounded-2xl border border-blue-200 shadow-2xl overflow-hidden hover:border-blue-300 transition-all duration-300 hover:shadow-cyan-500/20">
           {/* Animated background effect */}
           <div className="absolute inset-0 opacity-20">
             <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/10 to-transparent"></div>
@@ -159,67 +159,67 @@ export default function RankingDashboard({ userId, courseId = null }) {
           <div className="relative p-8 lg:p-10 space-y-8">
             {/* Overall Stats Grid - Enhanced with icons */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 p-6 border border-cyan-500/30 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 to-blue-50 p-6 border border-blue-200 hover:border-blue-300 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                 <div className="absolute top-0 right-0 -m-8 opacity-10 group-hover:opacity-20 transition-opacity">
                   <Zap className="w-24 h-24" />
                 </div>
                 <div className="relative">
-                  <Zap className="w-6 h-6 text-cyan-400 mb-3" />
-                  <p className="text-4xl lg:text-5xl font-bold text-cyan-400 mb-2">
+                  <Zap className="w-6 h-6 text-blue-600 mb-3" />
+                  <p className="text-4xl lg:text-5xl font-bold text-blue-600 mb-2">
                     {stats.totalPoints}
                   </p>
-                  <p className="text-sm text-slate-400 font-medium">Total Points</p>
+                  <p className="text-sm text-slate-600 font-medium">Total Points</p>
                 </div>
               </div>
               
-              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-sky-500/10 to-sky-500/5 p-6 border border-sky-500/30 hover:border-sky-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/10 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-50 to-purple-50 p-6 border border-sky-500/30 hover:border-sky-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/10 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
                 <div className="absolute top-0 right-0 -m-8 opacity-10 group-hover:opacity-20 transition-opacity">
                   <Target className="w-24 h-24" />
                 </div>
                 <div className="relative">
-                  <Target className="w-6 h-6 text-sky-400 mb-3" />
-                  <p className="text-4xl lg:text-5xl font-bold text-sky-400 mb-2">
+                  <Target className="w-6 h-6 text-purple-600 mb-3" />
+                  <p className="text-4xl lg:text-5xl font-bold text-purple-600 mb-2">
                     {stats.coursesEnrolled}
                   </p>
-                  <p className="text-sm text-slate-400 font-medium">Courses</p>
+                  <p className="text-sm text-slate-600 font-medium">Courses</p>
                 </div>
               </div>
               
-              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500/10 to-purple-500/5 p-6 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-50 p-6 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                 <div className="absolute top-0 right-0 -m-8 opacity-10 group-hover:opacity-20 transition-opacity">
                   <ChevronUp className="w-24 h-24" />
                 </div>
                 <div className="relative">
-                  <ChevronUp className="w-6 h-6 text-purple-400 mb-3" />
-                  <p className="text-4xl lg:text-5xl font-bold text-purple-400 mb-2">
+                  <ChevronUp className="w-6 h-6 text-emerald-600 mb-3" />
+                  <p className="text-4xl lg:text-5xl font-bold text-emerald-600 mb-2">
                     {stats.pointsToNextTier}
                   </p>
-                  <p className="text-sm text-slate-400 font-medium">To Next Tier</p>
+                  <p className="text-sm text-slate-600 font-medium">To Next Tier</p>
                 </div>
               </div>
             </div>
 
             {/* Progress to Next Tier - Enhanced */}
             {nextTier && (
-              <div className="bg-slate-700/30 rounded-xl p-6 border border-cyan-500/20 animate-fade-in-up hover:border-cyan-500/40 transition-all duration-300" style={{ animationDelay: '0.3s' }}>
+              <div className="bg-blue-50 rounded-xl p-6 border border-blue-200 animate-fade-in-up hover:border-cyan-500/40 transition-all duration-300" style={{ animationDelay: '0.3s' }}>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <Star className="w-5 h-5 text-yellow-400" />
-                    <span className="text-sm font-bold text-cyan-300">
+                    <Star className="w-5 h-5 text-amber-500" />
+                    <span className="text-sm font-bold text-slate-900">
                       Progress to {nextTier.tier}
                     </span>
                   </div>
-                  <span className="text-lg font-bold text-cyan-400">
+                  <span className="text-lg font-bold text-blue-600">
                     {Math.round(progressPercent)}%
                   </span>
                 </div>
-                <div className="w-full bg-slate-700/50 rounded-full h-4 border border-cyan-500/20 overflow-hidden shadow-inner">
+                <div className="w-full bg-slate-200 rounded-full h-4 border border-blue-200 overflow-hidden shadow-inner">
                   <div
                     className="h-full bg-gradient-to-r from-cyan-500 via-sky-500 to-purple-500 transition-all duration-700 rounded-full shadow-lg shadow-cyan-500/50"
                     style={{ width: `${Math.min(progressPercent, 100)}%` }}
                   />
                 </div>
-                <p className="text-xs text-slate-400 mt-3">
+                <p className="text-xs text-slate-600 mt-3">
                   🎯 Earn {stats.pointsToNextTier} more points to reach {nextTier.tier}
                 </p>
               </div>
@@ -227,7 +227,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
 
             {/* Tier Progression - Enhanced visualization */}
             <div className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <h3 className="text-lg font-bold text-cyan-300 mb-6 flex items-center gap-2">
+              <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
                 <Trophy className="w-5 h-5" />
                 Tier Progression
               </h3>
@@ -246,12 +246,12 @@ export default function RankingDashboard({ userId, courseId = null }) {
                           isCurrent
                             ? `border-white shadow-lg shadow-white/50 bg-gradient-to-br ${getTierColor(tier)}`
                             : isReached
-                            ? `border-cyan-500/50 bg-slate-700/40 shadow-lg shadow-cyan-500/20`
+                            ? `border-blue-300 bg-slate-700/40 shadow-lg shadow-cyan-500/20`
                             : 'border-slate-600 bg-slate-700/20'
                         }`}
                       >
                         {isCurrent && <Flame className="w-4 h-4 text-yellow-300 absolute top-1 animate-bounce" />}
-                        <span className={`text-xs font-black leading-tight ${isCurrent ? 'text-white' : 'text-slate-300'}`}>
+                        <span className={`text-xs font-black leading-tight ${isCurrent ? 'text-white' : 'text-slate-700'}`}>
                           {tier.tier.split(' ')[0]}
                         </span>
                         {isReached && (
@@ -259,10 +259,10 @@ export default function RankingDashboard({ userId, courseId = null }) {
                         )}
                       </div>
                       {/* Enhanced Tooltip */}
-                      <div className="absolute bottom-full mb-3 left-1/2 transform -translate-x-1/2 bg-slate-900 border border-cyan-500/50 rounded-lg px-3 py-2 text-xs text-slate-200 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-10 font-semibold shadow-lg">
+                      <div className="absolute bottom-full mb-3 left-1/2 transform -translate-x-1/2 bg-slate-900 border border-blue-300 rounded-lg px-3 py-2 text-xs text-slate-900 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-10 font-semibold shadow-lg">
                         {tier.tier}
                         <br />
-                        <span className="text-cyan-400">{tier.minPoints}-{tier.maxPoints} pts</span>
+                        <span className="text-blue-600">{tier.minPoints}-{tier.maxPoints} pts</span>
                         <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-slate-900"></div>
                       </div>
                     </div>
@@ -278,9 +278,9 @@ export default function RankingDashboard({ userId, courseId = null }) {
       {userRankings.length > 0 && (
         <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
           <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-cyan-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100 animate-pulse"></div>
-          <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300 hover:shadow-cyan-500/20">
+          <div className="relative bg-gradient-to-br from-white to-blue-50 rounded-2xl border border-blue-200 shadow-2xl overflow-hidden hover:border-blue-300 transition-all duration-300 hover:shadow-cyan-500/20">
             <div className="p-8 lg:p-10">
-              <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 text-cyan-300">
+              <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 text-slate-900">
                 <Trophy className="w-6 h-6" />
                 Your Course Rankings
               </h3>
@@ -298,7 +298,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
                       className={`group/card relative overflow-hidden rounded-xl border-2 transition-all duration-300 animate-fade-in-up hover:scale-105 ${
                         isTopThree
                           ? 'border-yellow-500/40 bg-gradient-to-br from-yellow-500/10 to-orange-500/5 shadow-lg shadow-yellow-500/20 hover:shadow-yellow-500/30'
-                          : 'border-cyan-500/30 bg-gradient-to-br from-cyan-500/5 to-slate-700/20 hover:shadow-lg hover:shadow-cyan-500/20'
+                          : 'border-blue-200 bg-gradient-to-br from-cyan-500/5 to-slate-700/20 hover:shadow-lg hover:shadow-cyan-500/20'
                       }`}
                       style={{ animationDelay: `${0.2 + idx * 0.1}s` }}
                     >
@@ -336,11 +336,11 @@ export default function RankingDashboard({ userId, courseId = null }) {
                             <span className={`text-sm font-semibold px-3 py-1 rounded-full ${
                               isTopThree
                                 ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'
-                                : 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                                : 'bg-cyan-500/20 text-slate-900 border border-blue-200'
                             }`}>
                               Rank #{userRank}
                             </span>
-                            <span className={`text-xl font-bold ${isTopThree ? 'text-yellow-400' : 'text-cyan-400'}`}>
+                            <span className={`text-xl font-bold ${isTopThree ? 'text-amber-500' : 'text-blue-600'}`}>
                               {ranking.points} pts
                             </span>
                           </div>
@@ -348,7 +348,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
 
                         {/* Progress bar */}
                         <div className="mb-5">
-                          <div className="w-full bg-slate-700/50 rounded-full h-2 border border-slate-600 overflow-hidden">
+                          <div className="w-full bg-slate-200 rounded-full h-2 border border-slate-600 overflow-hidden">
                             <div
                               className={`h-full transition-all duration-500 ${
                                 isTopThree
@@ -364,19 +364,19 @@ export default function RankingDashboard({ userId, courseId = null }) {
 
                         {/* Stats row */}
                         <div className="grid grid-cols-2 gap-4 text-sm">
-                          <div className="bg-slate-700/30 rounded-lg p-3 border border-slate-600/50">
-                            <p className="text-slate-400 text-xs mb-1">Total Users</p>
-                            <p className="text-lg font-bold text-slate-200">{courseRankings.length}</p>
+                          <div className="bg-blue-50 rounded-lg p-3 border border-slate-600/50">
+                            <p className="text-slate-600 text-xs mb-1">Total Users</p>
+                            <p className="text-lg font-bold text-slate-900">{courseRankings.length}</p>
                           </div>
                           <div className={`rounded-lg p-3 border ${
                             isTopThree
                               ? 'bg-yellow-500/10 border-yellow-500/30'
-                              : 'bg-cyan-500/10 border-cyan-500/30'
+                              : 'bg-cyan-500/10 border-blue-200'
                           }`}>
-                            <p className={`text-xs mb-1 ${isTopThree ? 'text-yellow-400' : 'text-cyan-400'}`}>
+                            <p className={`text-xs mb-1 ${isTopThree ? 'text-amber-500' : 'text-blue-600'}`}>
                               Position
                             </p>
-                            <p className={`text-lg font-bold ${isTopThree ? 'text-yellow-300' : 'text-cyan-300'}`}>
+                            <p className={`text-lg font-bold ${isTopThree ? 'text-yellow-300' : 'text-slate-900'}`}>
                               {userRank}/{courseRankings.length}
                             </p>
                           </div>
@@ -395,23 +395,23 @@ export default function RankingDashboard({ userId, courseId = null }) {
       {courses.length > 0 && (
         <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
           <div className="absolute inset-0 bg-gradient-to-r from-amber-600/20 to-cyan-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100 animate-pulse"></div>
-          <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300 hover:shadow-cyan-500/20">
+          <div className="relative bg-gradient-to-br from-white to-blue-50 rounded-2xl border border-blue-200 shadow-2xl overflow-hidden hover:border-blue-300 transition-all duration-300 hover:shadow-cyan-500/20">
             <div className="p-8 lg:p-10">
-              <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 text-cyan-300">
+              <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 text-slate-900">
                 <Star className="w-6 h-6" />
                 Leaderboard
               </h3>
 
               {/* Course Selector - Enhanced */}
               <div className="mb-8">
-                <label className="block text-sm font-bold text-cyan-300 mb-3 uppercase tracking-wider">
+                <label className="block text-sm font-bold text-slate-900 mb-3 uppercase tracking-wider">
                   Select Course
                 </label>
                 <div className="relative">
                   <select
                     value={selectedCourse || ''}
                     onChange={(e) => setSelectedCourse(Number(e.target.value))}
-                    className="w-full px-5 py-3 bg-gradient-to-r from-slate-700/50 to-slate-800/50 border-2 border-cyan-500/30 rounded-xl text-slate-100 font-semibold focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all appearance-none cursor-pointer hover:border-cyan-500/50"
+                    className="w-full px-5 py-3 bg-gradient-to-r from-slate-700/50 to-slate-800/50 border-2 border-blue-200 rounded-xl text-slate-100 font-semibold focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all appearance-none cursor-pointer hover:border-blue-300"
                   >
                     <option value="">Select a course...</option>
                     {courses.map((course) => (
@@ -420,7 +420,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
                       </option>
                     ))}
                   </select>
-                  <ChevronUp className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-cyan-400 pointer-events-none" />
+                  <ChevronUp className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-blue-600 pointer-events-none" />
                 </div>
               </div>
 
@@ -438,7 +438,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
                     if (idx === 0) medalBg = 'from-yellow-500/20 to-amber-500/10 border-2 border-yellow-500/50 shadow-lg shadow-yellow-500/30';
                     else if (idx === 1) medalBg = 'from-slate-500/20 to-slate-600/10 border-2 border-slate-500/50 shadow-lg shadow-slate-500/20';
                     else if (idx === 2) medalBg = 'from-orange-500/20 to-red-500/10 border-2 border-orange-500/50 shadow-lg shadow-orange-500/20';
-                    else medalBg = isCurrentUser ? 'from-cyan-500/20 to-cyan-500/5 border-2 border-cyan-500/50' : 'from-slate-700/40 to-slate-800/20 border-2 border-cyan-500/20 hover:border-cyan-500/40';
+                    else medalBg = isCurrentUser ? 'from-cyan-500/20 to-cyan-500/5 border-2 border-blue-300' : 'from-slate-700/40 to-slate-800/20 border-2 border-blue-200 hover:border-cyan-500/40';
 
                     return (
                       <div
@@ -468,7 +468,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
                               </div>
                             )}
                             {idx > 2 && (
-                              <div className="w-12 h-12 rounded-full bg-slate-700/60 border-2 border-slate-600 flex items-center justify-center font-bold text-slate-300">
+                              <div className="w-12 h-12 rounded-full bg-slate-700/60 border-2 border-slate-600 flex items-center justify-center font-bold text-slate-700">
                                 #{idx + 1}
                               </div>
                             )}
@@ -480,12 +480,12 @@ export default function RankingDashboard({ userId, courseId = null }) {
                               <img
                                 src={rankedUser?.avatar}
                                 alt={rankedUser?.name}
-                                className="w-10 h-10 rounded-full border-2 border-cyan-500/50 flex-shrink-0"
+                                className="w-10 h-10 rounded-full border-2 border-blue-300 flex-shrink-0"
                               />
                               <div className="flex-1 min-w-0">
                                 <p className={`font-bold truncate ${isTopThree ? 'text-lg text-slate-100' : 'text-slate-100'}`}>
                                   {rankedUser?.name}
-                                  {isCurrentUser && <span className="text-cyan-400 ml-2">(You)</span>}
+                                  {isCurrentUser && <span className="text-blue-600 ml-2">(You)</span>}
                                 </p>
                               </div>
                             </div>
@@ -493,12 +493,12 @@ export default function RankingDashboard({ userId, courseId = null }) {
                               <span className={`text-sm font-bold px-2 py-1 rounded-md ${
                                 isTopThree
                                   ? 'bg-yellow-500/20 text-yellow-300'
-                                  : 'bg-cyan-500/20 text-cyan-300'
+                                  : 'bg-cyan-500/20 text-slate-900'
                               }`}>
                                 {ranking.points} pts
                               </span>
                               {/* Mini progress */}
-                              <div className="flex-1 min-w-0 h-1.5 bg-slate-700/50 rounded-full overflow-hidden border border-slate-600/50">
+                              <div className="flex-1 min-w-0 h-1.5 bg-slate-200 rounded-full overflow-hidden border border-slate-600/50">
                                 <div
                                   className={`h-full ${
                                     isTopThree
@@ -516,7 +516,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
                           {/* Tier Badge */}
                           <div className="flex items-center gap-2 flex-shrink-0">
                             <div className={`text-right`}>
-                              <p className="font-bold text-xs text-slate-400 uppercase tracking-wider">Tier</p>
+                              <p className="font-bold text-xs text-slate-600 uppercase tracking-wider">Tier</p>
                               <p className={`font-bold text-sm ${tier.color}`}>
                                 {tier.tier}
                               </p>
@@ -536,7 +536,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
 
                   {/* View More Button */}
                   {courseLeaderboard.length > 10 && (
-                    <button className="w-full mt-6 px-4 sm:px-6 py-3 bg-gradient-to-r from-cyan-600/20 to-purple-600/20 hover:from-cyan-600/40 hover:to-purple-600/40 border-2 border-cyan-500/50 hover:border-cyan-500/80 text-cyan-300 font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+                    <button className="w-full mt-6 px-4 sm:px-6 py-3 bg-gradient-to-r from-cyan-600/20 to-purple-600/20 hover:from-cyan-600/40 hover:to-purple-600/40 border-2 border-blue-300 hover:border-cyan-500/80 text-slate-900 font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
                       <span className="whitespace-nowrap text-sm sm:text-base">View All Rankings</span>
                       <ChevronUp className="w-4 h-4 group-hover:translate-y-1 transition-transform flex-shrink-0" />
                     </button>
@@ -545,13 +545,13 @@ export default function RankingDashboard({ userId, courseId = null }) {
               ) : selectedCourse ? (
                 <div className="text-center py-12">
                   <Star className="w-12 h-12 text-slate-500 mx-auto mb-4 opacity-50" />
-                  <p className="text-slate-400 text-lg">No rankings available yet</p>
+                  <p className="text-slate-600 text-lg">No rankings available yet</p>
                   <p className="text-slate-500 text-sm mt-2">Be the first to earn points in this course!</p>
                 </div>
               ) : (
                 <div className="text-center py-12">
                   <Trophy className="w-12 h-12 text-slate-500 mx-auto mb-4 opacity-50" />
-                  <p className="text-slate-400 text-lg">Select a course to see rankings</p>
+                  <p className="text-slate-600 text-lg">Select a course to see rankings</p>
                   <p className="text-slate-500 text-sm mt-2">Choose from the dropdown above</p>
                 </div>
               )}

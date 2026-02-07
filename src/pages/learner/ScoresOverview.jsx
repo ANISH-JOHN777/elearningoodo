@@ -152,19 +152,19 @@ export default function ScoresOverview() {
         </div>
 
         {/* Overall Progress */}
-        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8">
-          <h2 className="text-2xl font-bold text-cyan-300 mb-6">Overall Progress</h2>
+        <div className="bg-gradient-to-br from-white to-blue-50 rounded-2xl border border-blue-200 shadow-xl p-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-6">Overall Progress</h2>
 
           <div className="space-y-4">
             {/* Main Progress */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-slate-300 font-semibold">Total Points Earned</span>
-                <span className="text-cyan-400 font-bold">
+                <span className="text-slate-700 font-semibold">Total Points Earned</span>
+                <span className="text-blue-600 font-bold">
                   {Math.round((userScoreData.totalPoints / userScoreData.totalMaxPoints) * 100)}%
                 </span>
               </div>
-              <div className="w-full h-3 bg-slate-700/50 rounded-full overflow-hidden border border-cyan-500/20">
+              <div className="w-full h-3 bg-slate-200 rounded-full overflow-hidden border border-blue-200">
                 <div
                   className="h-full bg-gradient-to-r from-cyan-500 to-sky-500"
                   style={{
@@ -175,14 +175,14 @@ export default function ScoresOverview() {
                   }}
                 />
               </div>
-              <p className="text-sm text-slate-400 mt-2">
+              <p className="text-sm text-slate-600 mt-2">
                 {userScoreData.totalPoints} / {userScoreData.totalMaxPoints} points
               </p>
             </div>
 
             {/* Achievement Unlocks */}
-            <div className="mt-8 pt-8 border-t border-cyan-500/20">
-              <h3 className="text-lg font-bold text-cyan-300 mb-4 flex items-center gap-2">
+            <div className="mt-8 pt-8 border-t border-blue-200">
+              <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <Medal className="w-5 h-5" />
                 Achievement Progress
               </h3>
@@ -193,14 +193,14 @@ export default function ScoresOverview() {
                     className={`p-4 rounded-lg border transition ${
                       achievement.unlocked
                         ? 'bg-emerald-500/10 border-emerald-500/30'
-                        : 'bg-slate-700/50 border-slate-600/30 opacity-60'
+                        : 'bg-slate-200 border-slate-600/30 opacity-60'
                     }`}
                   >
                     <div className="flex items-start gap-3">
                       <span className="text-2xl">{achievement.icon}</span>
                       <div className="flex-1">
-                        <p className="font-semibold text-slate-200">{achievement.name}</p>
-                        <p className="text-xs text-slate-400 mt-1">{achievement.description}</p>
+                        <p className="font-semibold text-slate-900">{achievement.name}</p>
+                        <p className="text-xs text-slate-600 mt-1">{achievement.description}</p>
                         {achievement.unlocked && (
                           <p className="text-xs text-emerald-400 mt-1 font-semibold">✓ Unlocked</p>
                         )}
@@ -214,15 +214,15 @@ export default function ScoresOverview() {
         </div>
 
         {/* Course Scores */}
-        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl overflow-hidden">
-          <div className="p-8 border-b border-cyan-500/20">
-            <h2 className="text-2xl font-bold text-cyan-300 flex items-center gap-2">
+        <div className="bg-gradient-to-br from-white to-blue-50 rounded-2xl border border-blue-200 shadow-xl overflow-hidden">
+          <div className="p-8 border-b border-blue-200">
+            <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
               <Target className="w-6 h-6" />
               Your Courses
             </h2>
           </div>
 
-          <div className="divide-y divide-cyan-500/10">
+          <div className="divide-y divide-blue-100">
             {userScoreData.courseScores.map((course) => (
               <div
                 key={course.id}
@@ -233,28 +233,28 @@ export default function ScoresOverview() {
                   <div className="flex items-center gap-3">
                     <span className="text-3xl">{course.icon}</span>
                     <div className="flex-1">
-                      <h3 className="text-lg font-bold text-slate-200">{course.name}</h3>
+                      <h3 className="text-lg font-bold text-slate-900">{course.name}</h3>
                       <div className="flex items-center gap-2 mt-1">
                         <span className={`px-2 py-1 text-xs font-semibold rounded ${course.bgColor}`}>
                           {course.rank}
                         </span>
-                        <span className="text-xs text-slate-500">{course.activities} activities</span>
+                        <span className="text-xs text-slate-600">{course.activities} activities</span>
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
                     <p className="text-3xl font-bold text-emerald-400">{course.points}</p>
-                    <p className="text-xs text-slate-400">of {course.maxPoints} pts</p>
+                    <p className="text-xs text-slate-600">of {course.maxPoints} pts</p>
                   </div>
                 </div>
 
                 {/* Progress Bar */}
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs text-slate-400">Achievement</span>
-                    <span className="text-sm font-bold text-cyan-400">{course.percentage}%</span>
+                    <span className="text-xs text-slate-600">Achievement</span>
+                    <span className="text-sm font-bold text-blue-600">{course.percentage}%</span>
                   </div>
-                  <div className="w-full h-2 bg-slate-700/50 rounded-full overflow-hidden border border-cyan-500/20">
+                  <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden border border-blue-200">
                     <div
                       className={`h-full bg-gradient-to-r ${course.color}`}
                       style={{ width: `${Math.min(course.percentage, 100)}%` }}
@@ -285,12 +285,12 @@ export default function ScoresOverview() {
     <div className="space-y-6">
       {/* Page Header */}
       {activeTab === 'overview' && (
-        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8">
-          <h1 className="text-4xl font-bold text-cyan-300 mb-2 flex items-center gap-3">
+        <div className="bg-gradient-to-br from-white to-blue-50 rounded-2xl border border-blue-200 shadow-xl p-8">
+          <h1 className="text-4xl font-bold text-slate-900 mb-2 flex items-center gap-3">
             <Award className="w-10 h-10" />
             Scores & Achievements
           </h1>
-          <p className="text-slate-400 text-lg">
+          <p className="text-slate-600 text-lg">
             Track your learning progress and earned points across all courses
           </p>
         </div>
@@ -307,7 +307,7 @@ export default function ScoresOverview() {
               className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-semibold text-sm transition whitespace-nowrap ${
                 activeTab === tab.id
                   ? 'bg-gradient-to-r from-cyan-500 to-sky-500 text-white shadow-lg'
-                  : 'bg-slate-700/50 text-slate-300 border border-cyan-500/20 hover:border-cyan-500/50'
+                  : 'bg-slate-200 text-slate-700 border border-blue-200 hover:border-cyan-500/50'
               }`}
             >
               <Icon className="w-4 h-4" />
