@@ -10,6 +10,7 @@ const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    role: 'learner', // Add role to form data
   });
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -40,7 +41,7 @@ const Login = () => {
     setError('');
     
     try {
-      const success = await login(formData.email, formData.password);
+      const success = await login(formData.email, formData.password, formData.role);
       if (!success) {
         setError('Invalid email or password. Please try again.');
         setIsLoading(false);
@@ -52,13 +53,13 @@ const Login = () => {
     }
   };
 
-  const quickLogin = async (email, password) => {
-    setFormData({ email, password });
+  const quickLogin = async (email, password, role = 'learner') => {
+    setFormData({ email, password, role });
     setIsLoading(true);
     setError('');
     
     try {
-      const success = await login(email, password);
+      const success = await login(email, password, role);
       if (!success) {
         setError('Quick login failed. Please try again.');
         setIsLoading(false);
@@ -175,21 +176,21 @@ const Login = () => {
               <div className="grid grid-cols-3 gap-2">
                 <button
                   type="button"
-                  onClick={() => quickLogin('admin@learnsphere.com', 'admin123')}
+                  onClick={() => quickLogin('admin@learnsphere.com', 'admin123', 'admin')}
                   className="p-3 bg-gradient-to-br from-cyan-50 to-sky-100 hover:from-cyan-100 hover:to-sky-200 rounded-xl transition-all group"
                 >
                   <div className="text-cyan-600 font-semibold text-sm group-hover:scale-105 transition-transform">Admin</div>
                 </button>
                 <button
                   type="button"
-                  onClick={() => quickLogin('instructor@learnsphere.com', 'instructor123')}
+                  onClick={() => quickLogin('instructor@learnsphere.com', 'instructor123', 'instructor')}
                   className="p-3 bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 rounded-xl transition-all group"
                 >
                   <div className="text-blue-600 font-semibold text-sm group-hover:scale-105 transition-transform">Instructor</div>
                 </button>
                 <button
                   type="button"
-                  onClick={() => quickLogin('learner@learnsphere.com', 'learner123')}
+                  onClick={() => quickLogin('learner@learnsphere.com', 'learner123', 'learner')}
                   className="p-3 bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 rounded-xl transition-all group"
                 >
                   <div className="text-green-600 font-semibold text-sm group-hover:scale-105 transition-transform">Learner</div>
@@ -207,6 +208,38 @@ const Login = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Role Selector */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-3">
+                  Login as
+                </label>
+                <div className="grid grid-cols-3 gap-3">
+                  {['admin', 'instructor', 'learner'].map((roleOption) => (
+                    <label key={roleOption} className="relative flex items-center cursor-pointer group">
+                      <input
+                        type="radio"
+                        name="role"
+                        value={roleOption}
+                        checked={formData.role === roleOption}
+                        onChange={handleChange}
+                        className="absolute opacity-0 w-full h-full cursor-pointer"
+                      />
+                      <div className={`w-full py-3 px-3 rounded-xl text-center font-semibold text-sm transition-all border-2 ${
+                        formData.role === roleOption
+                          ? roleOption === 'admin'
+                            ? 'bg-cyan-50 border-cyan-500 text-cyan-700'
+                            : roleOption === 'instructor'
+                            ? 'bg-blue-50 border-blue-500 text-blue-700'
+                            : 'bg-green-50 border-green-500 text-green-700'
+                          : 'bg-gray-50 border-gray-200 text-gray-600 group-hover:border-gray-300'
+                      }`}>
+                        {roleOption.charAt(0).toUpperCase() + roleOption.slice(1)}
+                      </div>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
               <div>
                 <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
                   Email address
