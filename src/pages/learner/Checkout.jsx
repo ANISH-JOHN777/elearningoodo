@@ -23,13 +23,15 @@ import { createPaymentIntent, confirmPayment, PAYMENT_STATUSES } from '../../con
 export default function Checkout() {
   const { courseId } = useParams();
   const navigate = useNavigate();
-  const { user, getCourseById, createTransaction, getEnrollment } = useApp();
+  const { user, getCourseById, createTransaction, getEnrollment, validatePromoCode, applyPromoCode, enrollCourse } = useApp();
 
   const course = getCourseById(parseInt(courseId));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [step, setStep] = useState('review'); // 'review', 'payment', 'processing', 'success'
   const [paymentMethod, setPaymentMethod] = useState('card');
+  const [promoCode, setPromoCode] = useState('');
+  const [promoCodeResult, setPromoCodeResult] = useState(null);
   const [cardDetails, setCardDetails] = useState({
     cardNumber: '',
     expiry: '',
@@ -76,12 +78,58 @@ export default function Checkout() {
     );
   }
 
+  const handlePromoCodeCheck = () => {
+    if (!promoCode.trim()) {
+      setPromoCodeResult(null);
+      return;
+    }
+
+    const result = validatePromoCode(promoCode, parseInt(courseId));
+    setPromoCodeResult(result);
+    
+    if (result.valid) {
+      setError('');
+    }
+  };
+
   const handlePayment = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
     try {
+      // Check if valid promo code is applied for free course
+      if (promoCodeResult && promoCodeResult.valid && promoCodeResult.discountType === 'free') {
+        // Apply promo code
+        applyPromoCode(promoCode, parseInt(courseId));
+        
+        // Create free enrollment
+        enrollCourse(user.id, parseInt(courseId), true);
+        
+        // Create transaction record (with 0 amount for free)
+        const txn = {
+          id: `txn_${Date.now()}`,
+          userId: user.id,
+          courseId: course.id,
+          type: 'course_purchase',
+          amount: 0,
+          currency: 'USD',
+          paymentIntentId: `free_${Date.now()}`,
+          paymentMethod: 'promo_code',
+          status: 'completed',
+          timestamp: new Date().toISOString(),
+          courseName: course.title,
+          customerEmail: user.email,
+          receiptUrl: `/receipt/free_${Date.now()}`,
+          promoCode: promoCode.toUpperCase(),
+        };
+
+        createTransaction(txn);
+        setStep('success');
+        return;
+      }
+
+      // Regular payment flow
       // Create payment intent
       const intent = await createPaymentIntent(user.id, course.id, course.price * 100);
 
@@ -278,6 +326,56 @@ export default function Checkout() {
                 <h2 className="text-xl font-bold text-gray-900">Payment Details</h2>
 
                 <form onSubmit={handlePayment} className="space-y-4">
+                  {/* Promo Code Section */}
+                  <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-4 rounded-lg border border-blue-200">
+                    <label className="block text-sm font-semibold text-gray-900 mb-3">
+                      Have an Access Code? 🎁
+                    </label>
+                    <p className="text-xs text-gray-600 mb-3">
+                      Enter a free access code issued by your instructor to enroll for free
+                    </p>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={promoCode}
+                        onChange={(e) => setPromoCode(e.target.value)}
+                        placeholder="Enter code (e.g., FREECOURSE2024)"
+                        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono uppercase"
+                      />
+                      <button
+                        type="button"
+                        onClick={handlePromoCodeCheck}
+                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors whitespace-nowrap"
+                      >
+                        Verify
+                      </button>
+                    </div>
+                    
+                    {/* Promo Code Result */}
+                    {promoCodeResult && (
+                      <div className={`mt-2 p-3 rounded-lg text-sm flex items-center gap-2 ${
+                        promoCodeResult.valid 
+                          ? 'bg-green-50 border border-green-200' 
+                          : 'bg-red-50 border border-red-200'
+                      }`}>
+                        {promoCodeResult.valid ? (
+                          <>
+                            <CheckCircle className="w-4 h-4 text-green-600" />
+                            <span className="text-green-700 font-medium">{promoCodeResult.message}</span>
+                          </>
+                        ) : (
+                          <>
+                            <AlertCircle className="w-4 h-4 text-red-600" />
+                            <span className="text-red-700">{promoCodeResult.message}</span>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Show payment method only if no valid free promo code */}
+                  {!(promoCodeResult?.valid && promoCodeResult?.discountType === 'free') && (
+                    <>
                   {/* Payment Method Selection */}
                   <div>
                     <label className="block text-sm font-semibold text-gray-900 mb-3">Payment Method</label>
@@ -372,6 +470,16 @@ export default function Checkout() {
                     </div>
                   )}
 
+                    </>
+                  )}
+
+                  {/* Show message when free promo code is applied */}
+                  {promoCodeResult?.valid && promoCodeResult?.discountType === 'free' && (
+                    <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <p className="text-green-700 font-medium">✓ You're all set! Click "Enroll for Free" to get instant access to this course.</p>
+                    </div>
+                  )}
+
                   {/* Security Notice */}
                   <div className="flex items-center gap-2 text-sm text-gray-600 p-4 bg-gray-50 rounded-lg">
                     <Lock className="w-4 h-4 text-blue-600" />
@@ -393,7 +501,7 @@ export default function Checkout() {
                       className="flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
                     >
                       {loading && <Loader className="w-4 h-4 animate-spin" />}
-                      Complete Purchase
+                      {promoCodeResult?.valid && promoCodeResult?.discountType === 'free' ? 'Enroll for Free' : 'Complete Purchase'}
                     </button>
                   </div>
                 </form>
@@ -475,20 +583,37 @@ export default function Checkout() {
 
               {/* Price Breakdown */}
               <div className="space-y-3 pb-4 border-b">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Course Price</span>
-                  <span className="font-semibold text-gray-900">${course.price.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Tax (10%)</span>
-                  <span className="font-semibold text-gray-900">${(course.price * 0.1).toFixed(2)}</span>
-                </div>
+                {promoCodeResult?.valid && promoCodeResult?.discountType === 'free' ? (
+                  <div>
+                    <div className="flex justify-between mb-2">
+                      <span className="text-gray-600">Original Price</span>
+                      <span className="font-semibold text-gray-500 line-through">${course.price.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between bg-green-50 p-2 rounded">
+                      <span className="text-green-700 font-semibold">Free with Code</span>
+                      <span className="text-green-700 font-bold">$0.00</span>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Course Price</span>
+                      <span className="font-semibold text-gray-900">${course.price.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Tax (10%)</span>
+                      <span className="font-semibold text-gray-900">${(course.price * 0.1).toFixed(2)}</span>
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* Total */}
               <div className="flex justify-between items-center bg-blue-50 rounded-lg p-4">
                 <span className="font-bold text-gray-900">Total</span>
-                <span className="text-2xl font-bold text-blue-600">${(course.price * 1.1).toFixed(2)}</span>
+                <span className="text-2xl font-bold text-blue-600">
+                  {promoCodeResult?.valid && promoCodeResult?.discountType === 'free' ? 'FREE' : `$${(course.price * 1.1).toFixed(2)}`}
+                </span>
               </div>
 
               {/* Features */}

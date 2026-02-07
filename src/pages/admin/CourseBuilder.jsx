@@ -57,9 +57,9 @@ export default function CourseBuilder() {
     code: '',
     level: 'beginner',
     price: 0,
-    access: 'payment',
-    visibility: 'everyone',
-    published: false,
+    access: 'free',  // Default to free so courses are immediately accessible
+    visibility: 'public',  // Visible to all users
+    published: true,  // Default to true so courses show immediately in available courses
   });
 
   // Modules state

@@ -2685,6 +2685,78 @@ export const AppProvider = ({ children }) => {
     return updatedTxn;
   };
 
+  // === PROMO CODE MANAGEMENT ===
+  const createPromoCode = (courseId, code, discountType = 'free', discountValue = 100) => {
+    // discountType: 'free' (100% off) or 'percentage' (e.g., 50%)
+    // Store promo codes in localStorage
+    const promoCodes = JSON.parse(localStorage.getItem('promoCodes') || '[]');
+    
+    const newCode = {
+      id: `promo_${Date.now()}`,
+      courseId,
+      code: code.toUpperCase(), // Normalize to uppercase
+      discountType,
+      discountValue, // 100 for free, or percentage
+      createdDate: new Date().toISOString(),
+      expiryDate: null, // No expiry by default
+      maxUses: null, // Unlimited uses by default
+      usedCount: 0,
+      isActive: true,
+      createdBy: user?.id || 'system',
+    };
+
+    promoCodes.push(newCode);
+    localStorage.setItem('promoCodes', JSON.stringify(promoCodes));
+    return newCode;
+  };
+
+  const validatePromoCode = (code, courseId) => {
+    // Validate promo code for a specific course
+    const promoCodes = JSON.parse(localStorage.getItem('promoCodes') || '[]');
+    const promoCode = promoCodes.find((p) => 
+      p.code === code.toUpperCase() && 
+      p.courseId === courseId && 
+      p.isActive
+    );
+
+    if (!promoCode) return { valid: false, message: 'Invalid or expired promo code' };
+    
+    // Check max uses
+    if (promoCode.maxUses && promoCode.usedCount >= promoCode.maxUses) {
+      return { valid: false, message: 'Promo code usage limit reached' };
+    }
+
+    // Check expiry
+    if (promoCode.expiryDate && new Date(promoCode.expiryDate) < new Date()) {
+      return { valid: false, message: 'Promo code has expired' };
+    }
+
+    return { 
+      valid: true, 
+      discountType: promoCode.discountType,
+      discountValue: promoCode.discountValue,
+      message: promoCode.discountType === 'free' ? 'Free course unlocked!' : `${promoCode.discountValue}% discount applied!`
+    };
+  };
+
+  const applyPromoCode = (code, courseId) => {
+    // Track the use of a promo code
+    const promoCodes = JSON.parse(localStorage.getItem('promoCodes') || '[]');
+    const promoCode = promoCodes.find((p) => p.code === code.toUpperCase());
+
+    if (promoCode && promoCode.courseId === courseId) {
+      promoCode.usedCount += 1;
+      localStorage.setItem('promoCodes', JSON.stringify(promoCodes));
+      return true;
+    }
+    return false;
+  };
+
+  const getPromoCodesByCourse = (courseId) => {
+    const promoCodes = JSON.parse(localStorage.getItem('promoCodes') || '[]');
+    return promoCodes.filter((p) => p.courseId === courseId);
+  };
+
   const value = {
     user,
     users,
@@ -2756,6 +2828,11 @@ export const AppProvider = ({ children }) => {
     getCourseTransactions,
     getPaymentHistory,
     recordPaymentRefund,
+    // === PROMO CODE MANAGEMENT ===
+    createPromoCode,
+    validatePromoCode,
+    applyPromoCode,
+    getPromoCodesByCourse,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
