@@ -1,12 +1,12 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
-import { AppContext } from '../../context/AppContext';
+import React, { useState, useRef, useEffect } from 'react';
+import { useApp } from '../../context/AppContext';
 import { Send, Loader, MessageCircle } from 'lucide-react';
 
 const GEMINI_API_KEY = 'AIzaSyBwpj29WKt9WLpDF2sTxE-RWLnBylBgZwA';
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
 
 const LearnerChatbot = () => {
-  const { courses, enrollments, currentUser } = useContext(AppContext);
+  const { courses, enrollments, currentUser } = useApp();
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -237,26 +237,24 @@ Keep responses helpful, encouraging, and focused on learning.`;
               </button>
             </form>
           </div>
+
+          <style>{`
+            @keyframes fade-in-up {
+              from {
+                opacity: 0;
+                transform: translateY(10px);
+              }
+              to {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            }
+
+            .animate-fade-in-up {
+              animation: fade-in-up 0.3s ease-out;
+            }
+          `}</style>
         </div>
-      </div>
-
-      <style>{`
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-fade-in-up {
-          animation: fade-in-up 0.3s ease-out;
-        }
-      `}</style>
-    </div>
   );
 };
 
