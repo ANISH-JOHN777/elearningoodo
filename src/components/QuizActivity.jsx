@@ -232,17 +232,17 @@ export default function QuizActivity({
         <div className="flex gap-4 justify-center">
           <button
             onClick={handleReset}
-            className="flex items-center gap-2 px-6 py-3 bg-slate-700 hover:bg-slate-600 rounded-lg font-semibold text-slate-300 transition group"
+            className="flex items-center gap-2 px-5 py-2.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-semibold text-slate-300 whitespace-nowrap transition group"
           >
-            <RotateCcw className="w-5 h-5 group-hover:rotate-180 transition-transform" />
+            <RotateCcw className="w-4 h-4 group-hover:rotate-180 transition-transform" />
             Retake Quiz
           </button>
           <button
             onClick={() => window.history.back()}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 rounded-lg font-semibold text-white transition"
+            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 rounded-lg text-sm font-semibold text-white whitespace-nowrap transition"
           >
             Continue Course
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -256,7 +256,7 @@ export default function QuizActivity({
         <p className="text-slate-400 text-lg">No questions available for this quiz.</p>
         <button
           onClick={() => window.history.back()}
-          className="mt-6 px-6 py-3 bg-cyan-500 hover:bg-cyan-600 rounded-lg font-semibold text-white transition"
+          className="mt-6 px-5 py-2.5 bg-cyan-500 hover:bg-cyan-600 rounded-lg text-sm font-semibold text-white whitespace-nowrap transition"
         >
           Go Back
         </button>
@@ -358,7 +358,7 @@ export default function QuizActivity({
         <div className="flex gap-4 justify-between">
           <button
             onClick={() => window.history.back()}
-            className="px-6 py-3 border border-cyan-500/50 text-cyan-300 hover:bg-slate-700/50 rounded-lg font-semibold transition"
+            className="px-5 py-2.5 border border-cyan-500/50 text-cyan-300 hover:bg-slate-700/50 rounded-lg text-sm font-semibold whitespace-nowrap transition"
           >
             Exit Quiz
           </button>
@@ -367,7 +367,7 @@ export default function QuizActivity({
             <button
               onClick={handleSubmitAnswer}
               disabled={selectedAnswer === null || loading}
-              className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 disabled:opacity-50 rounded-lg font-bold text-white transition"
+              className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 disabled:opacity-50 rounded-lg text-sm font-bold text-white whitespace-nowrap transition"
             >
               {loading ? (
                 <>
@@ -377,7 +377,7 @@ export default function QuizActivity({
               ) : (
                 <>
                   Submit Answer
-                  <ChevronRight className="w-5 h-5" />
+                  <ChevronRight className="w-4 h-4" />
                 </>
               )}
             </button>
@@ -385,10 +385,10 @@ export default function QuizActivity({
             <button
               onClick={handleNext}
               disabled={loading}
-              className="flex items-center gap-2 px-8 py-3 bg-sky-600 hover:bg-sky-700 disabled:opacity-50 rounded-lg font-bold text-white transition"
+              className="flex items-center gap-2 px-6 py-2.5 bg-sky-600 hover:bg-sky-700 disabled:opacity-50 rounded-lg text-sm font-bold text-white whitespace-nowrap transition"
             >
               {isLastQuestion ? 'Finish Quiz' : 'Next Question'}
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4" />
             </button>
           )}
         </div>

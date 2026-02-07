@@ -718,7 +718,7 @@ const MyCourses = () => {
                         )}
                         <button
                           onClick={() => handleCourseAction(course)}
-                          className={`inline-flex items-center gap-2.5 px-8 py-3.5 rounded-xl font-semibold text-sm tracking-wide transition-all duration-300 transform hover:scale-105 active:scale-95 ${
+                          className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-xs whitespace-nowrap transition-all duration-300 transform hover:scale-105 active:scale-95 ${
                             course.access === 'payment' && !enrollment
                               ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:shadow-lg hover:shadow-emerald-500/25'
                               : course.access === 'invitation' && !enrollment
@@ -727,11 +727,11 @@ const MyCourses = () => {
                           }`}
                         >
                           {enrollment?.status === 'in-progress' ? (
-                            <Play className="w-4 h-4" />
+                            <Play className="w-3.5 h-3.5" />
                           ) : enrollment?.status === 'completed' ? (
-                            <CheckCircle className="w-4 h-4" />
+                            <CheckCircle className="w-3.5 h-3.5" />
                           ) : (
-                            <ArrowRight className="w-4 h-4" />
+                            <ArrowRight className="w-3.5 h-3.5" />
                           )}
                           {getButtonText(course)}
                         </button>
@@ -1089,7 +1089,7 @@ const MyCourses = () => {
                         <div className="pt-4 border-t border-gray-100">
                           <button
                             onClick={() => handleCourseAction(course)}
-                            className={`w-full py-2.5 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
+                            className={`w-full py-2 rounded-xl font-semibold text-xs whitespace-nowrap transition-all duration-300 flex items-center justify-center gap-2 ${
                               enrollment?.status === 'in-progress'
                                 ? 'bg-gradient-to-r from-cyan-400 to-sky-500 text-slate-950 hover:shadow-lg hover:shadow-cyan-400/40'
                                 : enrollment?.status === 'completed'
@@ -1098,11 +1098,11 @@ const MyCourses = () => {
                             }`}
                           >
                             {enrollment?.status === 'in-progress' ? (
-                              <Play className="w-4 h-4" />
+                              <Play className="w-3.5 h-3.5" />
                             ) : enrollment?.status === 'completed' ? (
-                              <CheckCircle className="w-4 h-4" />
+                              <CheckCircle className="w-3.5 h-3.5" />
                             ) : (
-                              <ArrowRight className="w-4 h-4" />
+                              <ArrowRight className="w-3.5 h-3.5" />
                             )}
                             {getButtonText(course)}
                           </button>

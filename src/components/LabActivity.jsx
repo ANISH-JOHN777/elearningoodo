@@ -215,17 +215,17 @@ export default function LabActivity({
         <div className="flex gap-4 justify-center">
           <button
             onClick={handleReset}
-            className="flex items-center gap-2 px-6 py-3 bg-slate-700 hover:bg-slate-600 rounded-lg font-semibold text-slate-300 transition"
+            className="flex items-center gap-2 px-5 py-2.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-semibold text-slate-300 whitespace-nowrap transition"
           >
-            <RotateCcw className="w-5 h-5" />
+            <RotateCcw className="w-4 h-4" />
             Retry Lab
           </button>
           <button
             onClick={() => window.history.back()}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 rounded-lg font-semibold text-white transition"
+            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 rounded-lg text-sm font-semibold text-white whitespace-nowrap transition"
           >
             Continue Course
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -278,16 +278,16 @@ export default function LabActivity({
           <button
             onClick={handleRunTests}
             disabled={isRunning}
-            className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 disabled:opacity-50 rounded-lg font-bold text-white transition"
+            className="w-full flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 disabled:opacity-50 rounded-lg text-sm font-bold text-white whitespace-nowrap transition"
           >
             {isRunning ? (
               <>
-                <div className="w-5 h-5 border-2 border-white/50 border-t-white rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-white/50 border-t-white rounded-full animate-spin" />
                 Running Tests...
               </>
             ) : (
               <>
-                <Play className="w-5 h-5" />
+                <Play className="w-4 h-4" />
                 Run Tests
               </>
             )}
@@ -369,16 +369,16 @@ export default function LabActivity({
             <button
               onClick={handleSubmit}
               disabled={loading || passedTests === 0}
-              className="w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 disabled:opacity-50 rounded-lg font-bold text-white transition flex items-center justify-center gap-2"
+              className="w-full px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 disabled:opacity-50 rounded-lg text-sm font-bold text-white whitespace-nowrap transition flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white/50 border-t-white rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-white/50 border-t-white rounded-full animate-spin" />
                   Submitting...
                 </>
               ) : (
                 <>
-                  <CheckCircle className="w-5 h-5" />
+                  <CheckCircle className="w-4 h-4" />
                   Submit Lab
                 </>
               )}

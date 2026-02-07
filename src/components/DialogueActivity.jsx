@@ -252,17 +252,17 @@ export default function DialogueActivity({
         <div className="flex gap-4 justify-center">
           <button
             onClick={handleReset}
-            className="flex items-center gap-2 px-6 py-3 bg-slate-700 hover:bg-slate-600 rounded-lg font-semibold text-slate-300 transition"
+            className="flex items-center gap-2 px-5 py-2.5 bg-slate-700 hover:bg-slate-600 rounded-lg text-sm font-semibold text-slate-300 whitespace-nowrap transition"
           >
-            <RotateCcw className="w-5 h-5" />
+            <RotateCcw className="w-4 h-4" />
             Retry Dialogue
           </button>
           <button
             onClick={() => window.history.back()}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 rounded-lg font-semibold text-white transition"
+            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 rounded-lg text-sm font-semibold text-white whitespace-nowrap transition"
           >
             Continue Course
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -357,7 +357,7 @@ export default function DialogueActivity({
       <div className="flex gap-4 justify-between">
         <button
           onClick={() => window.history.back()}
-          className="px-6 py-3 border border-cyan-500/50 text-cyan-300 hover:bg-slate-700/50 rounded-lg font-semibold transition"
+          className="px-5 py-2.5 border border-cyan-500/50 text-cyan-300 hover:bg-slate-700/50 rounded-lg text-sm font-semibold whitespace-nowrap transition"
         >
           Exit Dialogue
         </button>
@@ -366,16 +366,16 @@ export default function DialogueActivity({
           <button
             onClick={() => finishDialogue()}
             disabled={isLoading}
-            className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 disabled:opacity-50 rounded-lg font-bold text-white transition"
+            className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 disabled:opacity-50 rounded-lg text-sm font-bold text-white whitespace-nowrap transition"
           >
             {isLoading ? (
               <>
-                <div className="w-5 h-5 border-2 border-white/50 border-t-white rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-white/50 border-t-white rounded-full animate-spin" />
                 Finishing...
               </>
             ) : (
               <>
-                <CheckCircle className="w-5 h-5" />
+                <CheckCircle className="w-4 h-4" />
                 Finish Dialogue
               </>
             )}

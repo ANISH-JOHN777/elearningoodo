@@ -475,14 +475,8 @@ const LearnerLayout = () => {
             className="fixed bottom-8 right-8 z-50 w-14 h-14 bg-gradient-to-r from-cyan-500 to-sky-500 rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center text-white group animate-bounce-gentle"
             title="Open Learning Assistant"
           >
-            {chatbotOpen ? (
-              <XIcon className="w-6 h-6" />
-            ) : (
-              <>
-                <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse"></span>
-              </>
-            )}
+            <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
+            {!chatbotOpen && <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse"></span>}
           </button>
         </>
       )}

@@ -517,7 +517,7 @@ export default function UserManagement() {
                           )}
                           <button
                             onClick={() => handleStatusChange(user.id, 'active')}
-                            className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-lg transition flex items-center gap-2"
+                            className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold whitespace-nowrap rounded-lg transition flex items-center gap-2"
                           >
                             <Unlock className="w-4 h-4" />
                             Restore User

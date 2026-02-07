@@ -315,7 +315,7 @@ const LessonPlayer = () => {
             {nextLesson && (
               <button
                 onClick={() => navigate(`/learn/${courseId}/${nextLesson.id}`)}
-                className="px-8 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 text-lg font-semibold btn-ripple btn-press hover-glow transform hover:scale-105 transition-all animate-bounce-in"
+                className="px-6 py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 text-sm font-semibold whitespace-nowrap btn-ripple btn-press hover-glow transform hover:scale-105 transition-all animate-bounce-in"
               >
                 Continue to Next Lesson
               </button>
@@ -451,17 +451,17 @@ const LessonPlayer = () => {
             {prevLesson && (
               <button
                 onClick={() => navigate(`/learn/${courseId}/${prevLesson.id}`)}
-                className="flex items-center space-x-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                className="flex items-center space-x-1 px-3 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-xs whitespace-nowrap"
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-4 h-4" />
                 <span>Previous</span>
               </button>
             )}
             <button
               onClick={() => navigate(`/courses/${courseId}`)}
-              className="flex items-center space-x-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+              className="flex items-center space-x-2 px-3 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-xs whitespace-nowrap"
             >
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft className="w-4 h-4" />
               <span>Back</span>
             </button>
             {nextLesson ? (
@@ -473,10 +473,10 @@ const LessonPlayer = () => {
                     navigate(`/learn/${courseId}/${nextLesson.id}`);
                   }
                 }}
-                className="flex items-center space-x-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+                className="flex items-center space-x-1 px-3 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 text-xs whitespace-nowrap"
               >
-                <span>{isLessonCompleted ? 'Next' : 'Mark Complete & Next'}</span>
-                <ChevronRight className="w-5 h-5" />
+                <span>{isLessonCompleted ? 'Next' : 'Complete & Next'}</span>
+                <ChevronRight className="w-4 h-4" />
               </button>
             ) : (
               !isLessonCompleted && (
@@ -529,7 +529,7 @@ const LessonPlayer = () => {
             </p>
             <button
               onClick={() => setShowPointsModal(false)}
-              className="w-full py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-semibold btn-ripple btn-press hover-glow transform hover:scale-[1.02] transition-all animate-bounce-in" style={{ animationDelay: '0.5s' }}
+              className="w-full py-2.5 bg-primary-600 text-white rounded-lg hover:bg-primary-700 text-sm font-semibold whitespace-nowrap btn-ripple btn-press hover-glow transform hover:scale-[1.02] transition-all animate-bounce-in" style={{ animationDelay: '0.5s' }}
             >
               Continue Learning
             </button>

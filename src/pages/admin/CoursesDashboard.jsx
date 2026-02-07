@@ -119,9 +119,9 @@ const CoursesDashboard = () => {
         {/* Create Course Button */}
         <button
           onClick={() => setShowCreateModal(true)}
-          className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 btn-ripple btn-press hover-glow transition-all transform hover:scale-105 active:scale-95"
+          className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white text-sm font-medium whitespace-nowrap rounded-lg hover:bg-primary-700 btn-ripple btn-press hover-glow transition-all transform hover:scale-105 active:scale-95"
         >
-          <Plus className="w-5 h-5" />
+          <Plus className="w-4 h-4" />
           <span>Create Course</span>
         </button>
       </div>
@@ -180,7 +180,7 @@ const CoursesDashboard = () => {
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={() => navigate(`/admin/courses/${course.id}`)}
-                    className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 btn-ripple btn-press transition-all transform hover:scale-[1.02] active:scale-[0.98]"
+                    className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-primary-600 text-white text-sm font-medium whitespace-nowrap rounded-lg hover:bg-primary-700 btn-ripple btn-press transition-all transform hover:scale-[1.02] active:scale-[0.98]"
                   >
                     <Edit className="w-4 h-4" />
                     <span>Edit</span>

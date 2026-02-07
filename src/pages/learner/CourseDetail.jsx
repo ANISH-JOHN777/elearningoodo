@@ -214,9 +214,9 @@ const CourseDetail = () => {
               <div className="flex flex-wrap items-center gap-4">
                 <button
                   onClick={() => handleStartLesson(course.lessons[0].id)}
-                  className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-cyan-400 to-sky-500 text-slate-950 font-semibold rounded-2xl hover:shadow-xl hover:shadow-cyan-400/30 hover:-translate-y-1 transition-all duration-300"
+                  className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-cyan-400 to-sky-500 text-slate-950 font-semibold text-sm whitespace-nowrap rounded-2xl hover:shadow-xl hover:shadow-cyan-400/30 hover:-translate-y-1 transition-all duration-300"
                 >
-                  <Play className="w-6 h-6" />
+                  <Play className="w-5 h-5" />
                   <span>{enrollment ? 'Continue Learning' : 'Start Course'}</span>
                 </button>
                 <button
@@ -471,9 +471,9 @@ const CourseDetail = () => {
                   {user && (
                     <button
                       onClick={() => setShowReviewModal(true)}
-                      className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-400 to-sky-500 text-slate-950 rounded-xl font-medium hover:shadow-lg transition-all"
+                      className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-cyan-400 to-sky-500 text-slate-950 rounded-xl font-medium text-xs whitespace-nowrap hover:shadow-lg transition-all"
                     >
-                      <MessageSquare className="w-5 h-5" />
+                      <MessageSquare className="w-4 h-4" />
                       <span>Write a Review</span>
                     </button>
                   )}
