@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { Award, TrendingUp, Target, Zap, Crown, Medal } from 'lucide-react';
+import { Award, TrendingUp, Target, Zap, Crown, Medal, Flame, Star, Trophy, ChevronUp } from 'lucide-react';
 
 /**
  * RankingDashboard Component
@@ -30,7 +30,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
 
   // Fetch user rankings
   useEffect(() => {
-    if (!userId && user) {
+    if (user?.id) {
       const rankings = getAllUserRankings(user.id);
       setUserRankings(rankings);
 
@@ -49,7 +49,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
         pointsToNextTier,
       });
     }
-  }, [user, userId, getAllUserRankings, getRankingTier, RANKING_SYSTEM]);
+  }, [user?.id, getAllUserRankings, getRankingTier, RANKING_SYSTEM]);
 
   // Fetch course leaderboard
   useEffect(() => {
@@ -69,11 +69,11 @@ export default function RankingDashboard({ userId, courseId = null }) {
     : null;
 
   // Calculate progress to next tier
-  const progressPercent = nextTier
-    ? ((stats.totalPoints - currentTier.minPoints) /
-        (nextTier.minPoints - currentTier.minPoints)) *
-      100
-    : 100;
+  const progressPercent = 
+    nextTier && currentTier && stats.totalPoints
+      ? ((stats.totalPoints - currentTier.minPoints) /
+          (nextTier.minPoints - currentTier.minPoints)) * 100
+      : 0;
 
   // Get tier badge icon
   const getTierIcon = (tier) => {
@@ -94,279 +94,472 @@ export default function RankingDashboard({ userId, courseId = null }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-cyan-900/10 to-slate-900 pb-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Main Tier Card */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl overflow-hidden">
-        {/* Header with Tier */}
-        <div className={`bg-gradient-to-r ${getTierColor(currentTier)} p-8 text-white`}>
-          <div className="flex items-start justify-between">
-            <div className="flex-1">
-              <p className="text-sm font-semibold opacity-90 mb-2">Current Tier</p>
-              <h2 className="text-4xl font-bold mb-2">{currentTier?.tier || 'Bronze III'}</h2>
-              <p className="text-lg opacity-90">{stats.totalPoints} / 120 Points</p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 pb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+        {/* Header Section */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 rounded-3xl blur-3xl"></div>
+          <div className="relative bg-gradient-to-r from-slate-800/80 to-slate-800/40 rounded-3xl border border-cyan-500/20 backdrop-blur p-8 lg:p-10">
+            <div className="flex items-center justify-between gap-6">
+              <div className="flex-1">
+                <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-sky-400 bg-clip-text text-transparent mb-2">
+                  Rankings & Achievements
+                </h1>
+                <p className="text-slate-400 text-lg">Track your progress and compete across courses</p>
+              </div>
+              <div className="hidden lg:flex items-center justify-center w-24 h-24 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 border border-cyan-500/30">
+                {currentTier ? React.createElement(getTierIcon(currentTier), {
+                  className: 'w-14 h-14 text-cyan-400',
+                }) : React.createElement(Medal, {
+                  className: 'w-14 h-14 text-cyan-400',
+                })}
+              </div>
             </div>
-            {currentTier ? React.createElement(getTierIcon(currentTier), {
-              className: 'w-16 h-16 opacity-80',
-            }) : React.createElement(Medal, {
-              className: 'w-16 h-16 opacity-80',
-            })}
           </div>
         </div>
 
-        {/* Progress Section */}
-        <div className="p-8 space-y-6">
-          {/* Overall Stats Grid */}
-          <div className="grid grid-cols-3 gap-4">
-            <div className="bg-slate-700/50 rounded-lg p-4 text-center border border-cyan-500/20">
-              <p className="text-3xl font-bold text-cyan-400 mb-1">
-                {stats.totalPoints}
-              </p>
-              <p className="text-xs text-slate-400">Total Points</p>
+        {!user ? (
+          <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8 text-center">
+            <p className="text-slate-300 text-lg mb-4">Please log in to view your rankings</p>
+          </div>
+        ) : (
+          <>
+      {/* Main Tier Card - Enhanced */}
+      <div className="group relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/20 to-purple-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
+        <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300">
+          {/* Animated background effect */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/10 to-transparent"></div>
+          </div>
+          
+          {/* Header with Tier */}
+          <div className={`relative bg-gradient-to-r ${getTierColor(currentTier)} p-8 lg:p-10 text-white overflow-hidden`}>
+            <div className="absolute inset-0 opacity-10">
+              <Flame className="absolute -top-4 -right-4 w-32 h-32 animate-pulse" />
             </div>
-            <div className="bg-slate-700/50 rounded-lg p-4 text-center border border-cyan-500/20">
-              <p className="text-3xl font-bold text-sky-400 mb-1">
-                {stats.coursesEnrolled}
-              </p>
-              <p className="text-xs text-slate-400">Courses</p>
-            </div>
-            <div className="bg-slate-700/50 rounded-lg p-4 text-center border border-cyan-500/20">
-              <p className="text-3xl font-bold text-yellow-400 mb-1">
-                {stats.pointsToNextTier}
-              </p>
-              <p className="text-xs text-slate-400">To Next Tier</p>
+            <div className="relative flex items-start justify-between gap-6 lg:gap-12">
+              <div className="flex-1">
+                <p className="text-sm font-semibold opacity-90 mb-3 uppercase tracking-wider">Current Tier</p>
+                <h2 className="text-5xl lg:text-6xl font-black mb-4 drop-shadow-lg">{currentTier?.tier || 'Bronze III'}</h2>
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-3 rounded-full bg-white/50"></div>
+                  <p className="text-xl opacity-95 font-semibold">{stats.totalPoints} / 120 Points</p>
+                </div>
+              </div>
+              {currentTier ? React.createElement(getTierIcon(currentTier), {
+                className: 'w-24 h-24 opacity-90 filter drop-shadow-lg flex-shrink-0 animate-bounce',
+              }) : React.createElement(Medal, {
+                className: 'w-24 h-24 opacity-90 filter drop-shadow-lg flex-shrink-0 animate-bounce',
+              })}
             </div>
           </div>
 
-          {/* Progress to Next Tier */}
-          {nextTier && (
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-semibold text-slate-300">
-                  Progress to {nextTier.tier}
-                </span>
-                <span className="text-sm text-slate-400">
-                  {Math.round(progressPercent)}%
-                </span>
+          {/* Progress Section - Enhanced */}
+          <div className="relative p-8 lg:p-10 space-y-8">
+            {/* Overall Stats Grid - Enhanced with icons */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 p-6 border border-cyan-500/30 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10">
+                <div className="absolute top-0 right-0 -m-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                  <Zap className="w-24 h-24" />
+                </div>
+                <div className="relative">
+                  <Zap className="w-6 h-6 text-cyan-400 mb-3" />
+                  <p className="text-4xl lg:text-5xl font-bold text-cyan-400 mb-2">
+                    {stats.totalPoints}
+                  </p>
+                  <p className="text-sm text-slate-400 font-medium">Total Points</p>
+                </div>
               </div>
-              <div className="w-full bg-slate-700/50 rounded-full h-3 border border-cyan-500/20 overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-cyan-500 to-sky-500 transition-all duration-500"
-                  style={{ width: `${Math.min(progressPercent, 100)}%` }}
-                />
+              
+              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-sky-500/10 to-sky-500/5 p-6 border border-sky-500/30 hover:border-sky-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/10">
+                <div className="absolute top-0 right-0 -m-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                  <Target className="w-24 h-24" />
+                </div>
+                <div className="relative">
+                  <Target className="w-6 h-6 text-sky-400 mb-3" />
+                  <p className="text-4xl lg:text-5xl font-bold text-sky-400 mb-2">
+                    {stats.coursesEnrolled}
+                  </p>
+                  <p className="text-sm text-slate-400 font-medium">Courses</p>
+                </div>
               </div>
-              <p className="text-xs text-slate-400 mt-2">
-                Earn {stats.pointsToNextTier} more points to reach {nextTier.tier}
-              </p>
+              
+              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500/10 to-purple-500/5 p-6 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10">
+                <div className="absolute top-0 right-0 -m-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                  <ChevronUp className="w-24 h-24" />
+                </div>
+                <div className="relative">
+                  <ChevronUp className="w-6 h-6 text-purple-400 mb-3" />
+                  <p className="text-4xl lg:text-5xl font-bold text-purple-400 mb-2">
+                    {stats.pointsToNextTier}
+                  </p>
+                  <p className="text-sm text-slate-400 font-medium">To Next Tier</p>
+                </div>
+              </div>
             </div>
-          )}
 
-          {/* Tier Progression */}
-          <div>
-            <h3 className="text-sm font-semibold text-cyan-300 mb-4">
-              Tier Progression
-            </h3>
-            <div className="grid grid-cols-7 gap-2">
-              {RANKING_SYSTEM.map((tier, idx) => {
-                const isReached = tier.minPoints <= stats.totalPoints;
-                const isCurrent = tier.tier === currentTier?.tier;
-
-                return (
+            {/* Progress to Next Tier - Enhanced */}
+            {nextTier && (
+              <div className="bg-slate-700/30 rounded-xl p-6 border border-cyan-500/20">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <Star className="w-5 h-5 text-yellow-400" />
+                    <span className="text-sm font-bold text-cyan-300">
+                      Progress to {nextTier.tier}
+                    </span>
+                  </div>
+                  <span className="text-lg font-bold text-cyan-400">
+                    {Math.round(progressPercent)}%
+                  </span>
+                </div>
+                <div className="w-full bg-slate-700/50 rounded-full h-4 border border-cyan-500/20 overflow-hidden shadow-inner">
                   <div
-                    key={tier.tier}
-                    className={`relative group cursor-pointer transition-transform hover:scale-110`}
-                  >
+                    className="h-full bg-gradient-to-r from-cyan-500 via-sky-500 to-purple-500 transition-all duration-700 rounded-full shadow-lg shadow-cyan-500/50"
+                    style={{ width: `${Math.min(progressPercent, 100)}%` }}
+                  />
+                </div>
+                <p className="text-xs text-slate-400 mt-3">
+                  🎯 Earn {stats.pointsToNextTier} more points to reach {nextTier.tier}
+                </p>
+              </div>
+            )}
+
+            {/* Tier Progression - Enhanced visualization */}
+            <div>
+              <h3 className="text-lg font-bold text-cyan-300 mb-6 flex items-center gap-2">
+                <Trophy className="w-5 h-5" />
+                Tier Progression
+              </h3>
+              <div className="grid grid-cols-7 gap-2">
+                {RANKING_SYSTEM.map((tier, idx) => {
+                  const isReached = tier.minPoints <= stats.totalPoints;
+                  const isCurrent = tier.tier === currentTier?.tier;
+
+                  return (
                     <div
-                      className={`w-full aspect-square rounded-lg flex items-center justify-center border-2 text-center ${
-                        isCurrent
-                          ? `border-2 border-white shadow-lg shadow-${tier.color.split('-')[1]}-500/50`
-                          : isReached
-                          ? `border-2 border-${tier.color.split('-')[1]}-500/50`
-                          : 'border-2 border-slate-600'
-                      } ${
-                        isReached
-                          ? `bg-${tier.color.split('-')[1]}-500/20`
-                          : 'bg-slate-700/30'
-                      }`}
+                      key={tier.tier}
+                      className={`relative group cursor-pointer transition-all duration-300 ${isCurrent ? 'scale-110' : ''}`}
                     >
-                      <div className="flex flex-col items-center">
-                        <span className="text-xs font-bold text-slate-300 leading-tight">
+                      <div
+                        className={`w-full aspect-square rounded-lg flex flex-col items-center justify-center border-2 transition-all duration-300 ${
+                          isCurrent
+                            ? `border-white shadow-lg shadow-white/50 bg-gradient-to-br ${getTierColor(tier)}`
+                            : isReached
+                            ? `border-cyan-500/50 bg-slate-700/40 shadow-lg shadow-cyan-500/20`
+                            : 'border-slate-600 bg-slate-700/20'
+                        }`}
+                      >
+                        {isCurrent && <Flame className="w-4 h-4 text-yellow-300 absolute top-1 animate-bounce" />}
+                        <span className={`text-xs font-black leading-tight ${isCurrent ? 'text-white' : 'text-slate-300'}`}>
                           {tier.tier.split(' ')[0]}
                         </span>
                         {isReached && (
-                          <span className="text-lg">✓</span>
+                          <span className="text-lg mt-0.5">✨</span>
                         )}
                       </div>
+                      {/* Enhanced Tooltip */}
+                      <div className="absolute bottom-full mb-3 left-1/2 transform -translate-x-1/2 bg-slate-900 border border-cyan-500/50 rounded-lg px-3 py-2 text-xs text-slate-200 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-10 font-semibold shadow-lg">
+                        {tier.tier}
+                        <br />
+                        <span className="text-cyan-400">{tier.minPoints}-{tier.maxPoints} pts</span>
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-slate-900"></div>
+                      </div>
                     </div>
-                    {/* Tooltip */}
-                    <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-slate-900 border border-cyan-500/50 rounded-lg px-2 py-1 text-xs text-slate-300 whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-10">
-                      {tier.tier}
-                      <br />
-                      {tier.minPoints}-{tier.maxPoints} pts
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Course Rankings */}
+      {/* Course Rankings - Enhanced */}
       {userRankings.length > 0 && (
-        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8">
-          <h3 className="text-2xl font-bold text-cyan-300 mb-6 flex items-center gap-3">
-            <TrendingUp className="w-6 h-6" />
-            Course Rankings
-          </h3>
+        <div className="group relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-cyan-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
+          <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300">
+            <div className="p-8 lg:p-10">
+              <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 text-cyan-300">
+                <Trophy className="w-6 h-6" />
+                Your Course Rankings
+              </h3>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {userRankings.map((ranking, idx) => {
+                  const course = courses.find((c) => c.id === ranking.courseId);
+                  const courseRankings = getCourseRankings(ranking.courseId);
+                  const userRank = courseRankings.findIndex(r => r.id === user.id) + 1;
+                  const isTopThree = userRank <= 3;
 
-          <div className="space-y-4">
-            {userRankings.map((ranking, idx) => {
-              const course = courses.find((c) => c.id === ranking.courseId);
-              const tier = getRankingTier(ranking.points);
-              const TierIcon = getTierIcon(tier);
-
-              return (
-                <div
-                  key={ranking.courseId}
-                  className="bg-slate-700/50 border border-cyan-500/20 rounded-lg p-4 hover:border-cyan-500/50 transition"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-slate-100 truncate">
-                        {course?.title || 'Unknown Course'}
-                      </h4>
-                      <p className="text-sm text-slate-400">
-                        {ranking.points} / 120 points
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-3 flex-shrink-0">
-                      <div className="text-right">
-                        <p className="font-bold text-cyan-400">{tier.tier}</p>
-                        <p className="text-xs text-slate-500">
-                          {Math.round(
-                            (ranking.points / 120) * 100
-                          )}%
-                        </p>
-                      </div>
-                      <TierIcon className={`w-8 h-8 ${tier.color}`} />
-                    </div>
-                  </div>
-                  {/* Mini Progress Bar */}
-                  <div className="mt-3 h-2 bg-slate-600/50 rounded-full overflow-hidden">
+                  return (
                     <div
-                      className="h-full bg-gradient-to-r from-cyan-500 to-sky-500"
-                      style={{
-                        width: `${Math.min((ranking.points / 120) * 100, 100)}%`,
-                      }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+                      key={`${ranking.courseId}-${idx}`}
+                      className={`group/card relative overflow-hidden rounded-xl border-2 transition-all duration-300 ${
+                        isTopThree
+                          ? 'border-yellow-500/40 bg-gradient-to-br from-yellow-500/10 to-orange-500/5 shadow-lg shadow-yellow-500/20 hover:shadow-yellow-500/30'
+                          : 'border-cyan-500/30 bg-gradient-to-br from-cyan-500/5 to-slate-700/20 hover:shadow-lg hover:shadow-cyan-500/20'
+                      }`}
+                    >
+                      {/* Rank badge */}
+                      {isTopThree && (
+                        <div className="absolute top-4 right-4 z-10">
+                          {userRank === 1 && (
+                            <div className="relative">
+                              <div className="absolute inset-0 bg-yellow-500/30 rounded-full blur-lg"></div>
+                              <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center border-2 border-yellow-300">
+                                <Crown className="w-6 h-6 text-white" />
+                              </div>
+                            </div>
+                          )}
+                          {userRank === 2 && (
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-400 to-slate-500 flex items-center justify-center border-2 border-slate-300">
+                              <Medal className="w-6 h-6 text-white" />
+                            </div>
+                          )}
+                          {userRank === 3 && (
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center border-2 border-orange-300">
+                              <Award className="w-6 h-6 text-white" />
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      
+                      <div className="p-6 lg:p-7">
+                        {/* Course name and rank */}
+                        <div className="mb-5">
+                          <h4 className="text-lg font-bold text-slate-100 mb-2">
+                            {course?.title || `Course ${ranking.courseId}`}
+                          </h4>
+                          <div className="flex items-center justify-between">
+                            <span className={`text-sm font-semibold px-3 py-1 rounded-full ${
+                              isTopThree
+                                ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'
+                                : 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+                            }`}>
+                              Rank #{userRank}
+                            </span>
+                            <span className={`text-xl font-bold ${isTopThree ? 'text-yellow-400' : 'text-cyan-400'}`}>
+                              {ranking.points} pts
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Progress bar */}
+                        <div className="mb-5">
+                          <div className="w-full bg-slate-700/50 rounded-full h-2 border border-slate-600 overflow-hidden">
+                            <div
+                              className={`h-full transition-all duration-500 ${
+                                isTopThree
+                                  ? 'bg-gradient-to-r from-yellow-400 to-orange-500'
+                                  : 'bg-gradient-to-r from-cyan-500 to-sky-500'
+                              }`}
+                              style={{
+                                width: `${Math.min((ranking.points / 120) * 100, 100)}%`
+                              }}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Stats row */}
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div className="bg-slate-700/30 rounded-lg p-3 border border-slate-600/50">
+                            <p className="text-slate-400 text-xs mb-1">Total Users</p>
+                            <p className="text-lg font-bold text-slate-200">{courseRankings.length}</p>
+                          </div>
+                          <div className={`rounded-lg p-3 border ${
+                            isTopThree
+                              ? 'bg-yellow-500/10 border-yellow-500/30'
+                              : 'bg-cyan-500/10 border-cyan-500/30'
+                          }`}>
+                            <p className={`text-xs mb-1 ${isTopThree ? 'text-yellow-400' : 'text-cyan-400'}`}>
+                              Position
+                            </p>
+                            <p className={`text-lg font-bold ${isTopThree ? 'text-yellow-300' : 'text-cyan-300'}`}>
+                              {userRank}/{courseRankings.length}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Leaderboard Preview */}
+      {/* Leaderboard Preview - Enhanced */}
       {courses.length > 0 && (
-        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8">
-          <h3 className="text-2xl font-bold text-cyan-300 mb-6 flex items-center gap-3">
-            <Award className="w-6 h-6" />
-            Leaderboard
-          </h3>
+        <div className="group relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-amber-600/20 to-cyan-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
+          <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300">
+            <div className="p-8 lg:p-10">
+              <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 text-cyan-300">
+                <Star className="w-6 h-6" />
+                Leaderboard
+              </h3>
 
-          {/* Course Selector */}
-          <div className="mb-6">
-            <label className="block text-sm font-semibold text-cyan-300 mb-3">
-              Select Course
-            </label>
-            <select
-              value={selectedCourse || ''}
-              onChange={(e) => setSelectedCourse(Number(e.target.value))}
-              className="w-full px-4 py-2 bg-slate-700/50 border border-cyan-500/30 rounded-lg text-slate-100 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition"
-            >
-              <option value="">Select a course...</option>
-              {courses.map((course) => (
-                <option key={course.id} value={course.id}>
-                  {course.title}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Leaderboard Table */}
-          {selectedCourse && courseLeaderboard.length > 0 ? (
-            <div className="space-y-2 max-h-96 overflow-y-auto">
-              {courseLeaderboard.slice(0, 10).map((ranking, idx) => {
-                const rankedUser = users.find((u) => u.id === ranking.userId);
-                const tier = getRankingTier(ranking.points);
-                const TierIcon = getTierIcon(tier);
-                const isCurrentUser = ranking.userId === user?.id;
-
-                return (
-                  <div
-                    key={ranking.userId}
-                    className={`p-4 rounded-lg border transition ${
-                      isCurrentUser
-                        ? 'bg-cyan-500/20 border-cyan-500/50'
-                        : 'bg-slate-700/30 border-cyan-500/20 hover:border-cyan-500/50'
-                    }`}
+              {/* Course Selector - Enhanced */}
+              <div className="mb-8">
+                <label className="block text-sm font-bold text-cyan-300 mb-3 uppercase tracking-wider">
+                  Select Course
+                </label>
+                <div className="relative">
+                  <select
+                    value={selectedCourse || ''}
+                    onChange={(e) => setSelectedCourse(Number(e.target.value))}
+                    className="w-full px-5 py-3 bg-gradient-to-r from-slate-700/50 to-slate-800/50 border-2 border-cyan-500/30 rounded-xl text-slate-100 font-semibold focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all appearance-none cursor-pointer hover:border-cyan-500/50"
                   >
-                    <div className="flex items-center gap-4">
-                      {/* Rank */}
-                      <div className="flex-shrink-0 w-10 text-center">
-                        <p className="text-lg font-bold text-cyan-400">
-                          #{idx + 1}
-                        </p>
-                      </div>
+                    <option value="">Select a course...</option>
+                    {courses.map((course) => (
+                      <option key={course.id} value={course.id}>
+                        {course.title}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronUp className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-cyan-400 pointer-events-none" />
+                </div>
+              </div>
 
-                      {/* User Info */}
-                      <img
-                        src={rankedUser?.avatar}
-                        alt={rankedUser?.name}
-                        className="w-10 h-10 rounded-full flex-shrink-0 border border-cyan-500/50"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-slate-100 truncate">
-                          {rankedUser?.name}
-                        </p>
-                        <p className="text-xs text-slate-400">
-                          {ranking.points} points
-                        </p>
-                      </div>
+              {/* Leaderboard Table - Enhanced */}
+              {selectedCourse && courseLeaderboard.length > 0 ? (
+                <div className="space-y-3 max-h-[600px] overflow-y-auto">
+                  {courseLeaderboard.slice(0, 10).map((ranking, idx) => {
+                    const rankedUser = users.find((u) => u.id === ranking.userId);
+                    const tier = getRankingTier(ranking.points);
+                    const TierIcon = getTierIcon(tier);
+                    const isCurrentUser = ranking.userId === user?.id;
+                    const isTopThree = idx < 3;
 
-                      {/* Tier Badge */}
-                      <div className="flex items-center gap-2 flex-shrink-0">
-                        <span className="font-bold text-slate-300 text-sm">
-                          {tier.tier}
-                        </span>
-                        <TierIcon className={`w-6 h-6 ${tier.color}`} />
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+                    let medalBg = '';
+                    if (idx === 0) medalBg = 'from-yellow-500/20 to-amber-500/10 border-2 border-yellow-500/50 shadow-lg shadow-yellow-500/30';
+                    else if (idx === 1) medalBg = 'from-slate-500/20 to-slate-600/10 border-2 border-slate-500/50 shadow-lg shadow-slate-500/20';
+                    else if (idx === 2) medalBg = 'from-orange-500/20 to-red-500/10 border-2 border-orange-500/50 shadow-lg shadow-orange-500/20';
+                    else medalBg = isCurrentUser ? 'from-cyan-500/20 to-cyan-500/5 border-2 border-cyan-500/50' : 'from-slate-700/40 to-slate-800/20 border-2 border-cyan-500/20 hover:border-cyan-500/40';
 
-              {/* View More Button */}
-              {courseLeaderboard.length > 10 && (
-                <button className="w-full mt-4 px-4 py-2 border border-cyan-500/50 text-cyan-300 hover:bg-slate-700/50 rounded-lg font-semibold transition">
-                  View Full Leaderboard
-                </button>
+                    return (
+                      <div
+                        key={ranking.userId}
+                        className={`group/row p-5 rounded-xl bg-gradient-to-r ${medalBg} transition-all duration-300 hover:shadow-lg`}
+                      >
+                        <div className="flex items-center gap-4">
+                          {/* Rank Badge */}
+                          <div className="flex-shrink-0">
+                            {idx === 0 && (
+                              <div className="relative">
+                                <div className="absolute inset-0 bg-yellow-500/40 rounded-full blur-md"></div>
+                                <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center border-2 border-yellow-300 font-black text-lg text-white">
+                                  👑
+                                </div>
+                              </div>
+                            )}
+                            {idx === 1 && (
+                              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-slate-400 to-slate-500 flex items-center justify-center border-2 border-slate-300 font-black text-lg text-white">
+                                🥈
+                              </div>
+                            )}
+                            {idx === 2 && (
+                              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center border-2 border-orange-300 font-black text-lg text-white">
+                                🥉
+                              </div>
+                            )}
+                            {idx > 2 && (
+                              <div className="w-12 h-12 rounded-full bg-slate-700/60 border-2 border-slate-600 flex items-center justify-center font-bold text-slate-300">
+                                #{idx + 1}
+                              </div>
+                            )}
+                          </div>
+
+                          {/* User Info */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-3 mb-2">
+                              <img
+                                src={rankedUser?.avatar}
+                                alt={rankedUser?.name}
+                                className="w-10 h-10 rounded-full border-2 border-cyan-500/50 flex-shrink-0"
+                              />
+                              <div className="flex-1 min-w-0">
+                                <p className={`font-bold truncate ${isTopThree ? 'text-lg text-slate-100' : 'text-slate-100'}`}>
+                                  {rankedUser?.name}
+                                  {isCurrentUser && <span className="text-cyan-400 ml-2">(You)</span>}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className={`text-sm font-bold px-2 py-1 rounded-md ${
+                                isTopThree
+                                  ? 'bg-yellow-500/20 text-yellow-300'
+                                  : 'bg-cyan-500/20 text-cyan-300'
+                              }`}>
+                                {ranking.points} pts
+                              </span>
+                              {/* Mini progress */}
+                              <div className="flex-1 min-w-0 h-1.5 bg-slate-700/50 rounded-full overflow-hidden border border-slate-600/50">
+                                <div
+                                  className={`h-full ${
+                                    isTopThree
+                                      ? 'bg-gradient-to-r from-yellow-400 to-orange-500'
+                                      : 'bg-gradient-to-r from-cyan-500 to-sky-500'
+                                  }`}
+                                  style={{
+                                    width: `${Math.min((ranking.points / 120) * 100, 100)}%`
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Tier Badge */}
+                          <div className="flex items-center gap-2 flex-shrink-0">
+                            <div className={`text-right`}>
+                              <p className="font-bold text-xs text-slate-400 uppercase tracking-wider">Tier</p>
+                              <p className={`font-bold text-sm ${tier.color}`}>
+                                {tier.tier}
+                              </p>
+                            </div>
+                            <div className={`p-2 rounded-lg ${
+                              isTopThree
+                                ? 'bg-yellow-500/20 border border-yellow-500/30'
+                                : 'bg-slate-700/40 border border-slate-600/50'
+                            }`}>
+                              <TierIcon className={`w-5 h-5 ${tier.color}`} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  {/* View More Button */}
+                  {courseLeaderboard.length > 10 && (
+                    <button className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-cyan-600/20 to-purple-600/20 hover:from-cyan-600/30 hover:to-purple-600/30 border-2 border-cyan-500/50 hover:border-cyan-500/80 text-cyan-300 font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group">
+                      <span>View All {courseLeaderboard.length} Rankings</span>
+                      <ChevronUp className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
+                    </button>
+                  )}
+                </div>
+              ) : selectedCourse ? (
+                <div className="text-center py-12">
+                  <Star className="w-12 h-12 text-slate-500 mx-auto mb-4 opacity-50" />
+                  <p className="text-slate-400 text-lg">No rankings available yet</p>
+                  <p className="text-slate-500 text-sm mt-2">Be the first to earn points in this course!</p>
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <Trophy className="w-12 h-12 text-slate-500 mx-auto mb-4 opacity-50" />
+                  <p className="text-slate-400 text-lg">Select a course to see rankings</p>
+                  <p className="text-slate-500 text-sm mt-2">Choose from the dropdown above</p>
+                </div>
               )}
             </div>
-          ) : selectedCourse ? (
-            <div className="text-center py-8">
-              <p className="text-slate-400">No rankings available yet</p>
-            </div>
-          ) : (
-            <div className="text-center py-8">
-              <p className="text-slate-400">Select a course to see rankings</p>
-            </div>
-          )}
+          </div>
         </div>
       )}
+          </>
+        )}
+      </div>
     </div>
-  </div>
   );
 }
