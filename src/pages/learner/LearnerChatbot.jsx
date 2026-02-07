@@ -162,21 +162,7 @@ Keep responses helpful, encouraging, and focused on learning.`;
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-cyan-900/10 to-slate-900 pb-12">
-      <div className="max-w-2xl mx-auto px-4 py-6">
-        {/* Header */}
-        <div className="mb-6 text-center">
-          <div className="flex items-center justify-center gap-3 mb-3">
-            <div className="p-3 bg-gradient-to-br from-cyan-500 to-sky-500 rounded-full">
-              <MessageCircle className="w-6 h-6 text-white" />
-            </div>
-            <h1 className="text-3xl font-bold text-white">Learning Assistant</h1>
-          </div>
-          <p className="text-cyan-200/70">Get help with your learning journey</p>
-        </div>
-
-        {/* Chat Container */}
-        <div className="bg-slate-800/50 backdrop-blur-md rounded-2xl border border-cyan-500/20 shadow-2xl overflow-hidden flex flex-col h-[600px]">
+    <div className="bg-slate-800/50 backdrop-blur-md overflow-hidden flex flex-col h-full">
           {/* Messages Area */}
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
             {messages.map((message) => (
@@ -251,11 +237,6 @@ Keep responses helpful, encouraging, and focused on learning.`;
               </button>
             </form>
           </div>
-        </div>
-
-        {/* Info Footer */}
-        <div className="mt-6 text-center text-slate-400 text-xs">
-          <p>💡 This assistant has access to your course information and can help with learning strategies</p>
         </div>
       </div>
 

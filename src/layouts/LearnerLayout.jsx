@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { LogoIcon } from '../components/LogoIcon';
+import LearnerChatbot from '../pages/learner/LearnerChatbot';
 import { 
   BookOpen, 
   LogOut, 
@@ -28,7 +29,8 @@ import {
   Twitter,
   Linkedin,
   Mail,
-  MessageCircle
+  MessageCircle,
+  X as XIcon
 } from 'lucide-react';
 
 const LearnerLayout = () => {
@@ -39,6 +41,7 @@ const LearnerLayout = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [chatbotOpen, setChatbotOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -155,21 +158,6 @@ const LearnerLayout = () => {
               <button className="hidden md:flex p-3 rounded-xl text-gray-500 hover:text-gray-700 hover:bg-gray-100/80 transition-all duration-300">
                 <Search className="w-5 h-5" />
               </button>
-
-              {/* Chatbot Button */}
-              {user && (
-                <Link
-                  to="/chatbot"
-                  className={`p-3 rounded-xl transition-all duration-300 ${
-                    location.pathname === '/chatbot'
-                      ? 'text-blue-600 bg-blue-100/50'
-                      : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100/80'
-                  }`}
-                  title="Open Learning Assistant"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                </Link>
-              )}
 
               {user ? (
                 <>
@@ -290,17 +278,6 @@ const LearnerLayout = () => {
                           >
                             <Zap className="w-4 h-4" />
                             <span>Scores & Points</span>
-                          </button>
-                          <button 
-                            onClick={(e) => { 
-                              e.stopPropagation(); 
-                              setShowUserMenu(false); 
-                              navigate('/chatbot'); 
-                            }} 
-                            className="w-full flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50/80 transition-colors text-left"
-                          >
-                            <MessageCircle className="w-4 h-4" />
-                            <span>Learning Assistant</span>
                           </button>
                           <button 
                             onClick={(e) => { 
@@ -467,6 +444,48 @@ const LearnerLayout = () => {
           </div>
         </div>
       </footer>
+
+      {/* Floating Chatbot Button */}
+      {user && (
+        <>
+          {/* Chat Bubble */}
+          {chatbotOpen && (
+            <div className="fixed bottom-20 right-8 w-96 h-[600px] bg-white rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden animate-scale-in md:bottom-8 md:right-8">
+              <div className="bg-gradient-to-r from-slate-900 via-cyan-900 to-slate-900 text-white p-4 flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <MessageCircle className="w-5 h-5" />
+                  <span className="font-semibold">Learning Assistant</span>
+                </div>
+                <button 
+                  onClick={() => setChatbotOpen(false)}
+                  className="p-1 hover:bg-white/20 rounded-lg transition-colors"
+                >
+                  <XIcon className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="flex-1 overflow-hidden">
+                <LearnerChatbot />
+              </div>
+            </div>
+          )}
+
+          {/* Floating Button */}
+          <button
+            onClick={() => setChatbotOpen(!chatbotOpen)}
+            className="fixed bottom-8 right-8 z-50 w-14 h-14 bg-gradient-to-r from-cyan-500 to-sky-500 rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 flex items-center justify-center text-white group animate-bounce-gentle"
+            title="Open Learning Assistant"
+          >
+            {chatbotOpen ? (
+              <XIcon className="w-6 h-6" />
+            ) : (
+              <>
+                <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse"></span>
+              </>
+            )}
+          </button>
+        </>
+      )}
 
       {/* Click Outside Handler */}
       {(showUserMenu || showNotifications) && (

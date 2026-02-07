@@ -20,7 +20,6 @@ import Profile from './pages/learner/Profile';
 import RankingDashboard from './pages/learner/RankingDashboard';
 import CourseLeaderboard from './pages/learner/CourseLeaderboard';
 import ScoresOverview from './pages/learner/ScoresOverview';
-import LearnerChatbot from './pages/learner/LearnerChatbot';
 
 // Auth Pages
 import Login from './pages/auth/Login';
@@ -55,7 +54,6 @@ function App() {
         <Route path="rankings" element={<RankingDashboard />} />
         <Route path="leaderboard/:courseId" element={<CourseLeaderboard />} />
         <Route path="scores" element={<ScoresOverview />} />
-        <Route path="chatbot" element={<LearnerChatbot />} />
       </Route>
 
       {/* Lesson Player - Full Screen */}
