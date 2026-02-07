@@ -551,6 +551,36 @@ export const BADGE_LEVELS = [
   { name: 'Master', points: 100, color: 'text-red-500', icon: 'Crown' },
 ];
 
+// === PHASE 1: NEW RANKING SYSTEM ===
+export const RANKING_SYSTEM = [
+  { tier: 'Bronze III', minPoints: 0, maxPoints: 19, color: 'text-amber-700', order: 1 },
+  { tier: 'Bronze II', minPoints: 20, maxPoints: 39, color: 'text-amber-600', order: 2 },
+  { tier: 'Bronze I', minPoints: 40, maxPoints: 59, color: 'text-amber-500', order: 3 },
+  { tier: 'Silver', minPoints: 60, maxPoints: 79, color: 'text-slate-400', order: 4 },
+  { tier: 'Gold', minPoints: 80, maxPoints: 99, color: 'text-yellow-500', order: 5 },
+  { tier: 'Platinum', minPoints: 100, maxPoints: 109, color: 'text-cyan-400', order: 6 },
+  { tier: 'Diamond', minPoints: 110, maxPoints: 120, color: 'text-cyan-300', order: 7 },
+];
+
+// Activity types with schemas
+export const ACTIVITY_TYPES = {
+  QUIZ: 'quiz',
+  LAB: 'lab',
+  DIALOGUE: 'dialogue',
+};
+
+// Initial modules - empty, will be created by instructors
+const initialModules = [];
+
+// Initial activities - empty, will be created by instructors
+const initialActivities = [];
+
+// Initial user course rankings - tracks points and ranking per user per course
+const initialCourseRankings = [];
+
+// Initial attendance records
+const initialAttendance = [];
+
 export const AppProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [users, setUsers] = useState(initialUsers);
@@ -559,6 +589,12 @@ export const AppProvider = ({ children }) => {
   const [enrollments, setEnrollments] = useState(initialEnrollments);
   const [reviews, setReviews] = useState(initialReviews);
   const [quizAttempts, setQuizAttempts] = useState({});
+  
+  // === PHASE 1: NEW STATE VARIABLES ===
+  const [modules, setModules] = useState(initialModules);
+  const [activities, setActivities] = useState(initialActivities);
+  const [courseRankings, setCourseRankings] = useState(initialCourseRankings);
+  const [attendance, setAttendance] = useState(initialAttendance);
 
   // Load user from localStorage
   useEffect(() => {
@@ -853,6 +889,170 @@ export const AppProvider = ({ children }) => {
     return true;
   };
 
+  // === PHASE 1: NEW MODULE FUNCTIONS ===
+  const createModule = (courseId, moduleData) => {
+    const newModule = {
+      ...moduleData,
+      id: Date.now(),
+      courseId,
+      activities: [], // Will contain activity IDs
+      createdAt: new Date().toISOString(),
+    };
+    setModules([...modules, newModule]);
+    return newModule;
+  };
+
+  const updateModule = (moduleId, updates) => {
+    setModules(
+      modules.map((module) =>
+        module.id === moduleId ? { ...module, ...updates } : module
+      )
+    );
+  };
+
+  const deleteModule = (moduleId) => {
+    setModules(modules.filter((module) => module.id !== moduleId));
+  };
+
+  const getModulesByCourse = (courseId) => {
+    return modules.filter((module) => module.courseId === courseId);
+  };
+
+  const getModuleById = (moduleId) => {
+    return modules.find((module) => module.id === moduleId);
+  };
+
+  // === PHASE 1: NEW ACTIVITY FUNCTIONS ===
+  const createActivity = (moduleId, activityData) => {
+    const newActivity = {
+      ...activityData,
+      id: Date.now(),
+      moduleId,
+      createdAt: new Date().toISOString(),
+    };
+    setActivities([...activities, newActivity]);
+    
+    // Add activity ID to module
+    const module = getModuleById(moduleId);
+    if (module) {
+      updateModule(moduleId, {
+        activities: [...(module.activities || []), newActivity.id],
+      });
+    }
+    
+    return newActivity;
+  };
+
+  const updateActivity = (activityId, updates) => {
+    setActivities(
+      activities.map((activity) =>
+        activity.id === activityId ? { ...activity, ...updates } : activity
+      )
+    );
+  };
+
+  const deleteActivity = (activityId) => {
+    setActivities(activities.filter((activity) => activity.id !== activityId));
+  };
+
+  const getActivitiesByModule = (moduleId) => {
+    return activities.filter((activity) => activity.moduleId === moduleId);
+  };
+
+  const getActivityById = (activityId) => {
+    return activities.find((activity) => activity.id === activityId);
+  };
+
+  // === PHASE 1: RANKING FUNCTIONS ===
+  const getUserCourseRanking = (userId, courseId) => {
+    return courseRankings.find(
+      (ranking) => ranking.userId === userId && ranking.courseId === courseId
+    );
+  };
+
+  const updateUserCoursePoints = (userId, courseId, pointsToAdd, reason = '') => {
+    const ranking = getUserCourseRanking(userId, courseId);
+    const newPoints = (ranking?.points || 0) + pointsToAdd;
+    
+    // Cap at 120 points
+    const cappedPoints = Math.min(Math.max(newPoints, 0), 120);
+    
+    if (ranking) {
+      setCourseRankings(
+        courseRankings.map((r) =>
+          r.userId === userId && r.courseId === courseId
+            ? { ...r, points: cappedPoints, lastUpdated: new Date().toISOString() }
+            : r
+        )
+      );
+    } else {
+      const newRanking = {
+        userId,
+        courseId,
+        points: cappedPoints,
+        createdAt: new Date().toISOString(),
+        lastUpdated: new Date().toISOString(),
+        scoreLog: [],
+      };
+      setCourseRankings([...courseRankings, newRanking]);
+    }
+  };
+
+  const getRankingTier = (points) => {
+    const sorted = [...RANKING_SYSTEM].sort((a, b) => b.minPoints - a.minPoints);
+    return sorted.find((tier) => points >= tier.minPoints) || RANKING_SYSTEM[0];
+  };
+
+  const getAllUserRankings = (userId) => {
+    return courseRankings.filter((ranking) => ranking.userId === userId);
+  };
+
+  const getCourseRankings = (courseId) => {
+    return courseRankings
+      .filter((ranking) => ranking.courseId === courseId)
+      .sort((a, b) => b.points - a.points);
+  };
+
+  // === PHASE 1: ATTENDANCE FUNCTIONS ===
+  const recordAttendance = (userId, courseId, moduleId, status = 'present') => {
+    const record = {
+      id: Date.now(),
+      userId,
+      courseId,
+      moduleId,
+      status, // 'present', 'absent', 'late'
+      timestamp: new Date().toISOString(),
+    };
+    setAttendance([...attendance, record]);
+    return record;
+  };
+
+  const getAttendanceByUserCourse = (userId, courseId) => {
+    return attendance.filter(
+      (record) => record.userId === userId && record.courseId === courseId
+    );
+  };
+
+  const getAttendanceByModule = (moduleId) => {
+    return attendance.filter((record) => record.moduleId === moduleId);
+  };
+
+  const calculateAttendancePercentage = (userId, courseId) => {
+    const records = getAttendanceByUserCourse(userId, courseId);
+    if (records.length === 0) return 0;
+    
+    const presentCount = records.filter((r) => r.status === 'present').length;
+    return Math.round((presentCount / records.length) * 100);
+  };
+
+  // === PHASE 1: ENROLLMENT EXTENSION ===
+  const extendEnrollmentWithCourseTracking = (userId, courseId) => {
+    const existing = getUserCourseRanking(userId, courseId);
+    if (!existing) {
+      updateUserCoursePoints(userId, courseId, 0);
+    }
+  };
+
   const value = {
     user,
     users,
@@ -889,6 +1089,27 @@ export const AppProvider = ({ children }) => {
     removeAttendee,
     getCourseAttendees,
     sendAttendeeMessage,
+    // === PHASE 1: NEW EXPORTS ===
+    createModule,
+    updateModule,
+    deleteModule,
+    getModulesByCourse,
+    getModuleById,
+    createActivity,
+    updateActivity,
+    deleteActivity,
+    getActivitiesByModule,
+    getActivityById,
+    getUserCourseRanking,
+    updateUserCoursePoints,
+    getRankingTier,
+    getAllUserRankings,
+    getCourseRankings,
+    recordAttendance,
+    getAttendanceByUserCourse,
+    getAttendanceByModule,
+    calculateAttendancePercentage,
+    extendEnrollmentWithCourseTracking,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
