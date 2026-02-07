@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { LayoutDashboard, BookOpen, BarChart3, LogOut, Home, TrendingUp, PieChart, Plus } from 'lucide-react';
+import { LayoutDashboard, BookOpen, BarChart3, LogOut, Home, TrendingUp, PieChart, Plus, Users } from 'lucide-react';
 
 const AdminLayout = () => {
   const { user, logout } = useApp();
@@ -17,6 +17,7 @@ const AdminLayout = () => {
     { path: '/admin/dashboard', label: 'Analytics', icon: BarChart3 },
     { path: '/admin/reporting', label: 'Reports', icon: PieChart },
     { path: '/admin/create-course', label: 'Create Course', icon: Plus },
+    { path: '/admin/users', label: 'User Management', icon: Users },
   ];
 
   return (
