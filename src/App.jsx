@@ -21,6 +21,8 @@ import Profile from './pages/learner/Profile';
 import RankingDashboard from './pages/learner/RankingDashboard';
 import CourseLeaderboard from './pages/learner/CourseLeaderboard';
 import ScoresOverview from './pages/learner/ScoresOverview';
+import CertificateView from './pages/learner/CertificateView';
+import Checkout from './pages/learner/Checkout';
 
 // Auth Pages
 import Login from './pages/auth/Login';
@@ -52,6 +54,7 @@ function App() {
         <Route index element={<MyCourses />} />
         <Route path="courses" element={<MyCourses />} />
         <Route path="courses/:courseId" element={<CourseDetail />} />
+        <Route path="checkout/:courseId" element={<Checkout />} />
         <Route path="profile" element={<Profile />} />
         <Route path="rankings" element={<RankingDashboard />} />
         <Route path="leaderboard/:courseId" element={<CourseLeaderboard />} />
@@ -60,6 +63,9 @@ function App() {
 
       {/* Lesson Player - Full Screen */}
       <Route path="/learn/:courseId/:lessonId" element={<LessonPlayer />} />
+
+      {/* Public Certificate View */}
+      <Route path="/certificate/:certificateId" element={<CertificateView />} />
 
       {/* Redirect */}
       <Route path="*" element={<Navigate to="/" replace />} />

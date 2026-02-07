@@ -126,6 +126,17 @@ const CourseDetail = () => {
       navigate('/login');
       return;
     }
+
+    // Check if course requires payment
+    if (course.price && course.price > 0) {
+      // Check if user has already paid
+      if (!enrollment || !enrollment.paid) {
+        // Redirect to checkout
+        navigate(`/checkout/${courseId}`);
+        return;
+      }
+    }
+
     if (!enrollment) {
       enrollCourse(user.id, parseInt(courseId));
     }
@@ -331,7 +342,11 @@ const CourseDetail = () => {
                   className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-cyan-400 to-sky-500 text-slate-950 font-semibold text-sm whitespace-nowrap rounded-2xl hover:shadow-xl hover:shadow-cyan-400/30 hover:-translate-y-1 transition-all duration-300"
                 >
                   <Play className="w-5 h-5" />
-                  <span>{enrollment ? 'Continue Learning' : 'Start Course'}</span>
+                  <span>
+                    {enrollment ? 'Continue Learning' : 
+                     course.price && course.price > 0 ? `Buy Now - $${course.price.toFixed(2)}` : 
+                     'Start Course'}
+                  </span>
                 </button>
                 <button
                   onClick={() => setIsLiked(!isLiked)}

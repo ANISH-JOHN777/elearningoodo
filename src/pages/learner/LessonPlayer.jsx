@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
+import Certificate from '../../components/Certificate';
 import { convertToYouTubeEmbed } from '../../utils/youtubeUtils';
 import {
   ArrowLeft,
@@ -36,6 +37,7 @@ const LessonPlayer = () => {
     recordQuizAttempt,
     getQuizAttempts,
     addPoints,
+    generateCertificate,
   } = useApp();
 
   const course = getCourseById(parseInt(courseId));
@@ -50,6 +52,8 @@ const LessonPlayer = () => {
   const [quizAnswers, setQuizAnswers] = useState([]);
   const [showPointsModal, setShowPointsModal] = useState(false);
   const [earnedPoints, setEarnedPoints] = useState(0);
+  const [showCertificate, setShowCertificate] = useState(false);
+  const [courseCertificate, setCourseCertificate] = useState(null);
 
   // Skip Quiz State
   const [showSkipModal, setShowSkipModal] = useState(false);
@@ -101,8 +105,11 @@ const LessonPlayer = () => {
 
   const handleCompleteCourse = () => {
     completeCourse(user.id, parseInt(courseId));
-    alert('Congratulations! You have completed this course!');
-    navigate(`/courses/${courseId}`);
+    const cert = generateCertificate(user.id, parseInt(courseId));
+    if (cert) {
+      setCourseCertificate(cert);
+      setShowCertificate(true);
+    }
   };
 
   const handleStartQuiz = () => {
@@ -853,6 +860,22 @@ const LessonPlayer = () => {
             )}
           </div>
         </div>
+      )}
+
+      {/* Certificate Modal */}
+      {showCertificate && courseCertificate && (
+        <Certificate
+          userName={courseCertificate.userName}
+          courseName={courseCertificate.courseName}
+          courseCode={courseCertificate.courseCode}
+          completionDate={courseCertificate.completionDate}
+          certificateId={courseCertificate.id}
+          instructor={courseCertificate.instructor}
+          onClose={() => {
+            setShowCertificate(false);
+            navigate(`/courses/${courseId}`);
+          }}
+        />
       )}
     </div>
   );

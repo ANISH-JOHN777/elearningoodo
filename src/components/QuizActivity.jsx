@@ -252,14 +252,11 @@ export default function QuizActivity({
   // Empty Quiz State
   if (!currentQuestion) {
     return (
-      <div className="w-full max-w-2xl mx-auto p-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl text-center">
-        <p className="text-slate-400 text-lg">No questions available for this quiz.</p>
+      <div className="w-full max-w-2xl mx-auto p-8 bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-blue-200 shadow-xl text-center">
+        <p className="text-gray-600 text-lg font-medium">No questions available for this quiz.</p>
         <button
           onClick={() => window.history.back()}
-          className="mt-6 px-5 py-2.5 bg-cyan-500 hover:bg-cyan-600 rounded-lg text-sm font-semibold text-white whitespace-nowrap transition"
-        >
-          Go Back
-        </button>
+          className="mt-6 px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-lg text-sm font-semibold text-white whitespace-nowrap transition-all duration-200 shadow-md hover:shadow-lg"
       </div>
     );
   }

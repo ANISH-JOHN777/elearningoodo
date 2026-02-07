@@ -2017,6 +2017,9 @@ export const AppProvider = ({ children }) => {
   const [courseRankings, setCourseRankings] = useState(initialCourseRankings);
   const [attendance, setAttendance] = useState(initialAttendance);
 
+  // === CERTIFICATE MANAGEMENT ===
+  const [certificates, setCertificates] = useState([]);
+
   // Load user from localStorage and listen for Supabase auth changes
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
@@ -2224,7 +2227,7 @@ export const AppProvider = ({ children }) => {
   };
 
   // Enrollment functions
-  const enrollCourse = (userId, courseId) => {
+  const enrollCourse = (userId, courseId, isPaid = false) => {
     const existing = enrollments.find(
       (e) => e.userId === userId && e.courseId === courseId
     );
@@ -2240,6 +2243,8 @@ export const AppProvider = ({ children }) => {
       progress: 0,
       timeSpent: 0,
       completedLessons: [],
+      paid: isPaid,
+      paymentDate: isPaid ? new Date().toISOString() : null,
     };
     setEnrollments([...enrollments, newEnrollment]);
     return true;
@@ -2544,6 +2549,142 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  // === CERTIFICATE MANAGEMENT ===
+  const generateCertificateId = () => {
+    const timestamp = Date.now().toString(36).toUpperCase();
+    const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+    return `CERT-${timestamp}-${random}`;
+  };
+
+  const generateCertificate = (userId, courseId) => {
+    const userObj = users.find((u) => u.id === userId);
+    const courseObj = courses.find((c) => c.id === courseId);
+
+    if (!userObj || !courseObj) return null;
+
+    const certificate = {
+      id: generateCertificateId(),
+      userId,
+      courseId,
+      userName: userObj.name,
+      courseName: courseObj.title,
+      courseCode: courseObj.code || `CS-${courseId}`,
+      instructor: courseObj.responsibleId ? users.find((u) => u.id === courseObj.responsibleId)?.name : 'LearnSphere Academy',
+      completionDate: new Date().toISOString(),
+      issuedDate: new Date().toISOString(),
+      status: 'issued',
+      shared: false,
+      shares: [],
+    };
+
+    setCertificates([...certificates, certificate]);
+    return certificate;
+  };
+
+  const getCertificateById = (certificateId) => {
+    return certificates.find((cert) => cert.id === certificateId);
+  };
+
+  const getUserCertificates = (userId) => {
+    return certificates.filter((cert) => cert.userId === userId);
+  };
+
+  const getCourseCertificates = (courseId) => {
+    return certificates.filter((cert) => cert.courseId === courseId);
+  };
+
+  const recordCertificateShare = (certificateId, platform, timestamp = new Date().toISOString()) => {
+    const cert = getCertificateById(certificateId);
+    if (!cert) return null;
+
+    const updatedCert = {
+      ...cert,
+      shares: [...(cert.shares || []), { platform, timestamp }],
+      shared: true,
+    };
+
+    setCertificates(
+      certificates.map((c) => (c.id === certificateId ? updatedCert : c))
+    );
+
+    return updatedCert;
+  };
+
+  // === PAYMENT MANAGEMENT ===
+  const createTransaction = (transactionData) => {
+    // Create enrollment if it doesn't exist, then mark as paid
+    if (transactionData.userId && transactionData.courseId) {
+      const existing = getEnrollment(transactionData.userId, transactionData.courseId);
+      if (!existing) {
+        // Create new enrollment with payment
+        enrollCourse(transactionData.userId, transactionData.courseId, true);
+      }
+      // Update enrollment to mark as paid
+      updateEnrollment(transactionData.userId, transactionData.courseId, {
+        paid: true,
+        paymentDate: transactionData.timestamp,
+        paymentIntentId: transactionData.paymentIntentId,
+        transactionId: transactionData.id,
+      });
+    }
+    
+    // Store transaction in localStorage for demo (in production, this would go to a database)
+    const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+    transactions.push(transactionData);
+    localStorage.setItem('transactions', JSON.stringify(transactions));
+    
+    return transactionData;
+  };
+
+  const getTransactionById = (transactionId) => {
+    const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+    return transactions.find((t) => t.id === transactionId) || null;
+  };
+
+  const getUserTransactions = (userId) => {
+    const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+    return transactions.filter((t) => t.userId === userId);
+  };
+
+  const getCourseTransactions = (courseId) => {
+    const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+    return transactions.filter((t) => t.courseId === courseId);
+  };
+
+  const getPaymentHistory = (userId) => {
+    return getUserTransactions(userId).map((t) => ({
+      id: t.id,
+      courseName: t.courseName,
+      amount: t.amount,
+      currency: t.currency,
+      date: t.timestamp,
+      status: t.status,
+      paymentMethod: t.paymentMethod,
+      receiptUrl: t.receiptUrl,
+    }));
+  };
+
+  const recordPaymentRefund = (transactionId, refundAmount = null) => {
+    const transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+    const txn = transactions.find((t) => t.id === transactionId);
+    
+    if (!txn) return null;
+
+    const updatedTxn = {
+      ...txn,
+      status: 'refunded',
+      refundAmount: refundAmount || txn.amount,
+      refundDate: new Date().toISOString(),
+    };
+
+    const updatedTransactions = transactions.map((t) =>
+      t.id === transactionId ? updatedTxn : t
+    );
+    localStorage.setItem('transactions', JSON.stringify(updatedTransactions));
+    
+    return updatedTxn;
+  };
+
   const value = {
     user,
     users,
@@ -2602,6 +2743,19 @@ export const AppProvider = ({ children }) => {
     getAttendanceByModule,
     calculateAttendancePercentage,
     extendEnrollmentWithCourseTracking,
+    // === CERTIFICATE MANAGEMENT ===
+    generateCertificate,
+    getCertificateById,
+    getUserCertificates,
+    getCourseCertificates,
+    recordCertificateShare,
+    // === PAYMENT MANAGEMENT ===
+    createTransaction,
+    getTransactionById,
+    getUserTransactions,
+    getCourseTransactions,
+    getPaymentHistory,
+    recordPaymentRefund,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

@@ -62,7 +62,7 @@ const BadgeIcon = ({ iconName, className = "w-6 h-6" }) => {
 };
 
 const Profile = () => {
-  const { user, courses, enrollments, getUserBadge, quizzes } = useApp();
+  const { user, courses, enrollments, getUserBadge, quizzes, getUserCertificates } = useApp();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -494,6 +494,7 @@ const Profile = () => {
             ] : [
               { id: 'overview', label: 'Overview', icon: BarChart3 },
               { id: 'courses', label: 'My Courses', icon: BookOpen },
+              { id: 'certificates', label: 'Certificates', icon: Award },
               { id: 'achievements', label: 'Achievements', icon: Trophy },
               { id: 'activity', label: 'Activity', icon: Activity },
             ]).map((tab) => (
@@ -1224,6 +1225,113 @@ const Profile = () => {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {activeTab === 'certificates' && !isInstructor && (
+          <div className="animate-fade-in">
+            <h2 className="text-xl font-bold text-gray-900 mb-6">My Certificates</h2>
+            {(() => {
+              const userCerts = getUserCertificates(user.id);
+              const completedEnrollments = userEnrollments.filter(e => e.status === 'completed');
+              
+              return (
+                <div>
+                  {userCerts.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {userCerts.map((cert) => (
+                        <div
+                          key={cert.id}
+                          className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-xl border-2 border-amber-300 shadow-lg hover:shadow-xl transition-all group overflow-hidden"
+                        >
+                          {/* Certificate Preview */}
+                          <div className="bg-gradient-to-b from-amber-100 to-yellow-100 p-6 text-center relative overflow-hidden">
+                            <div className="absolute top-2 right-2 opacity-20">
+                              <Award className="w-32 h-32 text-amber-700 transform -rotate-12" />
+                            </div>
+                            <div className="relative z-10">
+                              <p className="text-amber-700 text-sm font-semibold mb-2">Certificate of Completion</p>
+                              <h3 className="font-bold text-amber-900 text-lg line-clamp-2">{cert.courseName}</h3>
+                              <p className="text-amber-600 text-xs mt-2">{cert.userName}</p>
+                            </div>
+                          </div>
+
+                          {/* Certificate Info */}
+                          <div className="p-4 space-y-3">
+                            <div className="space-y-1.5">
+                              <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold">Completed</p>
+                              <p className="text-sm text-gray-700 font-medium">
+                                {new Date(cert.completionDate).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'short',
+                                  day: 'numeric',
+                                })}
+                              </p>
+                            </div>
+                            <div className="space-y-1.5">
+                              <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold">Certificate ID</p>
+                              <p className="text-xs text-gray-600 font-mono bg-gray-100 p-2 rounded break-all">{cert.id}</p>
+                            </div>
+                            {cert.shares && cert.shares.length > 0 && (
+                              <div className="space-y-1.5">
+                                <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold">Shared</p>
+                                <div className="flex flex-wrap gap-1">
+                                  {cert.shares.map((share, idx) => (
+                                    <span key={idx} className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
+                                      📤 {share.platform}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Actions */}
+                          <div className="p-4 border-t border-amber-200 flex gap-2">
+                            <button
+                              onClick={() => window.open(`/certificate/${cert.id}`, '_blank')}
+                              className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-semibold rounded-lg transition-colors"
+                            >
+                              <GraduationCap className="w-4 h-4" />
+                              View
+                            </button>
+                            <button
+                              onClick={() => window.open(`/certificate/${cert.id}`, '_blank')}
+                              className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition-colors"
+                            >
+                              <Share2 className="w-4 h-4" />
+                              Share
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : completedEnrollments.length > 0 ? (
+                    <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-8 text-center">
+                      <Award className="w-16 h-16 text-blue-600 mx-auto mb-4" />
+                      <h3 className="text-lg font-semibold text-blue-900 mb-2">Certificates Coming Soon</h3>
+                      <p className="text-blue-700 mb-4">
+                        You have completed {completedEnrollments.length} course{completedEnrollments.length !== 1 ? 's' : ''}. 
+                        Complete additional courses to generate certificates!
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="bg-gray-50 border-2 border-gray-200 rounded-xl p-8 text-center">
+                      <GraduationCap className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">No Certificates Yet</h3>
+                      <p className="text-gray-600 mb-6">Complete your first course to earn a certificate!</p>
+                      <Link
+                        to="/courses"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                      >
+                        <BookOpen className="w-5 h-5" />
+                        Browse Courses
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </div>
         )}
 
