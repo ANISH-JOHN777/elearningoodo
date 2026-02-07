@@ -37,24 +37,36 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
     
-    // Simulate loading
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    const success = login(formData.email, formData.password);
-    if (success) {
-      // Context will update user, useEffect will redirect
-    } else {
-      setError('Invalid email or password');
+    try {
+      const success = await login(formData.email, formData.password);
+      if (!success) {
+        setError('Invalid email or password. Please try again.');
+        setIsLoading(false);
+      }
+      // If successful, useEffect will redirect automatically
+    } catch (err) {
+      setError('An error occurred. Please try again.');
       setIsLoading(false);
     }
   };
 
-  const quickLogin = (email, password) => {
+  const quickLogin = async (email, password) => {
     setFormData({ email, password });
-    setTimeout(() => {
-      login(email, password);
-    }, 300);
+    setIsLoading(true);
+    setError('');
+    
+    try {
+      const success = await login(email, password);
+      if (!success) {
+        setError('Quick login failed. Please try again.');
+        setIsLoading(false);
+      }
+    } catch (err) {
+      setError('An error occurred. Please try again.');
+      setIsLoading(false);
+    }
   };
 
   return (

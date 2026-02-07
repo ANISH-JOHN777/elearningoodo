@@ -68,10 +68,22 @@ const Register = () => {
     }
 
     setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    const { confirmPassword, ...userData } = formData;
-    register(userData);
-    setIsLoading(false);
+    setError('');
+    
+    try {
+      const { confirmPassword, ...userData } = formData;
+      const success = await register(userData);
+      
+      if (success) {
+        // useEffect will redirect automatically
+      } else {
+        setError('Registration failed. Please try again.');
+        setIsLoading(false);
+      }
+    } catch (err) {
+      setError(err.message || 'An error occurred during registration. Please try again.');
+      setIsLoading(false);
+    }
   };
 
   // Password strength indicator

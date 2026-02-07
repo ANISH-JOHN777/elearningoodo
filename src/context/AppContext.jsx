@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { logIn, logOut as supabaseLogOut, signUp, onAuthStateChange } from '../services/supabaseClient';
 
 const AppContext = createContext();
 
@@ -2015,45 +2016,115 @@ export const AppProvider = ({ children }) => {
   const [courseRankings, setCourseRankings] = useState(initialCourseRankings);
   const [attendance, setAttendance] = useState(initialAttendance);
 
-  // Load user from localStorage
+  // Load user from localStorage and listen for Supabase auth changes
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
       setUser(JSON.parse(savedUser));
     }
+
+    // Listen to Supabase auth state changes
+    const { data: { subscription } } = onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        const appUser = {
+          id: session.user.id,
+          email: session.user.email,
+          name: session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
+          role: session.user.user_metadata?.role || 'learner',
+          avatar: session.user.user_metadata?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${session.user.email}`,
+          points: session.user.user_metadata?.points || 0,
+        };
+        setUser(appUser);
+        localStorage.setItem('user', JSON.stringify(appUser));
+      } else if (event === 'SIGNED_OUT') {
+        setUser(null);
+        localStorage.removeItem('user');
+      }
+    });
+
+    return () => {
+      subscription?.unsubscribe();
+    };
   }, []);
 
-  // Auth functions
-  const login = (email, password) => {
-    const foundUser = users.find(
-      (u) => u.email === email && u.password === password
-    );
-    if (foundUser) {
-      const { password, ...userWithoutPassword } = foundUser;
-      setUser(userWithoutPassword);
-      localStorage.setItem('user', JSON.stringify(userWithoutPassword));
-      return true;
+  // Auth functions - Using Supabase
+  const login = async (email, password) => {
+    try {
+      const { user: supabaseUser, error } = await logIn(email, password);
+      
+      if (error) {
+        console.error('Login failed:', error);
+        return false;
+      }
+
+      if (supabaseUser) {
+        // Map Supabase user to app user format
+        const appUser = {
+          id: supabaseUser.id,
+          email: supabaseUser.email,
+          name: supabaseUser.user_metadata?.name || supabaseUser.email?.split('@')[0] || 'User',
+          role: supabaseUser.user_metadata?.role || 'learner',
+          avatar: supabaseUser.user_metadata?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${supabaseUser.email}`,
+          points: supabaseUser.user_metadata?.points || 0,
+        };
+        
+        setUser(appUser);
+        localStorage.setItem('user', JSON.stringify(appUser));
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Login error:', error);
+      return false;
     }
-    return false;
   };
 
-  const register = (userData) => {
-    const newUser = {
-      ...userData,
-      id: users.length + 1,
-      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData.name}`,
-      points: 0,
-    };
-    setUsers([...users, newUser]);
-    const { password, ...userWithoutPassword } = newUser;
-    setUser(userWithoutPassword);
-    localStorage.setItem('user', JSON.stringify(userWithoutPassword));
-    return true;
+  const register = async (userData) => {
+    try {
+      const { user: supabaseUser, error } = await signUp(userData.email, userData.password, {
+        name: userData.name,
+        role: userData.role || 'learner',
+        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData.name}`,
+        points: 0,
+      });
+
+      if (error) {
+        console.error('Registration failed:', error);
+        return false;
+      }
+
+      if (supabaseUser) {
+        // Map Supabase user to app user format
+        const appUser = {
+          id: supabaseUser.id,
+          email: supabaseUser.email,
+          name: userData.name,
+          role: userData.role || 'learner',
+          avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData.name}`,
+          points: 0,
+        };
+        
+        setUser(appUser);
+        localStorage.setItem('user', JSON.stringify(appUser));
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Registration error:', error);
+      return false;
+    }
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
+  const logout = async () => {
+    try {
+      await supabaseLogOut();
+      setUser(null);
+      localStorage.removeItem('user');
+    } catch (error) {
+      console.error('Logout error:', error);
+      setUser(null);
+      localStorage.removeItem('user');
+    }
   };
 
   // Course functions
