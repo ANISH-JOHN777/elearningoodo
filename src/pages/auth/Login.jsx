@@ -170,42 +170,7 @@ const Login = () => {
               </div>
             )}
 
-            {/* Quick Login Buttons */}
-            <div className="mb-6">
-              <p className="text-xs text-gray-500 text-center mb-3">Quick access demo accounts</p>
-              <div className="grid grid-cols-3 gap-2">
-                <button
-                  type="button"
-                  onClick={() => quickLogin('admin@learnsphere.com', 'admin123', 'admin')}
-                  className="p-3 bg-gradient-to-br from-cyan-50 to-sky-100 hover:from-cyan-100 hover:to-sky-200 rounded-xl transition-all group"
-                >
-                  <div className="text-cyan-600 font-semibold text-sm group-hover:scale-105 transition-transform">Admin</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => quickLogin('instructor@learnsphere.com', 'instructor123', 'instructor')}
-                  className="p-3 bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 rounded-xl transition-all group"
-                >
-                  <div className="text-blue-600 font-semibold text-sm group-hover:scale-105 transition-transform">Instructor</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => quickLogin('learner@learnsphere.com', 'learner123', 'learner')}
-                  className="p-3 bg-gradient-to-br from-green-50 to-green-100 hover:from-green-100 hover:to-green-200 rounded-xl transition-all group"
-                >
-                  <div className="text-green-600 font-semibold text-sm group-hover:scale-105 transition-transform">Learner</div>
-                </button>
-              </div>
-            </div>
 
-            <div className="relative mb-6">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200"></div>
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-4 text-gray-400">or sign in with email</span>
-              </div>
-            </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Role Selector */}
