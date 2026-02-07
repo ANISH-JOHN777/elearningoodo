@@ -17,6 +17,7 @@ import {
   Calendar,
   Award,
   TrendingUp,
+  BookOpen,
 } from 'lucide-react';
 
 /**
@@ -107,13 +108,13 @@ export default function UserManagement() {
   const getStatusColor = (status) => {
     switch (status) {
       case 'active':
-        return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
+        return 'bg-emerald-100 text-emerald-700 border-emerald-300';
       case 'suspended':
-        return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
+        return 'bg-yellow-100 text-yellow-700 border-yellow-300';
       case 'banned':
-        return 'bg-red-500/20 text-red-300 border-red-500/30';
+        return 'bg-red-100 text-red-700 border-red-300';
       default:
-        return 'bg-slate-500/20 text-slate-300 border-slate-500/30';
+        return 'bg-gray-100 text-gray-700 border-gray-300';
     }
   };
 
@@ -131,56 +132,56 @@ export default function UserManagement() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 page-enter">
       {/* Header */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8">
-        <h1 className="text-3xl font-bold text-cyan-300 mb-2 flex items-center gap-3">
-          <Users className="w-8 h-8" />
+      <div className="animate-fade-in-down">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2 flex items-center gap-3">
+          <Users className="w-8 h-8 text-primary-600" />
           User Management
         </h1>
-        <p className="text-slate-400 text-lg">
+        <p className="text-gray-600 text-lg">
           Manage user accounts, suspend, ban, or restore users
         </p>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
         {[
           {
             label: 'Total Users',
             value: stats.total,
             icon: Users,
-            color: 'from-cyan-500 to-cyan-600',
+            color: 'bg-primary-500',
           },
           {
             label: 'Active',
             value: stats.active,
             icon: CheckCircle,
-            color: 'from-emerald-500 to-emerald-600',
+            color: 'bg-emerald-500',
           },
           {
             label: 'Suspended',
             value: stats.suspended,
             icon: AlertCircle,
-            color: 'from-yellow-500 to-yellow-600',
+            color: 'bg-yellow-500',
           },
           {
             label: 'Banned',
             value: stats.banned,
             icon: XCircle,
-            color: 'from-red-500 to-red-600',
+            color: 'bg-red-500',
           },
         ].map((stat) => {
           const Icon = stat.icon;
           return (
             <div
               key={stat.label}
-              className={`bg-gradient-to-br ${stat.color} rounded-xl p-6 shadow-lg`}
+              className={`${stat.color} rounded-xl p-6 shadow-lg text-white`}
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-white/70 text-sm font-medium mb-1">{stat.label}</p>
-                  <p className="text-3xl font-bold text-white">{stat.value}</p>
+                  <p className="text-white/80 text-sm font-medium mb-1">{stat.label}</p>
+                  <p className="text-3xl font-bold">{stat.value}</p>
                 </div>
                 <Icon className="w-8 h-8 text-white/30" />
               </div>
@@ -190,16 +191,16 @@ export default function UserManagement() {
       </div>
 
       {/* Filters */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-6 space-y-4">
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
         {/* Search Bar */}
         <div className="relative">
-          <Search className="absolute left-3 top-3.5 w-5 h-5 text-slate-400" />
+          <Search className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
           <input
             type="text"
             placeholder="Search by name or email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-slate-700/50 border border-cyan-500/20 text-slate-200 placeholder-slate-500 rounded-lg focus:outline-none focus:border-cyan-500/50"
+            className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
 
@@ -207,14 +208,14 @@ export default function UserManagement() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Role Filter */}
           <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2 flex items-center gap-2">
+            <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
               <Filter className="w-4 h-4" />
               User Role
             </label>
             <select
               value={filterRole}
               onChange={(e) => setFilterRole(e.target.value)}
-              className="w-full px-4 py-2 bg-slate-700/50 border border-cyan-500/20 text-slate-200 rounded-lg focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="all">All Roles</option>
               <option value="learner">Learner</option>
@@ -225,14 +226,14 @@ export default function UserManagement() {
 
           {/* Status Filter */}
           <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2 flex items-center gap-2">
+            <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
               <Shield className="w-4 h-4" />
               User Status
             </label>
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="w-full px-4 py-2 bg-slate-700/50 border border-cyan-500/20 text-slate-200 rounded-lg focus:outline-none focus:border-cyan-500/50"
+              className="w-full px-4 py-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -244,18 +245,18 @@ export default function UserManagement() {
       </div>
 
       {/* Users Table */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl overflow-hidden">
-        <div className="p-6 border-b border-cyan-500/20">
-          <h2 className="text-2xl font-bold text-cyan-300">
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+        <div className="p-6 border-b border-gray-200">
+          <h2 className="text-2xl font-bold text-gray-900">
             Users ({filteredUsers.length})
           </h2>
         </div>
 
-        <div className="divide-y divide-cyan-500/10">
+        <div className="divide-y divide-gray-100">
           {filteredUsers.length === 0 ? (
             <div className="p-12 text-center">
-              <AlertCircle className="w-12 h-12 text-slate-500 mx-auto mb-4" />
-              <p className="text-slate-400 text-lg">No users found</p>
+              <AlertCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-500 text-lg">No users found</p>
             </div>
           ) : (
             filteredUsers.map((user) => {
@@ -265,7 +266,7 @@ export default function UserManagement() {
               return (
                 <div
                   key={user.id}
-                  className="p-6 hover:bg-slate-700/30 transition cursor-pointer"
+                  className="p-6 hover:bg-gray-50 transition cursor-pointer"
                   onClick={() => setSelectedUser(selectedUser?.id === user.id ? null : user)}
                 >
                   {/* User Row */}
@@ -275,26 +276,26 @@ export default function UserManagement() {
                       <img
                         src={user.avatar}
                         alt={user.name}
-                        className="w-12 h-12 rounded-lg object-cover border-2 border-cyan-500/30"
+                        className="w-12 h-12 rounded-lg object-cover border-2 border-primary-200"
                       />
 
                       {/* User Info */}
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <h3 className="text-lg font-bold text-slate-200">
+                          <h3 className="text-lg font-bold text-gray-900">
                             {user.name}
                           </h3>
                           <span className={`px-3 py-1 text-xs font-semibold rounded-lg border flex items-center gap-1 ${getStatusColor(status)}`}>
                             {getStatusIcon(status)}
                             {status.charAt(0).toUpperCase() + status.slice(1)}
                           </span>
-                          <span className="px-3 py-1 text-xs font-semibold rounded-lg bg-slate-700/50 text-slate-300 border border-slate-600/30 capitalize">
+                          <span className="px-3 py-1 text-xs font-semibold rounded-lg bg-gray-100 text-gray-700 border border-gray-300 capitalize">
                             {user.role}
                           </span>
                         </div>
 
                         {/* Email and Join Date */}
-                        <div className="flex items-center gap-4 text-sm text-slate-400">
+                        <div className="flex items-center gap-4 text-sm text-gray-500">
                           <div className="flex items-center gap-1">
                             <Mail className="w-4 h-4" />
                             {user.email}
@@ -316,14 +317,14 @@ export default function UserManagement() {
                             showUserActions === user.id ? null : user.id
                           );
                         }}
-                        className="p-2 rounded-lg text-slate-400 hover:bg-slate-700/50 transition"
+                        className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition"
                       >
                         <MoreVertical className="w-5 h-5" />
                       </button>
 
                       {/* Actions Dropdown */}
                       {showUserActions === user.id && (
-                        <div className="absolute right-0 mt-2 w-48 bg-slate-700 border border-cyan-500/30 rounded-lg shadow-xl z-10">
+                        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-xl z-10">
                           {/* View Details */}
                           <button
                             onClick={(e) => {
@@ -331,7 +332,7 @@ export default function UserManagement() {
                               setSelectedUser(user);
                               setShowUserActions(null);
                             }}
-                            className="w-full flex items-center gap-3 px-4 py-2.5 text-slate-200 hover:bg-slate-600/50 transition text-left border-b border-slate-600/30"
+                            className="w-full flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 transition text-left border-b border-gray-100"
                           >
                             <Eye className="w-4 h-4" />
                             View Details
@@ -345,7 +346,7 @@ export default function UserManagement() {
                                   e.stopPropagation();
                                   handleStatusChange(user.id, 'suspended');
                                 }}
-                                className="w-full flex items-center gap-3 px-4 py-2.5 text-yellow-300 hover:bg-yellow-500/10 transition text-left border-b border-slate-600/30"
+                                className="w-full flex items-center gap-3 px-4 py-2.5 text-yellow-600 hover:bg-yellow-50 transition text-left border-b border-gray-100"
                               >
                                 <AlertCircle className="w-4 h-4" />
                                 Suspend User
@@ -355,7 +356,7 @@ export default function UserManagement() {
                                   e.stopPropagation();
                                   handleStatusChange(user.id, 'banned');
                                 }}
-                                className="w-full flex items-center gap-3 px-4 py-2.5 text-red-300 hover:bg-red-500/10 transition text-left"
+                                className="w-full flex items-center gap-3 px-4 py-2.5 text-red-600 hover:bg-red-50 transition text-left"
                               >
                                 <Trash2 className="w-4 h-4" />
                                 Ban User
@@ -370,7 +371,7 @@ export default function UserManagement() {
                                   e.stopPropagation();
                                   handleStatusChange(user.id, 'active');
                                 }}
-                                className="w-full flex items-center gap-3 px-4 py-2.5 text-emerald-300 hover:bg-emerald-500/10 transition text-left border-b border-slate-600/30"
+                                className="w-full flex items-center gap-3 px-4 py-2.5 text-emerald-600 hover:bg-emerald-50 transition text-left border-b border-gray-100"
                               >
                                 <Unlock className="w-4 h-4" />
                                 Restore User
@@ -380,7 +381,7 @@ export default function UserManagement() {
                                   e.stopPropagation();
                                   handleStatusChange(user.id, 'banned');
                                 }}
-                                className="w-full flex items-center gap-3 px-4 py-2.5 text-red-300 hover:bg-red-500/10 transition text-left"
+                                className="w-full flex items-center gap-3 px-4 py-2.5 text-red-600 hover:bg-red-50 transition text-left"
                               >
                                 <Trash2 className="w-4 h-4" />
                                 Ban User
@@ -394,7 +395,7 @@ export default function UserManagement() {
                                 e.stopPropagation();
                                 handleStatusChange(user.id, 'active');
                               }}
-                              className="w-full flex items-center gap-3 px-4 py-2.5 text-emerald-300 hover:bg-emerald-500/10 transition text-left"
+                              className="w-full flex items-center gap-3 px-4 py-2.5 text-emerald-600 hover:bg-emerald-50 transition text-left"
                             >
                               <Unlock className="w-4 h-4" />
                               Restore User
@@ -433,12 +434,12 @@ export default function UserManagement() {
                       return (
                         <div
                           key={idx}
-                          className="p-3 bg-slate-700/30 rounded-lg border border-cyan-500/10 flex items-center gap-2"
+                          className="p-3 bg-gray-50 rounded-lg border border-gray-200 flex items-center gap-2"
                         >
-                          <Icon className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                          <Icon className="w-4 h-4 text-primary-500 flex-shrink-0" />
                           <div>
-                            <p className="text-xs text-slate-500">{stat.label}</p>
-                            <p className="text-sm font-semibold text-slate-200">
+                            <p className="text-xs text-gray-500">{stat.label}</p>
+                            <p className="text-sm font-semibold text-gray-900">
                               {stat.value}
                             </p>
                           </div>
@@ -449,8 +450,8 @@ export default function UserManagement() {
 
                   {/* Expanded Details */}
                   {selectedUser?.id === user.id && (
-                    <div className="mt-6 pt-6 border-t border-cyan-500/20 space-y-4">
-                      <h4 className="font-bold text-cyan-300 flex items-center gap-2">
+                    <div className="mt-6 pt-6 border-t border-gray-200 space-y-4">
+                      <h4 className="font-bold text-primary-600 flex items-center gap-2">
                         <Eye className="w-4 h-4" />
                         User Details
                       </h4>
@@ -489,10 +490,10 @@ export default function UserManagement() {
                         ].map((detail, idx) => (
                           <div
                             key={idx}
-                            className="p-3 bg-slate-700/20 rounded-lg border border-slate-600/20"
+                            className="p-3 bg-gray-50 rounded-lg border border-gray-200"
                           >
-                            <p className="text-xs text-slate-500 mb-1">{detail.label}</p>
-                            <p className="text-sm font-semibold text-slate-200">
+                            <p className="text-xs text-gray-500 mb-1">{detail.label}</p>
+                            <p className="text-sm font-semibold text-gray-900">
                               {detail.value}
                             </p>
                           </div>
@@ -501,17 +502,17 @@ export default function UserManagement() {
 
                       {/* Status Change Section */}
                       {status !== 'active' && (
-                        <div className="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
-                          <p className="text-sm text-yellow-200 mb-3">
+                        <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                          <p className="text-sm text-yellow-800 mb-3">
                             This user is currently <strong>{status}</strong>
                           </p>
                           {status === 'suspended' && (
-                            <p className="text-xs text-yellow-300 mb-3">
+                            <p className="text-xs text-yellow-700 mb-3">
                               Suspended users cannot access courses or participate in learning activities.
                             </p>
                           )}
                           {status === 'banned' && (
-                            <p className="text-xs text-red-300 mb-3">
+                            <p className="text-xs text-red-700 mb-3">
                               Banned users are permanently denied access to the platform.
                             </p>
                           )}
@@ -534,9 +535,9 @@ export default function UserManagement() {
       </div>
 
       {/* Info Section */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 p-6">
-        <h3 className="text-lg font-bold text-cyan-300 mb-4 flex items-center gap-2">
-          <Shield className="w-5 h-5" />
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+        <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <Shield className="w-5 h-5 text-primary-500" />
           User Status Information
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -544,19 +545,28 @@ export default function UserManagement() {
             {
               title: 'Active',
               icon: CheckCircle,
-              color: 'emerald',
+              bgColor: 'bg-emerald-50',
+              borderColor: 'border-emerald-200',
+              iconColor: 'text-emerald-500',
+              textColor: 'text-emerald-800',
               description: 'User can access all courses and participate in learning',
             },
             {
               title: 'Suspended',
               icon: AlertCircle,
-              color: 'yellow',
+              bgColor: 'bg-yellow-50',
+              borderColor: 'border-yellow-200',
+              iconColor: 'text-yellow-500',
+              textColor: 'text-yellow-800',
               description: 'User is temporarily restricted from accessing courses',
             },
             {
               title: 'Banned',
               icon: XCircle,
-              color: 'red',
+              bgColor: 'bg-red-50',
+              borderColor: 'border-red-200',
+              iconColor: 'text-red-500',
+              textColor: 'text-red-800',
               description: 'User is permanently denied access to the platform',
             },
           ].map((status, idx) => {
@@ -564,13 +574,13 @@ export default function UserManagement() {
             return (
               <div
                 key={idx}
-                className={`p-4 bg-${status.color}-500/10 border border-${status.color}-500/30 rounded-lg`}
+                className={`p-4 ${status.bgColor} border ${status.borderColor} rounded-lg`}
               >
                 <div className="flex items-start gap-3 mb-2">
-                  <Icon className={`w-5 h-5 text-${status.color}-400 mt-0.5`} />
-                  <h4 className={`font-bold text-${status.color}-300`}>{status.title}</h4>
+                  <Icon className={`w-5 h-5 ${status.iconColor} mt-0.5`} />
+                  <h4 className={`font-bold ${status.textColor}`}>{status.title}</h4>
                 </div>
-                <p className={`text-sm text-${status.color}-200`}>
+                <p className={`text-sm ${status.textColor}`}>
                   {status.description}
                 </p>
               </div>

@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 
 const CoursesDashboard = () => {
-  const { courses, createCourse, deleteCourse } = useApp();
+  const { courses, user, createCourse, deleteCourse } = useApp();
   const navigate = useNavigate();
   const [view, setView] = useState('grid'); // 'grid' or 'list'
   const [searchQuery, setSearchQuery] = useState('');
@@ -26,7 +26,12 @@ const CoursesDashboard = () => {
   const [newCourseName, setNewCourseName] = useState('');
   const [activeMenu, setActiveMenu] = useState(null);
 
-  const filteredCourses = courses.filter((course) =>
+  // Filter courses - show only current instructor's courses
+  const instructorCourses = courses.filter((course) =>
+    course.responsibleId === user?.id || course.adminId === user?.id
+  );
+
+  const filteredCourses = instructorCourses.filter((course) =>
     course.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -326,11 +331,20 @@ const CoursesDashboard = () => {
 
       {filteredCourses.length === 0 && (
         <div className="text-center py-12 animate-fade-in">
-          <BookOpen className="mx-auto h-12 w-12 text-gray-400 animate-bounce-in" />
-          <h3 className="mt-2 text-sm font-medium text-gray-900">No courses found</h3>
-          <p className="mt-1 text-sm text-gray-500">
-            {searchQuery ? 'Try a different search query' : 'Get started by creating a new course'}
+          <BookOpen className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+          <h3 className="mt-2 text-lg font-semibold text-gray-900">No courses found</h3>
+          <p className="mt-1 text-sm text-gray-500 mb-6">
+            {searchQuery ? 'Try a different search query' : 'Create your first course to get started'}
           </p>
+          {!searchQuery && (
+            <button
+              onClick={() => navigate('/admin/create-course')}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-semibold transition shadow-lg hover:shadow-xl"
+            >
+              <Plus className="w-5 h-5" />
+              Create Course with Modules
+            </button>
+          )}
         </div>
       )}
 
