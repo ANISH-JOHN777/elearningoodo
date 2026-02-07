@@ -371,7 +371,7 @@ const Profile = () => {
               </div>
 
               {/* Quick Stats Cards */}
-              {isAdmin || isInstructor ? (
+              {isInstructor ? (
                 <div className="flex flex-wrap gap-3">
                   <div className="flex items-center gap-3 px-5 py-3 bg-white/10 backdrop-blur-sm rounded-xl border border-white/10 hover:bg-white/15 transition-colors">
                     <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
@@ -487,7 +487,7 @@ const Profile = () => {
       <div className="bg-white border-b sticky top-0 z-10 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-1 overflow-x-auto scrollbar-hide py-1">
-            {(isAdmin || isInstructor ? [
+            {(isInstructor ? [
               { id: 'overview', label: 'Dashboard', icon: BarChart3 },
               { id: 'courses', label: 'Manage Courses', icon: BookOpen },
               { id: 'activity', label: 'Sales History', icon: Activity },
@@ -521,8 +521,8 @@ const Profile = () => {
             {/* Left Column */}
             <div className="lg:col-span-2 space-y-6">
               
-              {/* Admin/Instructor Dashboard Content */}
-              {(isAdmin || isInstructor) ? (
+              {/* Instructor Dashboard Content */}
+              {(isInstructor) ? (
                 <>
                   {/* Revenue Overview Card */}
                   <div className="relative bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-600 rounded-3xl shadow-xl p-8 text-white overflow-hidden">
@@ -549,7 +549,7 @@ const Profile = () => {
                         <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 text-center hover:bg-white/30 transition-colors">
                           <BookOpen className="w-7 h-7 mx-auto mb-2 text-blue-200" />
                           <div className="text-2xl font-bold">{adminCourses.length}</div>
-                          <div className="text-xs text-white/70">{isAdmin ? 'Total Courses' : 'My Courses'}</div>
+                          <div className="text-xs text-white/70">My Courses</div>
                         </div>
                         <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 text-center hover:bg-white/30 transition-colors">
                           <Target className="w-7 h-7 mx-auto mb-2 text-orange-200" />
@@ -832,8 +832,8 @@ const Profile = () => {
 
             {/* Right Column */}
             <div className="space-y-6">
-              {/* Admin/Instructor Right Column */}
-              {(isAdmin || isInstructor) ? (
+              {/* Instructor Right Column */}
+              {(isInstructor) ? (
                 <>
                   {/* Quick Stats Card */}
                   <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
@@ -1062,12 +1062,12 @@ const Profile = () => {
 
         {activeTab === 'courses' && (
           <div className="animate-fade-in">
-            {(isAdmin || isInstructor) ? (
-              /* Admin/Instructor Course Management */
+            {isInstructor ? (
+              /* Instructor Course Management */
               <>
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-xl font-bold text-gray-900">
-                    {isAdmin ? 'All Platform Courses' : 'My Created Courses'}
+                    My Created Courses
                   </h2>
                   <Link
                     to="/admin/courses/new"
@@ -1229,8 +1229,8 @@ const Profile = () => {
 
         {activeTab === 'activity' && (
           <div className="animate-fade-in space-y-6">
-            {(isAdmin || isInstructor) ? (
-              /* Admin/Instructor Sales History */
+            {isInstructor ? (
+              /* Instructor Sales History */
               <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Sales History</h3>
                 <div className="overflow-x-auto">
@@ -1246,7 +1246,7 @@ const Profile = () => {
                     </thead>
                     <tbody className="divide-y divide-gray-200">
                       {enrollments
-                        .filter(e => isAdmin || adminCourses.some(c => c.id === e.courseId))
+                        .filter(e => adminCourses.some(c => c.id === e.courseId))
                         .slice(0, 10)
                         .map((enrollment, index) => {
                           const course = courses.find(c => c.id === enrollment.courseId);
@@ -1269,7 +1269,7 @@ const Profile = () => {
                         })}
                     </tbody>
                   </table>
-                  {enrollments.filter(e => isAdmin || adminCourses.some(c => c.id === e.courseId)).length === 0 && (
+                  {enrollments.filter(e => adminCourses.some(c => c.id === e.courseId)).length === 0 && (
                     <div className="text-center py-8 text-gray-500">No sales yet</div>
                   )}
                 </div>
