@@ -36,6 +36,8 @@ import {
   Command,
   Sprout,
   Gem,
+  AlertCircle,
+  XCircle,
 } from 'lucide-react';
 
 // Badge icon mapping
@@ -61,6 +63,7 @@ const MyCourses = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [viewMode, setViewMode] = useState('grid');
   const [hoveredCard, setHoveredCard] = useState(null);
+  const [courseStatusFilter, setCourseStatusFilter] = useState('all'); // New state for course status filtering
   
   // Advanced search states
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -181,6 +184,14 @@ const MyCourses = () => {
   // Categories from courses
   const categories = ['all', ...new Set(courses.flatMap(c => c.tags || []))];
 
+  // Helper function to determine course enrollment status
+  const getEnrollmentStatus = (course) => {
+    if (!user) return 'not-enrolled';
+    const enrollment = getEnrollment(user.id, course.id);
+    if (!enrollment) return 'not-enrolled';
+    return enrollment.status;
+  };
+
   // Filter published courses based on visibility
   const availableCourses = courses.filter((course) => {
     if (!course.published) return false;
@@ -188,8 +199,43 @@ const MyCourses = () => {
     const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          course.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || course.tags?.includes(selectedCategory);
+    
+    // Apply course status filter
+    if (user && courseStatusFilter !== 'all') {
+      const enrollmentStatus = getEnrollmentStatus(course);
+      if (courseStatusFilter === 'ongoing' && enrollmentStatus !== 'in-progress') return false;
+      if (courseStatusFilter === 'finished' && enrollmentStatus !== 'completed') return false;
+      if (courseStatusFilter === 'timedout' && enrollmentStatus !== 'timed-out') return false;
+      if (courseStatusFilter === 'discontinued' && enrollmentStatus !== 'discontinued') return false;
+    }
+    
     return matchesSearch && matchesCategory;
   });
+
+  // Count courses by status
+  const getStatusCounts = () => {
+    if (!user) return { all: 0, ongoing: 0, finished: 0, timedout: 0, discontinued: 0 };
+    const enrolledCourses = courses.filter(c => c.published && getEnrollment(user.id, c.id));
+    const counts = {
+      all: enrolledCourses.length,
+      ongoing: 0,
+      finished: 0,
+      timedout: 0,
+      discontinued: 0
+    };
+    
+    enrolledCourses.forEach(course => {
+      const enrollment = getEnrollment(user.id, course.id);
+      if (enrollment.status === 'in-progress') counts.ongoing++;
+      else if (enrollment.status === 'completed') counts.finished++;
+      else if (enrollment.status === 'timed-out') counts.timedout++;
+      else if (enrollment.status === 'discontinued') counts.discontinued++;
+    });
+    
+    return counts;
+  };
+  
+  const statusCounts = getStatusCounts();
 
   const handleCourseAction = (course) => {
     if (!user) {
@@ -514,6 +560,42 @@ const MyCourses = () => {
                 </button>
               </div>
             </div>
+
+            {/* Course Status Tabs - Only show for logged-in users */}
+            {user && statusCounts.all > 0 && (
+              <div className="flex flex-wrap gap-2 mb-8 animate-fade-in-up pb-4 border-b border-gray-200">
+                {[
+                  { id: 'all', label: 'All Courses', count: statusCounts.all, icon: BookOpen },
+                  { id: 'ongoing', label: 'Ongoing', count: statusCounts.ongoing, icon: TrendingUp },
+                  { id: 'finished', label: 'Finished', count: statusCounts.finished, icon: CheckCircle },
+                  { id: 'timedout', label: 'Timed Out', count: statusCounts.timedout, icon: AlertCircle },
+                  { id: 'discontinued', label: 'Discontinued', count: statusCounts.discontinued, icon: XCircle }
+                ].map((tab) => {
+                  const Icon = tab.icon;
+                  const isActive = courseStatusFilter === tab.id;
+                  
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setCourseStatusFilter(tab.id)}
+                      className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-medium transition-all duration-300 ${
+                        isActive
+                          ? 'bg-gradient-to-r from-cyan-400 to-sky-500 text-slate-950 shadow-lg shadow-cyan-400/40 scale-105'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900 border border-gray-300'
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" />
+                      <span className="text-sm">{tab.label}</span>
+                      <span className={`ml-1 text-xs font-bold ${
+                        isActive ? 'text-slate-900' : 'text-gray-600'
+                      }`}>
+                        ({tab.count})
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
 
             {/* Courses Grid */}
             <div className={`grid gap-6 ${
