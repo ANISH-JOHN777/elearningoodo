@@ -250,6 +250,38 @@ const Register = () => {
               </div>
             </div>
 
+            {/* Role Selector */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                Register as
+              </label>
+              <div className="grid grid-cols-3 gap-3">
+                {['admin', 'instructor', 'learner'].map((roleOption) => (
+                  <label key={roleOption} className="relative flex items-center cursor-pointer group">
+                    <input
+                      type="radio"
+                      name="role"
+                      value={roleOption}
+                      checked={formData.role === roleOption}
+                      onChange={handleChange}
+                      className="absolute opacity-0 w-full h-full cursor-pointer"
+                    />
+                    <div className={`w-full py-3 px-3 rounded-xl text-center font-semibold text-sm transition-all border-2 ${
+                      formData.role === roleOption
+                        ? roleOption === 'admin'
+                          ? 'bg-cyan-50 border-cyan-500 text-cyan-700'
+                          : roleOption === 'instructor'
+                          ? 'bg-blue-50 border-blue-500 text-blue-700'
+                          : 'bg-green-50 border-green-500 text-green-700'
+                        : 'bg-gray-50 border-gray-200 text-gray-600 group-hover:border-gray-300'
+                    }`}>
+                      {roleOption.charAt(0).toUpperCase() + roleOption.slice(1)}
+                    </div>
+                  </label>
+                ))}
+              </div>
+            </div>
+
             {/* Password Field */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
