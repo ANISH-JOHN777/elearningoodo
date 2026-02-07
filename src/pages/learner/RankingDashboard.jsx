@@ -97,12 +97,12 @@ export default function RankingDashboard({ userId, courseId = null }) {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
         {/* Header Section */}
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 rounded-3xl blur-3xl"></div>
-          <div className="relative bg-gradient-to-r from-slate-800/80 to-slate-800/40 rounded-3xl border border-cyan-500/20 backdrop-blur p-8 lg:p-10">
+        <div className="relative animate-fade-in-down">
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 rounded-3xl blur-3xl animate-pulse"></div>
+          <div className="relative bg-gradient-to-r from-slate-800/80 to-slate-800/40 rounded-3xl border border-cyan-500/20 backdrop-blur p-8 lg:p-10 hover:border-cyan-500/40 transition-all duration-500">
             <div className="flex items-center justify-between gap-6">
               <div className="flex-1">
-                <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-sky-400 bg-clip-text text-transparent mb-2">
+                <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-cyan-400 to-sky-400 bg-clip-text text-transparent mb-2 animate-gradient-xy">
                   Rankings & Achievements
                 </h1>
                 <p className="text-slate-400 text-lg">Track your progress and compete across courses</p>
@@ -125,9 +125,9 @@ export default function RankingDashboard({ userId, courseId = null }) {
         ) : (
           <>
       {/* Main Tier Card - Enhanced */}
-      <div className="group relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/20 to-purple-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
-        <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300">
+      <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/20 to-purple-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100 animate-pulse"></div>
+        <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300 hover:shadow-cyan-500/20">
           {/* Animated background effect */}
           <div className="absolute inset-0 opacity-20">
             <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/10 to-transparent"></div>
@@ -159,7 +159,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
           <div className="relative p-8 lg:p-10 space-y-8">
             {/* Overall Stats Grid - Enhanced with icons */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 p-6 border border-cyan-500/30 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10">
+              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 p-6 border border-cyan-500/30 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                 <div className="absolute top-0 right-0 -m-8 opacity-10 group-hover:opacity-20 transition-opacity">
                   <Zap className="w-24 h-24" />
                 </div>
@@ -172,7 +172,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
                 </div>
               </div>
               
-              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-sky-500/10 to-sky-500/5 p-6 border border-sky-500/30 hover:border-sky-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/10">
+              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-sky-500/10 to-sky-500/5 p-6 border border-sky-500/30 hover:border-sky-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-sky-500/10 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
                 <div className="absolute top-0 right-0 -m-8 opacity-10 group-hover:opacity-20 transition-opacity">
                   <Target className="w-24 h-24" />
                 </div>
@@ -185,7 +185,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
                 </div>
               </div>
               
-              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500/10 to-purple-500/5 p-6 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10">
+              <div className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500/10 to-purple-500/5 p-6 border border-purple-500/30 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                 <div className="absolute top-0 right-0 -m-8 opacity-10 group-hover:opacity-20 transition-opacity">
                   <ChevronUp className="w-24 h-24" />
                 </div>
@@ -201,7 +201,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
 
             {/* Progress to Next Tier - Enhanced */}
             {nextTier && (
-              <div className="bg-slate-700/30 rounded-xl p-6 border border-cyan-500/20">
+              <div className="bg-slate-700/30 rounded-xl p-6 border border-cyan-500/20 animate-fade-in-up hover:border-cyan-500/40 transition-all duration-300" style={{ animationDelay: '0.3s' }}>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <Star className="w-5 h-5 text-yellow-400" />
@@ -226,7 +226,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
             )}
 
             {/* Tier Progression - Enhanced visualization */}
-            <div>
+            <div className="animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               <h3 className="text-lg font-bold text-cyan-300 mb-6 flex items-center gap-2">
                 <Trophy className="w-5 h-5" />
                 Tier Progression
@@ -239,7 +239,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
                   return (
                     <div
                       key={tier.tier}
-                      className={`relative group cursor-pointer transition-all duration-300 ${isCurrent ? 'scale-110' : ''}`}
+                      className={`relative group cursor-pointer transition-all duration-300 hover:scale-105 ${isCurrent ? 'scale-110' : ''}`}
                     >
                       <div
                         className={`w-full aspect-square rounded-lg flex flex-col items-center justify-center border-2 transition-all duration-300 ${
@@ -276,9 +276,9 @@ export default function RankingDashboard({ userId, courseId = null }) {
 
       {/* Course Rankings - Enhanced */}
       {userRankings.length > 0 && (
-        <div className="group relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-cyan-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
-          <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300">
+        <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-cyan-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100 animate-pulse"></div>
+          <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300 hover:shadow-cyan-500/20">
             <div className="p-8 lg:p-10">
               <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 text-cyan-300">
                 <Trophy className="w-6 h-6" />
@@ -295,11 +295,12 @@ export default function RankingDashboard({ userId, courseId = null }) {
                   return (
                     <div
                       key={`${ranking.courseId}-${idx}`}
-                      className={`group/card relative overflow-hidden rounded-xl border-2 transition-all duration-300 ${
+                      className={`group/card relative overflow-hidden rounded-xl border-2 transition-all duration-300 animate-fade-in-up hover:scale-105 ${
                         isTopThree
                           ? 'border-yellow-500/40 bg-gradient-to-br from-yellow-500/10 to-orange-500/5 shadow-lg shadow-yellow-500/20 hover:shadow-yellow-500/30'
                           : 'border-cyan-500/30 bg-gradient-to-br from-cyan-500/5 to-slate-700/20 hover:shadow-lg hover:shadow-cyan-500/20'
                       }`}
+                      style={{ animationDelay: `${0.2 + idx * 0.1}s` }}
                     >
                       {/* Rank badge */}
                       {isTopThree && (
@@ -392,9 +393,9 @@ export default function RankingDashboard({ userId, courseId = null }) {
 
       {/* Leaderboard Preview - Enhanced */}
       {courses.length > 0 && (
-        <div className="group relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-amber-600/20 to-cyan-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
-          <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300">
+        <div className="group relative animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+          <div className="absolute inset-0 bg-gradient-to-r from-amber-600/20 to-cyan-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-100 animate-pulse"></div>
+          <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden hover:border-cyan-500/50 transition-all duration-300 hover:shadow-cyan-500/20">
             <div className="p-8 lg:p-10">
               <h3 className="text-2xl font-bold mb-8 flex items-center gap-3 text-cyan-300">
                 <Star className="w-6 h-6" />
@@ -442,7 +443,8 @@ export default function RankingDashboard({ userId, courseId = null }) {
                     return (
                       <div
                         key={ranking.userId}
-                        className={`group/row p-5 rounded-xl bg-gradient-to-r ${medalBg} transition-all duration-300 hover:shadow-lg`}
+                        className={`group/row p-5 rounded-xl bg-gradient-to-r ${medalBg} transition-all duration-300 hover:shadow-lg hover:scale-105 animate-fade-in-up`}
+                        style={{ animationDelay: `${0.3 + idx * 0.05}s` }}
                       >
                         <div className="flex items-center gap-4">
                           {/* Rank Badge */}
@@ -534,9 +536,9 @@ export default function RankingDashboard({ userId, courseId = null }) {
 
                   {/* View More Button */}
                   {courseLeaderboard.length > 10 && (
-                    <button className="w-full mt-6 px-6 py-3 bg-gradient-to-r from-cyan-600/20 to-purple-600/20 hover:from-cyan-600/30 hover:to-purple-600/30 border-2 border-cyan-500/50 hover:border-cyan-500/80 text-cyan-300 font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group">
-                      <span>View All {courseLeaderboard.length} Rankings</span>
-                      <ChevronUp className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
+                    <button className="w-full mt-6 px-4 sm:px-6 py-3 bg-gradient-to-r from-cyan-600/20 to-purple-600/20 hover:from-cyan-600/40 hover:to-purple-600/40 border-2 border-cyan-500/50 hover:border-cyan-500/80 text-cyan-300 font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 group hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+                      <span className="whitespace-nowrap text-sm sm:text-base">View All Rankings</span>
+                      <ChevronUp className="w-4 h-4 group-hover:translate-y-1 transition-transform flex-shrink-0" />
                     </button>
                   )}
                 </div>
