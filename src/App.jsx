@@ -9,6 +9,7 @@ import LearnerLayout from './layouts/LearnerLayout';
 // Admin/Instructor Pages
 import AnalyticsDashboard from './pages/admin/AnalyticsDashboard';
 import ReportingDashboard from './pages/admin/ReportingDashboard';
+import CourseBuilder from './pages/admin/CourseBuilder';
 
 // Learner Pages
 import MyCourses from './pages/learner/MyCourses';
@@ -35,6 +36,7 @@ function App() {
           <Route index element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="dashboard" element={<AnalyticsDashboard />} />
           <Route path="reporting" element={<ReportingDashboard />} />
+          <Route path="create-course" element={<CourseBuilder />} />
         </Route>
       )}
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
-import { LayoutDashboard, BookOpen, BarChart3, LogOut, Home, TrendingUp, PieChart } from 'lucide-react';
+import { LayoutDashboard, BookOpen, BarChart3, LogOut, Home, TrendingUp, PieChart, Plus } from 'lucide-react';
 
 const AdminLayout = () => {
   const { user, logout } = useApp();
@@ -16,6 +16,7 @@ const AdminLayout = () => {
   const navItems = [
     { path: '/admin/dashboard', label: 'Analytics', icon: BarChart3 },
     { path: '/admin/reporting', label: 'Reports', icon: PieChart },
+    { path: '/admin/create-course', label: 'Create Course', icon: Plus },
   ];
 
   return (
@@ -32,6 +33,13 @@ const AdminLayout = () => {
               </div>
             </div>
             <div className="flex items-center space-x-2 md:space-x-4 flex-shrink-0">
+              <button
+                onClick={() => navigate('/admin/create-course')}
+                className="hidden sm:flex items-center space-x-2 px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg font-semibold transition-all hover:shadow-lg hover:shadow-cyan-500/50 flex-shrink-0"
+              >
+                <Plus className="w-5 h-5" />
+                <span>Create Course</span>
+              </button>
               <div className="hidden md:block text-right">
                 <p className="text-sm font-medium text-gray-900">{user?.name}</p>
                 <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
