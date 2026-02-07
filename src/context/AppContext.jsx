@@ -1060,6 +1060,7 @@ export const AppProvider = ({ children }) => {
     quizzes,
     enrollments,
     reviews,
+    RANKING_SYSTEM,
     login,
     register,
     logout,

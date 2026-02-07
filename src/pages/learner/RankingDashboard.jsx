@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useApp } from '../context/AppContext';
+import { useApp } from '../../context/AppContext';
 import { Award, TrendingUp, Target, Zap, Crown, Medal } from 'lucide-react';
 
 /**

@@ -268,6 +268,17 @@ const LearnerLayout = () => {
                             onClick={(e) => { 
                               e.stopPropagation(); 
                               setShowUserMenu(false); 
+                              navigate('/scores'); 
+                            }} 
+                            className="w-full flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50/80 transition-colors text-left"
+                          >
+                            <Zap className="w-4 h-4" />
+                            <span>Scores & Points</span>
+                          </button>
+                          <button 
+                            onClick={(e) => { 
+                              e.stopPropagation(); 
+                              setShowUserMenu(false); 
                               navigate('/profile'); 
                             }} 
                             className="w-full flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50/80 transition-colors text-left"

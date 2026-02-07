@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { useApp } from '../context/AppContext';
+import { useApp } from "../../context/AppContext";
 import { TrendingUp, Award, Filter, Search, Medal, Zap, Crown } from 'lucide-react';
-import TierBadge from '../components/TierBadge';
+import TierBadge from "../../components/TierBadge";
 
 /**
  * CourseLeaderboard Component
