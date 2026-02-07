@@ -16,6 +16,8 @@ import MyCourses from './pages/learner/MyCourses';
 import CourseDetail from './pages/learner/CourseDetail';
 import LessonPlayer from './pages/learner/LessonPlayer';
 import Profile from './pages/learner/Profile';
+import RankingDashboard from './pages/learner/RankingDashboard';
+import CourseLeaderboard from './pages/learner/CourseLeaderboard';
 
 // Auth Pages
 import Login from './pages/auth/Login';
@@ -46,6 +48,8 @@ function App() {
         <Route path="courses" element={<MyCourses />} />
         <Route path="courses/:courseId" element={<CourseDetail />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="rankings" element={<RankingDashboard />} />
+        <Route path="leaderboard/:courseId" element={<CourseLeaderboard />} />
       </Route>
 
       {/* Lesson Player - Full Screen */}
