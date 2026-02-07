@@ -576,7 +576,42 @@ const initialModules = [];
 const initialActivities = [];
 
 // Initial user course rankings - tracks points and ranking per user per course
-const initialCourseRankings = [];
+const initialCourseRankings = [
+  // Course 1 (React) Rankings
+  { userId: 3, courseId: 1, points: 95, position: 1 },
+  { userId: 4, courseId: 1, points: 87, position: 2 },
+  { userId: 6, courseId: 1, points: 78, position: 3 },
+  { userId: 5, courseId: 1, points: 65, position: 4 },
+  { userId: 8, courseId: 1, points: 52, position: 5 },
+  { userId: 9, courseId: 1, points: 45, position: 6 },
+  { userId: 7, courseId: 1, points: 38, position: 7 },
+  
+  // Course 2 (JavaScript) Rankings  
+  { userId: 3, courseId: 2, points: 105, position: 1 },
+  { userId: 6, courseId: 2, points: 92, position: 2 },
+  { userId: 4, courseId: 2, points: 84, position: 3 },
+  { userId: 5, courseId: 2, points: 71, position: 4 },
+  { userId: 9, courseId: 2, points: 58, position: 5 },
+  { userId: 8, courseId: 2, points: 46, position: 6 },
+  { userId: 7, courseId: 2, points: 35, position: 7 },
+  
+  // Course 3 (UI/UX) Rankings
+  { userId: 4, courseId: 3, points: 98, position: 1 },
+  { userId: 3, courseId: 3, points: 88, position: 2 },
+  { userId: 6, courseId: 3, points: 76, position: 3 },
+  { userId: 5, courseId: 3, points: 63, position: 4 },
+  { userId: 7, courseId: 3, points: 51, position: 5 },
+  { userId: 8, courseId: 3, points: 42, position: 6 },
+  
+  // Course 4 (Python) Rankings
+  { userId: 6, courseId: 4, points: 112, position: 1 },
+  { userId: 3, courseId: 4, points: 99, position: 2 },
+  { userId: 4, courseId: 4, points: 86, position: 3 },
+  { userId: 9, courseId: 4, points: 75, position: 4 },
+  { userId: 5, courseId: 4, points: 62, position: 5 },
+  { userId: 7, courseId: 4, points: 48, position: 6 },
+  { userId: 8, courseId: 4, points: 36, position: 7 },
+];
 
 // Initial attendance records
 const initialAttendance = [];
