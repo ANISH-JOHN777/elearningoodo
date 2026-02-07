@@ -11,6 +11,7 @@ import AnalyticsDashboard from './pages/admin/AnalyticsDashboard';
 import ReportingDashboard from './pages/admin/ReportingDashboard';
 import CourseBuilder from './pages/admin/CourseBuilder';
 import UserManagement from './pages/admin/UserManagement';
+import StudentProgress from './pages/instructor/StudentProgress';
 
 // Learner Pages
 import MyCourses from './pages/learner/MyCourses';
@@ -42,6 +43,7 @@ function App() {
           <Route path="reporting" element={<ReportingDashboard />} />
           <Route path="create-course" element={<CourseBuilder />} />
           <Route path="users" element={<UserManagement />} />
+          <Route path="student-progress" element={<StudentProgress />} />
         </Route>
       )}
 

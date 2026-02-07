@@ -17,6 +17,7 @@ const AdminLayout = () => {
     { path: '/admin/dashboard', label: 'Analytics', icon: BarChart3 },
     { path: '/admin/reporting', label: 'Reports', icon: PieChart },
     ...(user?.role === 'instructor' ? [{ path: '/admin/create-course', label: 'Create Course', icon: Plus }] : []),
+    ...(user?.role === 'instructor' ? [{ path: '/admin/student-progress', label: 'Student Progress', icon: TrendingUp }] : []),
     { path: '/admin/users', label: 'User Management', icon: Users },
   ];
 
