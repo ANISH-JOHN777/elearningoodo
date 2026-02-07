@@ -368,12 +368,12 @@ const AnalyticsDashboard = () => {
         <>
           {/* Instructor Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 animate-fade-in-up">
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white hover-lift">
+            <div className="bg-gradient-to-br from-cyan-500 to-sky-600 rounded-xl shadow-lg p-6 text-white hover-lift">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-blue-100 text-sm mb-1 flex items-center gap-1"><BookOpen className="w-4 h-4" /> My Courses</p>
+                  <p className="text-cyan-100 text-sm mb-1 flex items-center gap-1"><BookOpen className="w-4 h-4" /> My Courses</p>
                   <p className="text-4xl font-bold">{stats.totalCourses}</p>
-                  <p className="text-blue-200 text-sm flex items-center mt-2">
+                  <p className="text-cyan-200 text-sm flex items-center mt-2">
                     <CheckCircle className="w-4 h-4 mr-1" />{stats.publishedCourses} published
                   </p>
                 </div>
@@ -398,12 +398,12 @@ const AnalyticsDashboard = () => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white hover-lift">
+            <div className="bg-gradient-to-br from-slate-500 to-slate-600 rounded-xl shadow-lg p-6 text-white hover-lift">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-green-100 text-sm mb-1 flex items-center gap-1"><UserCheck className="w-4 h-4" /> Students Enrolled</p>
+                  <p className="text-slate-100 text-sm mb-1 flex items-center gap-1"><UserCheck className="w-4 h-4" /> Students Enrolled</p>
                   <p className="text-4xl font-bold">{stats.totalEnrollments}</p>
-                  <p className="text-green-200 text-sm flex items-center mt-2">
+                  <p className="text-slate-200 text-sm flex items-center mt-2">
                     <UserCheck className="w-4 h-4 mr-1" />{stats.completedEnrollments} completed
                   </p>
                 </div>
@@ -434,16 +434,16 @@ const AnalyticsDashboard = () => {
             <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-6 animate-fade-in-up">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <Eye className="w-5 h-5 text-purple-500" />
-                  <BarChart3 className="w-5 h-5 text-blue-500" /> Views & Enrollments
+                  <Eye className="w-5 h-5 text-cyan-500" />
+                  <BarChart3 className="w-5 h-5 text-sky-500" /> Views & Enrollments
                 </h3>
                 <div className="flex items-center gap-4 text-sm">
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-purple-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-sky-500"></div>
                     <span className="text-gray-600">Views</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-cyan-500"></div>
                     <span className="text-gray-600">Enrollments</span>
                   </div>
                 </div>
@@ -452,8 +452,8 @@ const AnalyticsDashboard = () => {
                 {monthlyData.map((data) => (
                   <div key={data.month} className="flex-1 flex flex-col items-center gap-1">
                     <div className="w-full flex flex-col items-center gap-1 h-52 justify-end">
-                      <div className="w-full bg-purple-400 rounded-t transition-all duration-500 hover:bg-purple-500 cursor-pointer" style={{ height: `${(data.views / 600) * 100}%` }} title={`Views: ${data.views}`}></div>
-                      <div className="w-full bg-green-500 rounded-t transition-all duration-500 hover:bg-green-600 cursor-pointer" style={{ height: `${(data.enrollments / 80) * 100}%` }} title={`Enrollments: ${data.enrollments}`}></div>
+                      <div className="w-full bg-sky-400 rounded-t transition-all duration-500 hover:bg-sky-500 cursor-pointer" style={{ height: `${(data.views / 600) * 100}%` }} title={`Views: ${data.views}`}></div>
+                      <div className="w-full bg-cyan-500 rounded-t transition-all duration-500 hover:bg-cyan-600 cursor-pointer" style={{ height: `${(data.enrollments / 80) * 100}%` }} title={`Enrollments: ${data.enrollments}`}></div>
                     </div>
                     <span className="text-xs text-gray-500 mt-1">{data.month}</span>
                   </div>
@@ -463,13 +463,13 @@ const AnalyticsDashboard = () => {
 
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 animate-fade-in-up">
               <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2 mb-4">
-                <TrendingUp className="w-5 h-5 text-purple-500" />
+                <TrendingUp className="w-5 h-5 text-cyan-500" />
                 <Flame className="w-5 h-5 text-orange-500" /> Most Viewed Courses
               </h3>
               <div className="space-y-4">
                 {topViewedCourses.map((course, index) => (
                   <div key={course.id} className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white ${index === 0 ? 'bg-purple-500' : index === 1 ? 'bg-purple-400' : index === 2 ? 'bg-purple-300' : 'bg-gray-300'}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white ${index === 0 ? 'bg-cyan-500' : index === 1 ? 'bg-sky-400' : index === 2 ? 'bg-slate-400' : 'bg-gray-300'}`}>
                       {index + 1}
                     </div>
                     <img src={course.image} alt={course.title} className="w-10 h-10 rounded-lg object-cover" />
@@ -478,7 +478,7 @@ const AnalyticsDashboard = () => {
                       <p className="text-xs text-gray-500">{course.enrollments} students</p>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold text-purple-600">{course.views.toLocaleString()}</p>
+                      <p className="font-bold text-cyan-600">{course.views.toLocaleString()}</p>
                       <p className="text-xs text-gray-500">views</p>
                     </div>
                   </div>

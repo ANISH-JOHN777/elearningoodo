@@ -259,14 +259,14 @@ const Profile = () => {
 
   const unlockedAchievements = achievements.filter((a) => a.unlocked).length;
 
-  // Get activity level color
+  // Get activity level color - Midnight theme
   const getActivityColor = (count) => {
     if (count === 0) return 'bg-gray-100';
-    if (count === 1) return 'bg-green-200';
-    if (count === 2) return 'bg-green-300';
-    if (count === 3) return 'bg-green-400';
-    if (count === 4) return 'bg-green-500';
-    return 'bg-green-600';
+    if (count === 1) return 'bg-cyan-200';
+    if (count === 2) return 'bg-cyan-300';
+    if (count === 3) return 'bg-cyan-400';
+    if (count === 4) return 'bg-sky-500';
+    return 'bg-sky-600';
   };
 
   // Weekly activity summary
@@ -754,7 +754,7 @@ const Profile = () => {
                   {/* Activity Heatmap */}
                   <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                     <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                      <Activity className="w-5 h-5 text-green-500" />
+                      <Activity className="w-5 h-5 text-cyan-500" />
                       Learning Activity
                     </h3>
                     <div className="text-sm text-gray-600 mb-3">
@@ -774,7 +774,7 @@ const Profile = () => {
                                   key={dayIndex}
                                   className={`w-3 h-3 rounded-sm ${getActivityColor(
                                     data.count
-                                  )} hover:ring-2 hover:ring-primary-300 cursor-pointer transition-all`}
+                                  )} hover:ring-2 hover:ring-cyan-300 cursor-pointer transition-all`}
                                   title={`${data.date}: ${data.count} activities`}
                                 />
                               );
