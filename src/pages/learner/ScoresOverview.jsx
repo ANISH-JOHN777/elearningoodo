@@ -306,17 +306,15 @@ export default function ScoresOverview() {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      {activeTab === 'overview' && (
-        <div className="bg-gradient-to-br from-white to-blue-50 rounded-2xl border border-blue-200 shadow-xl p-8">
-          <h1 className="text-4xl font-bold text-slate-900 mb-2 flex items-center gap-3">
-            <Award className="w-10 h-10" />
-            Scores & Achievements
-          </h1>
-          <p className="text-slate-600 text-lg">
-            Track your learning progress and earned points across all courses
-          </p>
-        </div>
-      )}
+      <div className="bg-gradient-to-br from-white to-blue-50 rounded-2xl border border-blue-200 shadow-xl p-8">
+        <h1 className="text-4xl font-bold text-slate-900 mb-2 flex items-center gap-3">
+          <Award className="w-10 h-10" />
+          Scores & Achievements
+        </h1>
+        <p className="text-slate-600 text-lg">
+          Track your learning progress and earned points across all courses
+        </p>
+      </div>
 
       {/* Tab Navigation */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2 px-2 md:px-0">
@@ -340,7 +338,9 @@ export default function ScoresOverview() {
       </div>
 
       {/* Tab Content */}
-      {tabContent[activeTab]}
+      <div className="animate-fade-in">
+        {tabContent[activeTab]}
+      </div>
     </div>
   );
 }

@@ -37,7 +37,12 @@ const Register = () => {
   // Redirect if already logged in
   React.useEffect(() => {
     if (user) {
-      navigate('/');
+      // Redirect based on user role
+      if (user.role === 'admin' || user.role === 'instructor') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/');
+      }
     }
   }, [user, navigate]);
 

@@ -2049,7 +2049,7 @@ export const AppProvider = ({ children }) => {
   }, []);
 
   // Auth functions - Using Supabase
-  const login = async (email, password, role) => {
+  const login = async (email, password) => {
     try {
       const { user: supabaseUser, error } = await logIn(email, password);
       
@@ -2064,7 +2064,7 @@ export const AppProvider = ({ children }) => {
           id: supabaseUser.id,
           email: supabaseUser.email,
           name: supabaseUser.user_metadata?.name || supabaseUser.email?.split('@')[0] || 'User',
-          role: supabaseUser.user_metadata?.role || role || 'learner',
+          role: supabaseUser.user_metadata?.role || 'learner',
           avatar: supabaseUser.user_metadata?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${supabaseUser.email}`,
           points: supabaseUser.user_metadata?.points || 0,
         };
