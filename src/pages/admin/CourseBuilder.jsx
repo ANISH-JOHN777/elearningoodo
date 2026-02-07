@@ -36,6 +36,18 @@ export default function CourseBuilder() {
   const navigate = useNavigate();
   const { user, createCourse, createModule } = useApp();
   
+  // Protect route - only instructors can create courses
+  React.useEffect(() => {
+    if (user && user.role !== 'instructor') {
+      navigate('/admin/courses', { replace: true });
+    }
+  }, [user, navigate]);
+
+  // Show nothing while checking permissions
+  if (!user || user.role !== 'instructor') {
+    return null;
+  }
+  
   // Course form state
   const [courseData, setCourseData] = useState({
     title: '',

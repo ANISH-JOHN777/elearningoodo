@@ -336,7 +336,7 @@ const CoursesDashboard = () => {
           <p className="mt-1 text-sm text-gray-500 mb-6">
             {searchQuery ? 'Try a different search query' : 'Create your first course to get started'}
           </p>
-          {!searchQuery && (
+          {!searchQuery && user?.role === 'instructor' && (
             <button
               onClick={() => navigate('/admin/create-course')}
               className="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-semibold transition shadow-lg hover:shadow-xl"
