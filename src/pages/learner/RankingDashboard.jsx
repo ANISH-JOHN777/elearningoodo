@@ -77,6 +77,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
 
   // Get tier badge icon
   const getTierIcon = (tier) => {
+    if (!tier || !tier.order) return Medal;
     if (tier.order <= 3) return Medal; // Bronze
     if (tier.order === 4) return Award; // Silver
     if (tier.order <= 6) return Zap; // Gold/Platinum
@@ -84,6 +85,7 @@ export default function RankingDashboard({ userId, courseId = null }) {
   };
 
   const getTierColor = (tier) => {
+    if (!tier || !tier.order) return 'from-slate-600 to-slate-700';
     if (tier.order <= 3) return 'from-amber-600 to-amber-700'; // Bronze
     if (tier.order === 4) return 'from-slate-400 to-slate-500'; // Silver
     if (tier.order === 5) return 'from-yellow-500 to-yellow-600'; // Gold
@@ -101,10 +103,12 @@ export default function RankingDashboard({ userId, courseId = null }) {
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <p className="text-sm font-semibold opacity-90 mb-2">Current Tier</p>
-              <h2 className="text-4xl font-bold mb-2">{currentTier?.tier}</h2>
+              <h2 className="text-4xl font-bold mb-2">{currentTier?.tier || 'Bronze III'}</h2>
               <p className="text-lg opacity-90">{stats.totalPoints} / 120 Points</p>
             </div>
-            {React.createElement(getTierIcon(currentTier), {
+            {currentTier ? React.createElement(getTierIcon(currentTier), {
+              className: 'w-16 h-16 opacity-80',
+            }) : React.createElement(Medal, {
               className: 'w-16 h-16 opacity-80',
             })}
           </div>
