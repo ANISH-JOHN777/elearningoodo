@@ -180,12 +180,12 @@ export default function PointsBreakdown() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8">
-        <h1 className="text-3xl font-bold text-cyan-300 mb-2 flex items-center gap-3">
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-blue-200 shadow-lg p-8">
+        <h1 className="text-3xl font-bold text-blue-600 mb-2 flex items-center gap-3">
           <BarChart3 className="w-8 h-8" />
           Points Breakdown
         </h1>
-        <p className="text-slate-400 text-lg">
+        <p className="text-gray-600 text-lg">
           Detailed analysis of your points earned by activity type and course
         </p>
       </div>
@@ -247,8 +247,8 @@ export default function PointsBreakdown() {
               onClick={() => setBreakdownType(btn.value)}
               className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-sm transition ${
                 breakdownType === btn.value
-                  ? 'bg-gradient-to-r from-cyan-500 to-sky-500 text-white shadow-lg'
-                  : 'bg-slate-700/50 text-slate-300 border border-cyan-500/20 hover:border-cyan-500/50'
+                  ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg'
+                  : 'bg-gray-100 text-gray-700 border border-gray-300 hover:border-blue-300'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -259,8 +259,8 @@ export default function PointsBreakdown() {
       </div>
 
       {/* Distribution Chart */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8">
-        <h2 className="text-2xl font-bold text-cyan-300 mb-8">Distribution</h2>
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-blue-200 shadow-lg p-8">
+        <h2 className="text-2xl font-bold text-blue-600 mb-8">Distribution</h2>
 
         <div className="space-y-4">
           {(breakdownType === 'byType' ? typeDistribution : courseDistribution).map((item) => (
@@ -268,21 +268,21 @@ export default function PointsBreakdown() {
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3 flex-1">
                   {item.iconName && React.createElement(getIcon(item.iconName), {
-                    className: 'w-6 h-6 flex-shrink-0'
+                    className: 'w-6 h-6 flex-shrink-0 text-blue-600'
                   })}
                   <div>
-                    <p className="font-semibold text-slate-200">{item.label}</p>
-                    <p className="text-xs text-slate-500">
+                    <p className="font-semibold text-gray-800">{item.label}</p>
+                    <p className="text-xs text-gray-500">
                       {item.activities} activity/activities
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="font-bold text-emerald-400">{item.share}%</p>
-                  <p className="text-sm text-slate-400">{item.points} pts</p>
+                  <p className="font-bold text-emerald-600">{item.share}%</p>
+                  <p className="text-sm text-gray-600">{item.points} pts</p>
                 </div>
               </div>
-              <div className="w-full h-3 bg-slate-700/50 rounded-full overflow-hidden border border-cyan-500/20">
+              <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden border border-gray-300">
                 <div
                   className={`h-full bg-gradient-to-r ${item.color}`}
                   style={{ width: `${item.share}%` }}
@@ -294,8 +294,8 @@ export default function PointsBreakdown() {
       </div>
 
       {/* Detailed Breakdown */}
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-cyan-500/30 shadow-xl p-8">
-        <h2 className="text-2xl font-bold text-cyan-300 mb-6">Detailed Breakdown</h2>
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl border border-blue-200 shadow-lg p-8">
+        <h2 className="text-2xl font-bold text-blue-600 mb-6">Detailed Breakdown</h2>
 
         <div className="space-y-4">
           {currentData.map((item) => {
@@ -305,22 +305,22 @@ export default function PointsBreakdown() {
             return (
               <div
                 key={item.label}
-                className={`bg-gradient-to-br ${item.secondaryColor} border ${item.borderColor} rounded-xl p-6 overflow-hidden hover:border-opacity-100 transition`}
+                className={`bg-white border border-gray-300 rounded-xl p-6 overflow-hidden hover:shadow-lg transition`}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h3 className="text-lg font-bold text-slate-200 mb-1">
+                    <h3 className="text-lg font-bold text-gray-800 mb-1">
                       {item.label}
                     </h3>
-                    <p className="text-sm text-slate-400">
+                    <p className="text-sm text-gray-600">
                       {item.activities} activity{item.activities > 1 ? 'ies' : ''}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className={`text-3xl font-bold ${isExceeding ? 'text-emerald-400' : 'text-cyan-400'}`}>
+                    <p className={`text-3xl font-bold ${isExceeding ? 'text-emerald-600' : 'text-blue-600'}`}>
                       {item.points}
                     </p>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-gray-500">
                       of {item.maxPoints} possible
                     </p>
                   </div>
@@ -329,15 +329,15 @@ export default function PointsBreakdown() {
                 {/* Progress Bar */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold text-slate-400">Achievement</span>
-                    <span className={`text-sm font-bold ${isExceeding ? 'text-emerald-400' : 'text-cyan-400'}`}>
+                    <span className="text-xs font-semibold text-gray-600">Achievement</span>
+                    <span className={`text-sm font-bold ${isExceeding ? 'text-emerald-600' : 'text-blue-600'}`}>
                       {percentage}%
                       {isExceeding && (
                         <ArrowUpRight className="w-4 h-4 inline ml-1" />
                       )}
                     </span>
                   </div>
-                  <div className="w-full h-2 bg-slate-700/50 rounded-full overflow-hidden border border-cyan-500/10">
+                  <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden border border-gray-300">
                     <div
                       className={`h-full bg-gradient-to-r ${item.color}`}
                       style={{ width: `${Math.min(percentage, 100)}%` }}
@@ -351,24 +351,24 @@ export default function PointsBreakdown() {
                     {
                       label: 'Earned',
                       value: item.points,
-                      color: 'text-emerald-400',
+                      color: 'text-emerald-600',
                     },
                     {
                       label: 'Maximum',
                       value: item.maxPoints,
-                      color: 'text-cyan-400',
+                      color: 'text-blue-600',
                     },
                     {
                       label: 'Percentage',
                       value: `${percentage}%`,
-                      color: 'text-sky-400',
+                      color: 'text-cyan-600',
                     },
                   ].map((stat) => (
                     <div
                       key={stat.label}
-                      className="bg-slate-700/50 rounded-lg p-3 text-center border border-cyan-500/10"
+                      className="bg-gray-50 rounded-lg p-3 text-center border border-gray-200"
                     >
-                      <p className="text-xs text-slate-500 mb-1">{stat.label}</p>
+                      <p className="text-xs text-gray-600 mb-1">{stat.label}</p>
                       <p className={`text-lg font-bold ${stat.color}`}>
                         {stat.value}
                       </p>
@@ -379,7 +379,7 @@ export default function PointsBreakdown() {
                 {/* History Toggle Button */}
                 <button
                   onClick={() => toggleHistory(item.label)}
-                  className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 bg-slate-700/50 hover:bg-slate-700 rounded-lg transition text-slate-300 font-semibold text-sm border border-cyan-500/10 hover:border-cyan-500/30"
+                  className="mt-4 w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition text-gray-700 font-semibold text-sm border border-gray-300"
                 >
                   <span>View History</span>
                   <ChevronDown className={`w-4 h-4 transition-transform ${expandedHistory[item.label] ? 'rotate-180' : ''}`} />
@@ -387,15 +387,15 @@ export default function PointsBreakdown() {
 
                 {/* History Section */}
                 {expandedHistory[item.label] && (
-                  <div className="mt-4 pt-4 border-t border-slate-500/30 space-y-2">
-                    <p className="text-xs font-semibold text-slate-400 uppercase mb-3">Recent Activities</p>
+                  <div className="mt-4 pt-4 border-t border-gray-200 space-y-2">
+                    <p className="text-xs font-semibold text-gray-600 uppercase mb-3">Recent Activities</p>
                     {(activityHistory[item.label] || []).map((activity) => (
-                      <div key={activity.id} className="bg-slate-700/30 rounded-lg p-3 flex items-center justify-between">
+                      <div key={activity.id} className="bg-gray-50 rounded-lg p-3 flex items-center justify-between">
                         <div>
-                          <p className="text-sm font-medium text-slate-200">{activity.name}</p>
-                          <p className="text-xs text-slate-500">{activity.date.toLocaleDateString()}</p>
+                          <p className="text-sm font-medium text-gray-800">{activity.name}</p>
+                          <p className="text-xs text-gray-500">{activity.date.toLocaleDateString()}</p>
                         </div>
-                        <p className="font-bold text-emerald-400">+{activity.points}</p>
+                        <p className="font-bold text-emerald-600">+{activity.points}</p>
                       </div>
                     ))}
                   </div>
@@ -414,35 +414,35 @@ export default function PointsBreakdown() {
             category: 'Quiz',
             percentage: 97,
             insight: 'You excel at quiz-based learning with a 97.5% achievement rate',
-            color: 'from-emerald-500/20 to-emerald-600/20 border-emerald-500/30',
+            color: 'from-emerald-50 to-emerald-100 border-emerald-300 bg-gradient-to-br',
           },
           {
             title: 'Growth Area',
             category: 'Lab',
             percentage: 67,
             insight: 'Lab exercises need focus - aim for 80%+ to unlock full potential',
-            color: 'from-orange-500/20 to-orange-600/20 border-orange-500/30',
+            color: 'from-orange-50 to-orange-100 border-orange-300 bg-gradient-to-br',
           },
         ].map((insight) => (
           <div
             key={insight.title}
-            className={`bg-gradient-to-br ${insight.color} border rounded-xl p-6`}
+            className={`${insight.color} rounded-xl p-6 border`}
           >
-            <p className="text-sm font-semibold text-slate-400 mb-2">{insight.title}</p>
-            <p className="text-xl font-bold text-slate-200 mb-3">{insight.category}</p>
+            <p className="text-sm font-semibold text-gray-700 mb-2">{insight.title}</p>
+            <p className="text-xl font-bold text-gray-800 mb-3">{insight.category}</p>
             <div className="space-y-2 mb-4">
-              <div className="flex justify-between text-xs text-slate-400">
+              <div className="flex justify-between text-xs text-gray-600">
                 <span>Achievement</span>
                 <span>{insight.percentage}%</span>
               </div>
-              <div className="w-full h-2 bg-slate-700/50 rounded-full overflow-hidden">
+              <div className="w-full h-2 bg-gray-300 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-cyan-500 to-sky-500"
+                  className="h-full bg-gradient-to-r from-blue-500 to-cyan-500"
                   style={{ width: `${insight.percentage}%` }}
                 />
               </div>
             </div>
-            <p className="text-sm text-slate-400">{insight.insight}</p>
+            <p className="text-sm text-gray-700">{insight.insight}</p>
           </div>
         ))}
       </div>
