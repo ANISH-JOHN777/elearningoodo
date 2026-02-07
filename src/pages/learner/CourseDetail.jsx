@@ -28,6 +28,10 @@ import {
   Video,
   FileText,
   HelpCircle,
+  SkipForward,
+  X,
+  AlertCircle,
+  CheckCircle2,
 } from 'lucide-react';
 
 const CourseDetail = () => {
@@ -52,6 +56,16 @@ const CourseDetail = () => {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [newReview, setNewReview] = useState({ rating: 5, review: '' });
   const [isLiked, setIsLiked] = useState(false);
+
+  // Skip Quiz State
+  const [showSkipModal, setShowSkipModal] = useState(false);
+  const [skipLessonId, setSkipLessonId] = useState(null);
+  const [skipQuizState, setSkipQuizState] = useState('intro'); // 'intro', 'question', 'result'
+  const [skipQuestionIndex, setSkipQuestionIndex] = useState(0);
+  const [skipSelectedAnswer, setSkipSelectedAnswer] = useState(null);
+  const [skipQuizAnswers, setSkipQuizAnswers] = useState([]);
+  const [skipQuizResult, setSkipQuizResult] = useState(null);
+  const [skipQuestions, setSkipQuestions] = useState([]);
 
   if (!course) {
     return (
@@ -130,6 +144,106 @@ const CourseDetail = () => {
     });
     setShowReviewModal(false);
     setNewReview({ rating: 5, review: '' });
+  };
+
+  // Generate skip quiz questions for a lesson
+  const generateSkipQuiz = (lesson) => {
+    const questions = [
+      {
+        id: 1,
+        question: `What is the main topic covered in "${lesson.title}"?`,
+        options: [
+          lesson.title,
+          lesson.description || 'Basic concepts',
+          'Advanced techniques',
+          'None of the above',
+        ],
+        correctAnswer: 0,
+      },
+      {
+        id: 2,
+        question: `What is the primary learning outcome of this lesson?`,
+        options: [
+          `Master the fundamentals of ${lesson.title.toLowerCase()}`,
+          `Learn advanced topics in ${lesson.title.toLowerCase()}`,
+          `Review what you already know`,
+          `Prepare for advanced modules`,
+        ],
+        correctAnswer: 0,
+      },
+      {
+        id: 3,
+        question: `How long is this lesson?`,
+        options: [
+          `${lesson.duration || 10} minutes`,
+          `${(lesson.duration || 10) + 5} minutes`,
+          `${(lesson.duration || 10) - 5} minutes`,
+          `Over an hour`,
+        ],
+        correctAnswer: 0,
+      },
+    ];
+    return questions;
+  };
+
+  const handleSkipClick = (lesson) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    const questions = generateSkipQuiz(lesson);
+    setSkipQuestions(questions);
+    setSkipLessonId(lesson.id);
+    setSkipQuizState('intro');
+    setSkipQuestionIndex(0);
+    setSkipSelectedAnswer(null);
+    setSkipQuizAnswers([]);
+    setShowSkipModal(true);
+  };
+
+  const handleSkipQuestionAnswered = () => {
+    if (skipSelectedAnswer === null) return;
+    
+    const newAnswers = [...skipQuizAnswers, skipSelectedAnswer];
+    setSkipQuizAnswers(newAnswers);
+
+    if (skipQuestionIndex < skipQuestions.length - 1) {
+      setSkipQuestionIndex(skipQuestionIndex + 1);
+      setSkipSelectedAnswer(null);
+    } else {
+      // Calculate result
+      const correctCount = newAnswers.filter(
+        (answer, idx) => answer === skipQuestions[idx].correctAnswer
+      ).length;
+      const passScore = Math.ceil((skipQuestions.length * 70) / 100); // 70% to pass
+      const passed = correctCount >= passScore;
+      
+      setSkipQuizResult({
+        passed,
+        correctCount,
+        totalQuestions: skipQuestions.length,
+        passRequired: passScore,
+      });
+      setSkipQuizState('result');
+    }
+  };
+
+  const handleSkipSuccess = () => {
+    const lesson = course.lessons.find((l) => l.id === skipLessonId);
+    if (lesson && user) {
+      // Mark lesson as completed and navigate back
+      handleStartLesson(skipLessonId);
+      setShowSkipModal(false);
+    }
+  };
+
+  const closeSkipModal = () => {
+    setShowSkipModal(false);
+    setSkipQuizState('intro');
+    setSkipQuestionIndex(0);
+    setSkipSelectedAnswer(null);
+    setSkipQuizAnswers([]);
+    setSkipQuizResult(null);
   };
 
   const getUserById = (userId) => users.find((u) => u.id === userId);
@@ -419,13 +533,27 @@ const CourseDetail = () => {
                             </div>
                           </div>
                         </div>
-                        <div className={`flex items-center gap-3 px-5 py-2.5 rounded-xl font-medium transition-all ${
-                          isCompleted
-                            ? 'bg-green-100 text-green-700'
-                            : 'bg-blue-600 text-white group-hover:bg-blue-700'
-                        }`}>
-                          <Play className="w-4 h-4" />
-                          <span>{isCompleted ? 'Review' : 'Start'}</span>
+                        <div className="flex items-center gap-3">
+                          {!isCompleted && (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleSkipClick(lesson);
+                              }}
+                              className="flex items-center gap-2 px-4 py-2.5 bg-amber-100 text-amber-700 font-medium rounded-xl hover:bg-amber-200 transition-all"
+                            >
+                              <SkipForward className="w-4 h-4" />
+                              <span>Skip</span>
+                            </button>
+                          )}
+                          <div className={`flex items-center gap-3 px-5 py-2.5 rounded-xl font-medium transition-all ${
+                            isCompleted
+                              ? 'bg-green-100 text-green-700'
+                              : 'bg-blue-600 text-white group-hover:bg-blue-700'
+                          }`}>
+                            <Play className="w-4 h-4" />
+                            <span>{isCompleted ? 'Review' : 'Start'}</span>
+                          </div>
                         </div>
                       </div>
                     );
@@ -591,6 +719,211 @@ const CourseDetail = () => {
                 Submit Review
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Skip Quiz Modal */}
+      {showSkipModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            {skipQuizState === 'intro' && (
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    Skip Assessment Quiz
+                  </h2>
+                  <button
+                    onClick={closeSkipModal}
+                    className="p-2 hover:bg-gray-100 rounded-xl transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+                <div className="space-y-4 mb-8">
+                  <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-start gap-3">
+                    <AlertCircle className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-semibold text-blue-900 mb-1">Can you skip this module?</p>
+                      <p className="text-sm text-blue-800">
+                        Answer a few questions correctly to skip this module. You need to score at least 70% to proceed.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="p-4 bg-gray-50 rounded-xl">
+                    <p className="font-semibold text-gray-900 mb-2">What to expect:</p>
+                    <ul className="space-y-2 text-sm text-gray-600">
+                      <li className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                        <span>{skipQuestions.length} quick questions</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                        <span>70% passing score required</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                        <span>Immediate results and feedback</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={closeSkipModal}
+                    className="flex-1 px-6 py-3 border-2 border-gray-200 text-gray-700 rounded-xl font-medium hover:bg-gray-50 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => setSkipQuizState('question')}
+                    className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-medium hover:shadow-lg transition-all"
+                  >
+                    Start Assessment
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {skipQuizState === 'question' && skipQuestions.length > 0 && (
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm font-medium text-gray-600">
+                        Question {skipQuestionIndex + 1} of {skipQuestions.length}
+                      </span>
+                      <span className="text-sm font-medium text-blue-600">
+                        {Math.round(((skipQuestionIndex + 1) / skipQuestions.length) * 100)}%
+                      </span>
+                    </div>
+                    <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-blue-600 to-cyan-600 transition-all duration-300"
+                        style={{ width: `${((skipQuestionIndex + 1) / skipQuestions.length) * 100}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={closeSkipModal}
+                    className="ml-4 p-2 hover:bg-gray-100 rounded-xl transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <h3 className="text-lg font-semibold text-gray-900 mb-6">
+                  {skipQuestions[skipQuestionIndex]?.question}
+                </h3>
+
+                <div className="space-y-3 mb-8">
+                  {skipQuestions[skipQuestionIndex]?.options.map((option, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSkipSelectedAnswer(idx)}
+                      className={`w-full p-4 rounded-xl border-2 text-left font-medium transition-all ${
+                        skipSelectedAnswer === idx
+                          ? 'bg-blue-50 border-blue-600 text-blue-900'
+                          : 'bg-white border-gray-200 text-gray-900 hover:border-blue-300'
+                      }`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  onClick={handleSkipQuestionAnswered}
+                  disabled={skipSelectedAnswer === null}
+                  className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {skipQuestionIndex === skipQuestions.length - 1 ? 'Submit' : 'Next Question'}
+                </button>
+              </div>
+            )}
+
+            {skipQuizState === 'result' && skipQuizResult && (
+              <div className="p-8">
+                <div className="text-center mb-6">
+                  <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 ${
+                    skipQuizResult.passed ? 'bg-green-100' : 'bg-red-100'
+                  }`}>
+                    {skipQuizResult.passed ? (
+                      <CheckCircle2 className="w-10 h-10 text-green-600" />
+                    ) : (
+                      <AlertCircle className="w-10 h-10 text-red-600" />
+                    )}
+                  </div>
+                  <h2 className={`text-2xl font-bold mb-2 ${
+                    skipQuizResult.passed ? 'text-green-900' : 'text-red-900'
+                  }`}>
+                    {skipQuizResult.passed ? 'Assessment Passed! 🎉' : 'Assessment Failed'}
+                  </h2>
+                  <p className={`text-sm ${
+                    skipQuizResult.passed ? 'text-green-700' : 'text-red-700'
+                  }`}>
+                    You scored {skipQuizResult.correctCount} out of {skipQuizResult.totalQuestions}
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 rounded-xl p-4 mb-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="font-medium text-gray-900">Your Score:</span>
+                    <span className="text-lg font-bold text-blue-600">
+                      {Math.round((skipQuizResult.correctCount / skipQuizResult.totalQuestions) * 100)}%
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium text-gray-900">Passing Score:</span>
+                    <span className="text-lg font-bold text-gray-600">70%</span>
+                  </div>
+                </div>
+
+                {skipQuizResult.passed ? (
+                  <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6">
+                    <p className="text-sm text-green-800">
+                      ✓ Congratulations! You've successfully skipped this module. You can now proceed to the next one.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
+                    <p className="text-sm text-red-800">
+                      You need to score at least 70% to skip this module. Please complete the lesson to continue.
+                    </p>
+                  </div>
+                )}
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={closeSkipModal}
+                    className="flex-1 px-6 py-3 border-2 border-gray-200 text-gray-700 rounded-xl font-medium hover:bg-gray-50 transition-colors"
+                  >
+                    {skipQuizResult.passed ? 'Close' : 'Cancel'}
+                  </button>
+                  {skipQuizResult.passed ? (
+                    <button
+                      onClick={handleSkipSuccess}
+                      className="flex-1 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-xl font-medium hover:shadow-lg transition-all"
+                    >
+                      Proceed to Next Lesson
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        const skipLesson = course.lessons.find((l) => l.id === skipLessonId);
+                        if (skipLesson) {
+                          closeSkipModal();
+                          handleStartLesson(skipLessonId);
+                        }
+                      }}
+                      className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-xl font-medium hover:shadow-lg transition-all"
+                    >
+                      Complete the Lesson
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
