@@ -157,6 +157,10 @@ export default function Checkout() {
         };
 
         createTransaction(txn);
+        
+        // Create enrollment (this updates statistics)
+        enrollCourse(user.id, parseInt(courseId), true);
+        
         setTransaction(txn);
         setStep('success');
       } else {
