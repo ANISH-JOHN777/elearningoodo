@@ -109,7 +109,7 @@ const LearnerLayout = () => {
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
-                <span className="relative z-10">Explore</span>
+                <span className="relative z-10">Courses</span>
                 <div className={`absolute inset-0 bg-blue-100/50 rounded-xl scale-0 group-hover:scale-100 transition-transform duration-300 ${
                   location.pathname === '/courses' || location.pathname === '/' ? 'scale-100' : ''
                 }`}></div>
@@ -340,7 +340,7 @@ const LearnerLayout = () => {
             <div className="px-4 py-6 space-y-3">
               <Link to="/courses" onClick={() => setShowMobileMenu(false)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-100/80 transition-colors">
                 <Home className="w-5 h-5" />
-                <span>Explore Courses</span>
+                <span>Courses</span>
               </Link>
               {user && (
                 <>
